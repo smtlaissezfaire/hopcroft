@@ -1,0 +1,4 @@
+= Regular
+
+A library for dealing with regular languages: Regexes and State Machines.
+
