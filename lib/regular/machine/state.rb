@@ -37,6 +37,10 @@ module Regular
       end
 
       attr_writer :final_state
+
+      def substates
+        transitions.map { |t| t.state }
+      end
     end
   end
 end

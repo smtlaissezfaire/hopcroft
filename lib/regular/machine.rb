@@ -4,5 +4,6 @@ module Regular
     
     using :State
     using :Transition
+    using :StateMachine
   end
 end
