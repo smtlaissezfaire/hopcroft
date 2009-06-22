@@ -24,5 +24,26 @@ module Regular
         }.should raise_error
       end
     end
+
+    describe "to_machine" do
+      it "should construct the one char machine" do
+        char = Char.new("a")
+        m = char.to_machine
+
+        m.transitions.size.should == 1
+        first_transition = m.transitions.first
+        first_transition.symbol.should == :a
+        first_transition.state.should be_a_final_state
+      end
+
+      it "should use the correct one char" do
+        char = Char.new("b")
+        m = char.to_machine
+
+        m.transitions.size.should == 1
+        first_transition = m.transitions.first
+        first_transition.symbol.should == :b
+      end
+    end
   end
 end
