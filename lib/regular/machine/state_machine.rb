@@ -3,7 +3,7 @@ module Regular
     class StateMachine
       def self.new_with_start_state
         returning new do |obj|
-          obj.start_state = State.new
+          obj.build_start_state
         end
       end
 
@@ -15,11 +15,19 @@ module Regular
         end
       end
 
-      def start_state=(state)
-        @start_state = state
+      attr_accessor :start_state
+
+      def build_start_state
+        self.start_state = State.new
       end
 
-      attr_reader :start_state
+      def ==(other)
+        if !other.respond_to?(:states)
+          false
+        else
+          states == other.states
+        end
+      end
     end
   end
 end

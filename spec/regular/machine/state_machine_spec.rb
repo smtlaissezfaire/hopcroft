@@ -42,6 +42,36 @@ module Regular
           m.start_state.should be_a_kind_of(State)
         end
       end
+
+      describe "==" do
+        before do
+          @one = StateMachine.new
+          @two = StateMachine.new
+        end
+
+        it "should be equal to another where both have no states (epsilon transitions" do
+          @one.should == @two
+          @two.should == @one
+        end
+
+        it "should not be equal if one has no states, and the other has one state" do
+          @one.build_start_state
+          @one.should_not == @two
+          @two.should_not == @one
+        end
+
+        it "should be equal with two states being equal" do
+          @one.build_start_state
+          @two.build_start_state
+
+          @one.should == @two
+          @two.should == @one
+        end
+
+        it "should not be == to a plain object one which does not respond_to? states" do
+          StateMachine.new.should_not == Object.new
+        end
+      end
     end
   end
 end

@@ -41,6 +41,24 @@ module Regular
       def substates
         transitions.map { |t| t.state }
       end
+
+      def ==(other)
+        if !other.respond_to?(:final_state?) || !other.respond_to?(:transitions)
+          false
+        else
+          final_state? == other.final_state? && same_transitions?(other.transitions)
+        end
+      end
+
+    private
+
+      def same_transitions?(other_transitions)
+        subset?(transitions, other_transitions) && subset?(other_transitions, transitions)
+      end
+
+      def subset?(t1, t2)
+        t2.all? { |t| t1.include?(t) }
+      end
     end
   end
 end

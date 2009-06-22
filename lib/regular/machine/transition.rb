@@ -8,6 +8,15 @@ module Regular
 
       attr_reader :symbol
       attr_reader :state
+
+      def ==(other)
+        if !other.respond_to?(:symbol) || !other.respond_to?(:state)
+          false
+        else
+          symbol == other.symbol &&
+            other.state == state
+        end
+      end
     end
   end
 end
