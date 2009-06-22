@@ -9,7 +9,7 @@ module Regular
       end
 
       def matches?(char)
-        @char == char
+        to_machine == Char.new(char).to_machine
       end
 
       def to_machine
