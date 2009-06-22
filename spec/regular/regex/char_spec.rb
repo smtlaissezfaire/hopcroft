@@ -26,22 +26,27 @@ module Regular
     end
 
     describe "to_machine" do
+      it "should return a new machine" do
+        char = Char.new("a")
+        char.to_machine.should be_a_kind_of(Machine::StateMachine)
+      end
+
       it "should construct the one char machine" do
         char = Char.new("a")
-        m = char.to_machine
+        start_state = char.to_machine.start_state
 
-        m.transitions.size.should == 1
-        first_transition = m.transitions.first
+        start_state.transitions.size.should == 1
+        first_transition = start_state.transitions.first
         first_transition.symbol.should == :a
         first_transition.state.should be_a_final_state
       end
 
       it "should use the correct one char" do
         char = Char.new("b")
-        m = char.to_machine
+        start_state = char.to_machine.start_state
 
-        m.transitions.size.should == 1
-        first_transition = m.transitions.first
+        start_state.transitions.size.should == 1
+        first_transition = start_state.transitions.first
         first_transition.symbol.should == :b
       end
     end

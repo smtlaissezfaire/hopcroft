@@ -31,6 +31,17 @@ module Regular
         @machine.start_state = state
         @machine.states.should == [state, second_state]
       end
+
+      describe "new_with_start_state" do
+        it "should return a new machine" do
+          StateMachine.new_with_start_state.should be_a_kind_of(StateMachine)
+        end
+
+        it "should have a start state" do
+          m = StateMachine.new_with_start_state
+          m.start_state.should be_a_kind_of(State)
+        end
+      end
     end
   end
 end
