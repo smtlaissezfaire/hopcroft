@@ -71,6 +71,8 @@ module Regular
         it "should not be == to a plain object one which does not respond_to? states" do
           StateMachine.new.should_not == Object.new
         end
+
+        it "should be equal to another with different states, but which minimizes to the same machine"
       end
     end
   end
