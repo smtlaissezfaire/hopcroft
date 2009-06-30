@@ -24,6 +24,7 @@ module Hopcroft
         state   ||= State.new({:start_state => false}.merge(options))
 
         transitions << Transition.new(sym, state)
+        state
       end
 
       def start_state?

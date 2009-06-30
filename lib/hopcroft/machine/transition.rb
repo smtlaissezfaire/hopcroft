@@ -13,8 +13,7 @@ module Hopcroft
         if !other.respond_to?(:symbol) || !other.respond_to?(:state)
           false
         else
-          symbol == other.symbol &&
-            other.state == state
+          symbol == other.symbol
         end
       end
     end

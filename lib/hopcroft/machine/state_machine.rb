@@ -28,6 +28,12 @@ module Hopcroft
           states == other.states
         end
       end
+
+      def matches?(str)
+        if start_state.final_state?
+          true
+        end
+      end
     end
   end
 end

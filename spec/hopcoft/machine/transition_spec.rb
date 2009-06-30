@@ -51,18 +51,6 @@ module Hopcroft
           t2.should == t1
         end
 
-        it "should not be equal to another with the same transition, but states which are not ==" do
-          state1 = State.new
-          state2 = State.new
-          state2.add_transition :foo
-          
-          t1 = Transition.new(:foo, state1)
-          t2 = Transition.new(:foo, state2)
-
-          t1.should_not == t2
-          t2.should_not == t1
-        end
-
         it "should not be == to a plain object one which does not respond_to? symbol" do
           Transition.new(:foo, State.new).should_not == Object.new
         end

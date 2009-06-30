@@ -1,6 +1,6 @@
 module Hopcroft
   module Regex
-    class Char
+    class Char < Base
       class InvalidInput < StandardError; end
 
       def initialize(str)
@@ -17,12 +17,6 @@ module Hopcroft
           state = m.start_state
           state.add_transition(@char, :final => true)
         end
-      end
-
-    private
-
-      def new_machine
-        Machine::StateMachine.new_with_start_state
       end
     end
   end
