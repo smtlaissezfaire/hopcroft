@@ -30,9 +30,7 @@ module Hopcroft
       end
 
       def matches?(str)
-        if start_state.final_state?
-          true
-        end
+        start_state.matches?(str)
       end
     end
   end

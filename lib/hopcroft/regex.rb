@@ -5,5 +5,6 @@ module Hopcroft
     using :Base
     using :Char
     using :KleenStar
+    using :Plus
   end
 end

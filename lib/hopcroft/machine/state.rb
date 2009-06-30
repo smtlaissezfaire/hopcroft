@@ -43,6 +43,11 @@ module Hopcroft
         transitions.map { |t| t.state }
       end
 
+      def matches?(str)
+        return true if final_state?
+        transitions.any? { |t| t.matches?(str) }
+      end
+
       def ==(other)
         if !other.respond_to?(:final_state?) || !other.respond_to?(:transitions)
           false
