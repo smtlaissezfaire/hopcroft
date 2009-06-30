@@ -7,5 +7,6 @@ module Hopcroft
     using :KleenStar
     using :Plus
     using :Dot
+    using :CharacterClass
   end
 end
