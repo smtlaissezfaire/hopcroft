@@ -22,6 +22,11 @@ module Hopcroft
         s = KleenStar.new("a")
         s.matches?("aa").should be_true
       end
+
+      it "should match 0 chars" do
+        s = KleenStar.new("a")
+        s.matches?("").should be_true
+      end
     end
   end
 end
