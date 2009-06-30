@@ -1,4 +1,4 @@
-module Regular
+module Hopcroft
   module Machine
     class Transition
       def initialize(sym, state)

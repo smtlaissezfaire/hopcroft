@@ -1,3 +1,3 @@
 
 require "rubygems"
-require File.expand_path(File.dirname(__FILE__) + "/../lib/regular")
+require File.expand_path(File.dirname(__FILE__) + "/../lib/hopcroft")

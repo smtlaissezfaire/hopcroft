@@ -1,4 +1,4 @@
-module Regular
+module Hopcroft
   module Regex
     class Char
       class InvalidInput < StandardError; end

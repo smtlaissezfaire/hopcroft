@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/../../spec_helper")
 
-module Regular
+module Hopcroft
   module Machine
     describe State do
       it "should have no transitions to begin with" do

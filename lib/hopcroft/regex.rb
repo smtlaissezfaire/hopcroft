@@ -1,5 +1,5 @@
 
-module Regular
+module Hopcroft
   module Regex
     extend Using
 

@@ -1,4 +1,4 @@
-module Regular
+module Hopcroft
   module Machine
     class StateMachine
       def self.new_with_start_state

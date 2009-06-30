@@ -1,7 +1,7 @@
 require "using"
 require "facets/kernel/returning"
 
-module Regular
+module Hopcroft
   extend Using
 
   using :Regex
