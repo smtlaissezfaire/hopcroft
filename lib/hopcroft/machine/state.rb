@@ -55,6 +55,13 @@ module Hopcroft
           final_state? == other.final_state? && same_transitions?(other.transitions)
         end
       end
+      
+      def add_transitions_to_table(table)
+        transitions.each do |transition|
+          table.add_state_change(transition.symbol, transition.to)
+          transition.to.add_transitions_to_table(table) unless transition.to == self
+        end
+      end
 
     private
 

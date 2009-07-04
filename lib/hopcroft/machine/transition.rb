@@ -8,6 +8,7 @@ module Hopcroft
 
       attr_reader :symbol
       attr_reader :state
+      alias_method :to, :state
 
       def ==(other)
         if !other.respond_to?(:symbol) || !other.respond_to?(:state)

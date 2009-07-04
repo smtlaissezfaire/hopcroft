@@ -75,5 +75,50 @@ module Hopcroft
         it "should be equal to another with different states, but which minimizes to the same machine"
       end
     end
+    
+    describe "building the transition table" do
+      before do
+        @machine = StateMachine.new
+      end
+      
+      it "should be empty with no start state" do
+        @machine.state_table.should be_empty
+      end
+      
+      it "should be empty with a start state with no transitions" do
+        @machine.build_start_state
+        @machine.state_table.should be_empty
+      end
+      
+      it "should match a transition of the start state to another state" do
+        start_state = @machine.build_start_state
+        second_state = start_state.add_transition :foo
+        
+        @machine.state_table.should == {:foo => [second_state]}
+      end
+      
+      it "should match multiple transitions on the same key (a NFA)" do
+        start_state = @machine.build_start_state
+        state_one = start_state.add_transition :foo
+        state_two = start_state.add_transition :foo
+        
+        @machine.state_table.should == {:foo => [state_one, state_two]}
+      end
+      
+      it "should work recursively (gathering states of second level transitions)" do
+        start_state = @machine.build_start_state
+        state_one = start_state.add_transition :foo
+        state_two = state_one.add_transition :bar
+        
+        @machine.state_table.should == {:foo => [state_one], :bar => [state_two]}
+      end
+      
+      it "should be able to have a state with a transition to itself" do
+        start_state = @machine.build_start_state
+        start_state.add_transition :foo, start_state
+        
+        @machine.state_table.should == {:foo => [start_state]}
+      end
+    end
   end
 end

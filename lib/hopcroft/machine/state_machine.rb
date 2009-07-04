@@ -32,6 +32,12 @@ module Hopcroft
       def matches?(str)
         start_state.matches?(str)
       end
+      
+      def state_table
+        returning TransitionTable.new do |table|
+          start_state.add_transitions_to_table(table) if start_state
+        end
+      end
     end
   end
 end
