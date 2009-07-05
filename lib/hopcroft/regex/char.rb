@@ -9,7 +9,7 @@ module Hopcroft
       end
 
       def matches?(char)
-        to_machine == Char.new(char).to_machine
+        to_machine.matches?(char)
       end
 
       def to_machine

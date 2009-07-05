@@ -29,8 +29,16 @@ module Hopcroft
         end
       end
 
+      def matches_string?(str)
+        matches_array? str.split(//)
+      end
+      
       def matches?(str)
-        start_state.matches?(str)
+        start_state.matches? str
+      end
+      
+      def matches_array?(array)
+        state_table.matches?(array)
       end
       
       def state_table
