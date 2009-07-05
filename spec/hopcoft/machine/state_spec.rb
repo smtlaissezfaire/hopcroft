@@ -28,12 +28,14 @@ module Hopcroft
       it "should not be a final state by default" do
         s = State.new
         s.should_not be_a_final_state
+        s.should_not be_final
       end
 
       it "should have the final state as assignable" do
         s = State.new
         s.final_state = true
         s.should be_a_final_state
+        s.should be_final
       end
 
       describe "transitions" do

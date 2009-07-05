@@ -37,6 +37,8 @@ module Hopcroft
         @final_state ? true : false
       end
 
+      alias_method :final?, :final_state?
+
       attr_writer :final_state
 
       def substates
