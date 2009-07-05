@@ -6,5 +6,6 @@ module Hopcroft
     using :State
     using :Transition
     using :StateMachine
+    using :EpsilonTransition
   end
 end
