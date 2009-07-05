@@ -14,20 +14,19 @@ module Hopcroft
 
       def entries_for(state, transition_symbol)
         if entries_for_state = self[state]
-          entries_for_state[transition_symbol.to_sym] || []
-        else
-          []
+          entries = entries_for_state[transition_symbol.to_sym]
         end
+
+        entries || []
       end
 
       def matches?(array, next_state = start_states.first)
         if next_state
-          if array.size == 1
-            entries_for(next_state, array.first).any? { |state| state.final? }
+          if array.empty?
+            next_state.final?
           else
-            entries = entries_for(next_state, array.first)
-            entries.any? do |entry|
-              matches?(array[1..array.size], entry)
+            entries_for(next_state, array.first).any? do |entry|
+              matches?(cdr(array), entry)
             end
           end
         else
@@ -36,6 +35,10 @@ module Hopcroft
       end
 
     private
+
+      def cdr(array)
+        array[1..array.size]
+      end
 
       # Create a transition without marking appropriate start states
       def add_raw_transition(from_state, to_state, transition_symbol)
