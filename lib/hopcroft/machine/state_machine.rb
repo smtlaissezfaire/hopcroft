@@ -27,6 +27,7 @@ module Hopcroft
 
       def build_start_state(state = State.new)
         self.start_states << state
+        state
       end
 
       def ==(other)
@@ -48,10 +49,12 @@ module Hopcroft
       def matches_array?(array)
         state_table.matches?(array)
       end
-      
+
       def state_table
         returning TransitionTable.new do |table|
-          start_state.add_transitions_to_table(table) if start_state
+          start_states.each do |state|
+            state.add_transitions_to_table(table)
+          end
         end
       end
     end
