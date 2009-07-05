@@ -7,18 +7,26 @@ module Hopcroft
         end
       end
 
+      def initialize
+        @start_states = []
+      end
+
+      attr_reader :start_states
+
+      def start_state
+        start_states.first
+      end
+
       def states
-        if @start_state
-          [@start_state, @start_state.substates].flatten
+        if start_states.any?
+          [start_states, start_states.map { |state| state.substates }].flatten
         else
           []
         end
       end
 
-      attr_accessor :start_state
-
-      def build_start_state
-        self.start_state = State.new
+      def build_start_state(state = State.new)
+        self.start_states << state
       end
 
       def ==(other)
@@ -34,7 +42,7 @@ module Hopcroft
       end
       
       def matches?(str)
-        start_state.matches? str
+        start_states.any? { |state| state.matches? str }
       end
       
       def matches_array?(array)

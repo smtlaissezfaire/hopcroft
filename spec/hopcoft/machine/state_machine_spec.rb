@@ -8,18 +8,21 @@ module Hopcroft
       end
 
       it "should have an empty list of states when beginning" do
-        @machine.states.should == []
+        @machine.states.should be_empty
+      end
+
+      it "should have an empty list of start states when beginning" do
+        @machine.start_states.should be_empty
       end
 
       it "should be able to add a start state" do
-        state = State.new
-        @machine.start_state = state
-        @machine.states.should == [state]
+        @machine.build_start_state
+        @machine.start_states.should_not be_empty
+        @machine.states.should_not be_empty
       end
 
       it "should set the start state on the first state to a start state" do
         state = State.new
-        @machine.start_state = state
         state.should be_a_start_state
       end
 
@@ -28,7 +31,7 @@ module Hopcroft
         second_state = State.new
         state.add_transition(:foo, second_state)
 
-        @machine.start_state = state
+        @machine.build_start_state(state)
         @machine.states.should == [state, second_state]
       end
 
