@@ -10,6 +10,13 @@ module Hopcroft
         @transitions ||= []
       end
 
+      # Accepts the following hash arguments:
+      #
+      #   :start_state => true | false
+      #   :state       => a_state (if none passed, a new one is constructed)
+      #   :symbol      => Symbol to transition to.
+      #   :epsilon     => An Epsilon Transition instead of a regular symbol transition
+      #
       def add_transition(args={})
         args[:start_state] = false unless args.has_key?(:start_state)
         state = args[:state] ||= State.new(args)
