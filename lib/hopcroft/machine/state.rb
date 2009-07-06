@@ -10,7 +10,15 @@ module Hopcroft
         @transitions ||= []
       end
 
-      def add_transition(sym, options_or_state={})
+      def add_transition(*args)
+        if args.size == 1 && args.first.is_a?(Hash)
+          options_or_state = args.first
+          sym = nil if options_or_state[:epsilon]
+        else
+          sym = args.first
+          options_or_state = args[1] || {}
+        end
+
         if options_or_state
           if options_or_state.is_a?(Hash)
             options = options_or_state
@@ -23,7 +31,12 @@ module Hopcroft
         options ||= {}
         state   ||= State.new({:start_state => false}.merge(options))
 
-        transitions << Transition.new(sym, state)
+        if sym
+          transitions << Transition.new(sym, state)
+        else
+          transitions << EpsilonTransition.new(state)
+        end
+
         state
       end
 

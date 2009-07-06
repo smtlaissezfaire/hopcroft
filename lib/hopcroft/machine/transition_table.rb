@@ -14,10 +14,19 @@ module Hopcroft
 
       def entries_for(state, transition_symbol)
         if entries_for_state = self[state]
-          entries = entries_for_state[transition_symbol.to_sym]
+          entries_under_state_for_symbol(entries_for_state, transition_symbol.to_sym)
+        else
+          []
         end
+      end
 
-        entries || []
+      def entries_under_state_for_symbol(state, symbol)
+        returning Array.new do |a|
+          a << state[symbol]
+          a << state[EpsilonTransition.symbol]
+          a.compact!
+          a.flatten!
+        end
       end
 
       def matches?(array, next_state = start_states.first)

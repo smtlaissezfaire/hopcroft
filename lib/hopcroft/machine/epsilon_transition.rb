@@ -9,6 +9,10 @@ module Hopcroft
         end.new
       end
 
+      def self.symbol
+        EPSILON_TRANSITION_SYMBOL
+      end
+
       def initialize(to)
         super(EPSILON_TRANSITION_SYMBOL, to)
       end
