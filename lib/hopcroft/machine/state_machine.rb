@@ -39,12 +39,10 @@ module Hopcroft
       end
 
       def matches_string?(str)
-        matches_array? str.split(//)
+        matches_array? str.split("")
       end
       
-      def matches?(str)
-        start_states.any? { |state| state.matches? str }
-      end
+      alias_method :matches?, :matches_string?
       
       def matches_array?(array)
         state_table.matches?(array)

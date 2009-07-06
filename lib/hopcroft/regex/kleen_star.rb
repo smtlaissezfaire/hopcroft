@@ -8,8 +8,9 @@ module Hopcroft
       def to_machine
         returning new_machine do |m|
           state = m.start_state
-          state.final_state = true
-          state.add_transition(:symbol => @expression, :final => true)
+          final_state = state.add_transition :symbol => @expression, :final => true
+          final_state.add_transition :symbol => @expression, :state => final_state
+          state.add_transition :epsilon => true, :state => final_state
         end
       end
     end
