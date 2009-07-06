@@ -9,7 +9,7 @@ module Hopcroft
         returning new_machine do |m|
           state = m.start_state
           state.final_state = true
-          state.add_transition(@expression, :final => true)
+          state.add_transition(:symbol => @expression, :final => true)
         end
       end
     end

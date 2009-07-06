@@ -29,7 +29,7 @@ module Hopcroft
       it "should be able to traverse a list of states" do
         state = State.new
         second_state = State.new
-        state.add_transition(:foo, second_state)
+        state.add_transition(:symbol => :foo, :state => second_state)
 
         @machine.build_start_state(state)
         @machine.states.should == [state, second_state]
@@ -94,22 +94,22 @@ module Hopcroft
         
         it "should match a transition of the start state to another state" do
           start_state = @machine.build_start_state
-          second_state = start_state.add_transition :foo
+          second_state = start_state.add_transition :symbol => :foo
           
           @machine.state_table.entries_for(start_state, :foo).should == [second_state]
         end
         
         it "should match multiple transitions on the same key (a NFA)" do
           start_state = @machine.build_start_state
-          state_one = start_state.add_transition :foo
-          state_two = start_state.add_transition :foo
+          state_one = start_state.add_transition :symbol => :foo
+          state_two = start_state.add_transition :symbol => :foo
           
           @machine.state_table.entries_for(start_state, :foo).should == [state_one, state_two]
         end
         
         it "should be able to have a state with a transition to itself" do
           start_state = @machine.build_start_state
-          start_state.add_transition :foo, start_state
+          start_state.add_transition :symbol => :foo, :state => start_state
           
           @machine.state_table.entries_for(start_state, :foo).should == [start_state]
         end

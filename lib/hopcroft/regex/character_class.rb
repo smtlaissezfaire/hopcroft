@@ -16,7 +16,7 @@ module Hopcroft
         new_machine do |m|
           state = m.start_state
           each_symbol do |sym|
-            state.add_transition sym, :final => true
+            state.add_transition :symbol => sym, :final => true
           end
         end
       end

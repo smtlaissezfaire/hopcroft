@@ -11,7 +11,7 @@ module Hopcroft
       def to_machine
         new_machine do |m|
           state = m.start_state
-          state.add_transition(lambda { |_| true }, :final => true)
+          # state.add_transition(lambda { |_| true }, :final => true)
         end
       end
     end
