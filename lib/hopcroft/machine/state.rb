@@ -23,15 +23,17 @@ module Hopcroft
 
         transition = args[:epsilon] ? EpsilonTransition.new(state) : Transition.new(args[:symbol], state)
         transitions << transition
+        
+        yield(state) if block_given?
         state
       end
 
       def start_state?
         @start_state.equal?(false) ? false : true
       end
-
+      
       attr_writer :start_state
-
+      
       def final_state?
         @final_state ? true : false
       end

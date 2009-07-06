@@ -16,6 +16,12 @@ module Hopcroft
       def start_state
         start_states.first
       end
+      
+      def use_start_state
+        if start_state
+          yield start_state
+        end
+      end
 
       def states
         if start_states.any?
