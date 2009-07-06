@@ -15,7 +15,7 @@ module Hopcroft
       def to_machine
         returning new_machine do |m|
           state = m.start_state
-          state.add_transition(:symbol => @char, :final => true)
+          state.add_transition :symbol => @char, :final => true
         end
       end
     end
