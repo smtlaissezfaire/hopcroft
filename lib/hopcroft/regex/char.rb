@@ -5,8 +5,10 @@ module Hopcroft
 
       def initialize(str)
         raise InvalidInput if str.empty?
-        @char = str
+        super
       end
+
+      alias_method :to_regex_s, :expression
 
       def matches?(char)
         to_machine.matches?(char)
@@ -15,7 +17,7 @@ module Hopcroft
       def to_machine
         returning new_machine do |machine|
           machine.use_start_state do |start_state|
-            start_state.add_transition :symbol => @char, :final => true
+            start_state.add_transition :symbol => expression, :final => true
           end
         end
       end

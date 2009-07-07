@@ -27,6 +27,10 @@ module Hopcroft
         s = Plus.new("a")
         s.matches?("").should be_false
       end
+
+      it "should have the regex string" do
+        Plus.new("a").to_regex_s.should == "a+"
+      end
     end
   end
 end

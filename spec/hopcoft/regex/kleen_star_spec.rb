@@ -29,6 +29,10 @@ module Hopcroft
           s.matches?("").should be_true
         end
       end
+
+      it "should have the regex string" do
+        KleenStar.new("a").to_regex_s.should == "a*"
+      end
     end
   end
 end

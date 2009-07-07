@@ -15,6 +15,10 @@ module Hopcroft
           end
         end
       end
+
+      def to_regex_s
+        "#{expression}*"
+      end
     end
   end
 end

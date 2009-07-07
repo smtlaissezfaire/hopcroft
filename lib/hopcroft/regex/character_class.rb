@@ -31,6 +31,10 @@ module Hopcroft
         Range.new(start, finish).to_a.map { |e| e.to_s }
       end
 
+      def to_regex_s
+        "[#{expression}]"
+      end
+
     private
 
       def valid_expression?

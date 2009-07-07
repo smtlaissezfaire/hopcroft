@@ -15,6 +15,10 @@ module Hopcroft
         raise NotImplementedError
       end
 
+      def to_regex_s
+        raise NotImplementedError
+      end
+
     private
 
       def new_machine

@@ -12,6 +12,10 @@ module Hopcroft
         d = Dot.new
         d.matches?("").should be_false
       end
+
+      it "should have to_regex_s as a dot" do
+        Dot.new.to_regex_s.should == "."
+      end
     end
   end
 end

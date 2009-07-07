@@ -32,6 +32,10 @@ module Hopcroft
             CharacterClass.new("a-zA-Z")
           }.should_not raise_error
         end
+
+        it "should have the regex string" do
+          CharacterClass.new("a-c").to_regex_s.should == "[a-c]"
+        end
       end
 
       describe "matching" do

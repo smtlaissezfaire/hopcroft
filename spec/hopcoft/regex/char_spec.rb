@@ -24,6 +24,11 @@ module Hopcroft
           Char.new("")
         }.should raise_error
       end
+
+      it "should have the char as the regex" do
+        Char.new("a").to_regex_s.should == "a"
+        Char.new("b").to_regex_s.should == "b"
+      end
     end
 
     describe "to_machine" do

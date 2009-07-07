@@ -14,6 +14,10 @@ module Hopcroft
           end
         end
       end
+
+      def to_regex_s
+        "."
+      end
     end
   end
 end
