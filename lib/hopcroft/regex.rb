@@ -8,5 +8,6 @@ module Hopcroft
     using :Plus
     using :Dot
     using :CharacterClass
+    using :OptionalSymbol
   end
 end
