@@ -1,0 +1,5 @@
+*.bundle
+*.o
+tmp/
+doc/
+TAGS
