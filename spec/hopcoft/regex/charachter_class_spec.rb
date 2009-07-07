@@ -40,7 +40,7 @@ module Hopcroft
           klass.matches?("a").should be_true
         end
 
-        it "should match a b in [b-z]" do
+        it "should match b in [a-z]" do
           klass = CharacterClass.new("a-z")
           klass.matches?("b").should be_true
         end
@@ -56,9 +56,8 @@ module Hopcroft
         end
 
         it "should match a number in [0-9]" do
-          pending 'TODO'
           klass = CharacterClass.new("0-9")
-          klass.matches?("0").should be_false
+          klass.matches?("0").should be_true
         end
 
         it "should match in a multi-range expression [0-9a-eA-E]"
