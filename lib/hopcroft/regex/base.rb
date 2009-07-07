@@ -6,7 +6,12 @@ module Hopcroft
       end
    
       attr_reader :expression
-   
+
+      def ==(other)
+        other.respond_to?(:to_regex_s) &&
+          to_regex_s == other.to_regex_s
+      end
+      
     private
 
       def new_machine
