@@ -12,7 +12,8 @@ module Hopcroft
 
       # Accepts the following hash arguments:
       #
-      #   :start_state => true | false
+      #   :start_state => true | false. Make the state a start state.  Defaults to false
+      #   :final       => true | false. Make the state a final state.  Defaults to false
       #   :state       => a_state (if none passed, a new one is constructed)
       #   :symbol      => Symbol to transition to.
       #   :epsilon     => An Epsilon Transition instead of a regular symbol transition
