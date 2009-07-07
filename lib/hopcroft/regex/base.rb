@@ -7,18 +7,6 @@ module Hopcroft
    
       attr_reader :expression
    
-      def matches?(str)
-        raise NotImplementedError
-      end
-
-      def to_machine
-        raise NotImplementedError
-      end
-
-      def to_regex_s
-        raise NotImplementedError
-      end
-
     private
 
       def new_machine
