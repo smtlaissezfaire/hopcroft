@@ -24,10 +24,8 @@ module Hopcroft
       end
 
       it "should match 0 chars" do
-        pending 'TODO' do
-          s = KleenStar.new("a")
-          s.matches?("").should be_true
-        end
+        s = KleenStar.new("a")
+        s.matches?("").should be_true
       end
 
       it "should have the regex string" do
