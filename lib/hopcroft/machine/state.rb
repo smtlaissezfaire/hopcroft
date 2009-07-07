@@ -58,11 +58,6 @@ module Hopcroft
         transitions.map { |t| t.state }
       end
 
-      def matches?(str)
-        return true if final_state?
-        transitions.any? { |t| t.matches?(str) }
-      end
-
       def add_transitions_to_table(table)
         transitions.each do |transition|
           table.add_state_change(self, transition.to, transition.symbol)
