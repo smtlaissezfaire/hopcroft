@@ -4,10 +4,8 @@ module Hopcroft
   module Regex
     describe Dot do
       it "should accept any one char" do
-        pending 'FIXME' do
-          d = Dot.new
-          d.matches?("a").should be_true
-        end
+        d = Dot.new
+        d.matches?("a").should be_true
       end
 
       it "should not accept 0 chars" do
