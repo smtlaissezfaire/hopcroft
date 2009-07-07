@@ -16,7 +16,7 @@ module Hopcroft
       end
 
       def to_regex_s
-        "."
+        DOT
       end
     end
   end

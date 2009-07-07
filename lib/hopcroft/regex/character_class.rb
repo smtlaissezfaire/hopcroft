@@ -32,7 +32,7 @@ module Hopcroft
       end
 
       def to_regex_s
-        "[#{expression}]"
+        "#{OPEN_BRACKET}#{expression}#{CLOSE_BRACKET}"
       end
 
     private

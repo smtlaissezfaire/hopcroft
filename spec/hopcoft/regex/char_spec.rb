@@ -28,6 +28,30 @@ module Hopcroft
         Char.new("a").to_regex_s.should == "a"
         Char.new("b").to_regex_s.should == "b"
       end
+
+      it "should escape a ." do
+        Char.new(".").to_regex_s.should == '\.'
+      end
+
+      it "should escape a +" do
+        Char.new("+").to_regex_s.should == '\+'
+      end
+
+      it "should escape a ?" do
+        Char.new("?").to_regex_s.should == '\?'
+      end
+
+      it "should escape a *" do
+        Char.new("*").to_regex_s.should == '\*'
+      end
+
+      it "should escape a [" do
+        Char.new("[").to_regex_s.should == '\['
+      end
+
+      it "should escape a ]" do
+        Char.new("]").to_regex_s.should == '\]'
+      end
     end
 
     describe "to_machine" do

@@ -19,7 +19,7 @@ module Hopcroft
       end
 
       def to_regex_s
-        "#{expression}*"
+        "#{expression}#{STAR}"
       end
     end
   end

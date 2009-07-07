@@ -8,7 +8,13 @@ module Hopcroft
         super
       end
 
-      alias_method :to_regex_s, :expression
+      def to_regex_s
+        if SPECIAL_CHARS.include?(expression)
+          "#{ESCAPE_CHAR}#{expression}"
+        else
+          expression
+        end
+      end
 
       def matches?(char)
         to_machine.matches?(char)

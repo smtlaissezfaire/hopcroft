@@ -2,7 +2,7 @@ module Hopcroft
   module Regex
     class OptionalSymbol < Base
       def to_regex_s
-        "#{expression}?"
+        "#{expression}#{QUESTION}"
       end
 
       def matches?(str)
