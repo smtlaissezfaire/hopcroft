@@ -14,7 +14,6 @@ module Hopcroft
       end
 
       it "should not match multiple chars" do
-        pending 'FIXME'
         c = Char.new("a")
         c.matches?("ab").should be_false
       end
