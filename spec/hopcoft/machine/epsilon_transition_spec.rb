@@ -19,10 +19,6 @@ module Hopcroft
       it "should not have nil as the symbol" do
         @transition.symbol.should_not be_nil
       end
-
-      it "should match any char" do
-        @transition.matches?("f").should be_true
-      end
     end
   end
 end
