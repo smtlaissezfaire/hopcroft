@@ -24,6 +24,7 @@ module Hopcroft
         returning Array.new do |a|
           a << state[symbol]
           a << state[EpsilonTransition.symbol]
+          a << state[AnyCharTransition.symbol]
           a.compact!
           a.flatten!
         end

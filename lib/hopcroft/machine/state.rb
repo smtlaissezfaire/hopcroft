@@ -16,16 +16,27 @@ module Hopcroft
       #   :state       => a_state (if none passed, a new one is constructed)
       #   :symbol      => Symbol to transition to.
       #   :epsilon     => An Epsilon Transition instead of a regular symbol transition
+      #   :any         => An any symbol transition.  Equivalent to a regex '.'
       #
       def add_transition(args={})
         args[:start_state] = false unless args.has_key?(:start_state)
         state = args[:state] ||= State.new(args)
 
-        transition = args[:epsilon] ? EpsilonTransition.new(state) : Transition.new(args[:symbol], state)
-        transitions << transition
+
+        transitions << transition_for(args, state)
         
         yield(state) if block_given?
         state
+      end
+
+      def transition_for(args, state)
+        if args[:epsilon]
+          EpsilonTransition.new(state)
+        elsif args[:any]
+          AnyCharTransition.new(state)
+        else
+          Transition.new(args[:symbol], state)
+        end
       end
 
       def start_state?

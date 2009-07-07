@@ -97,6 +97,17 @@ module Hopcroft
 
           @table.entries_for(from, :a).should == [to]
         end
+
+        it "should have a transition for an 'any' transition" do
+          from = State.new :start_state => true
+          to = from.add_transition :any => true
+
+          transition = from.transitions.first.symbol
+
+          @table.add_state_change from, to, transition
+
+          @table.entries_for(from, :a).should == [to]
+        end
       end
 
       describe "entries_for" do

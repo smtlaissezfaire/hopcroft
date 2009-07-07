@@ -9,9 +9,10 @@ module Hopcroft
       end
 
       def to_machine
-        new_machine do |m|
-          state = m.start_state
-          # state.add_transition(lambda { |_| true }, :final => true)
+        new_machine do |machine|
+          machine.start_state do |start|
+            start.add_transition :final => true, :epsilon => true
+          end
         end
       end
     end
