@@ -1,10 +1,6 @@
 module Hopcroft
   module Regex
     class Plus < Base
-      def matches?(str)
-        to_machine.matches?(str)
-      end
-
       def to_machine
         new_machine do |machine|
           machine.use_start_state do |start_state|

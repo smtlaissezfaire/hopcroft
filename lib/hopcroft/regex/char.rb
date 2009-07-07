@@ -16,10 +16,6 @@ module Hopcroft
         end
       end
 
-      def matches?(char)
-        to_machine.matches?(char)
-      end
-
       def to_machine
         returning new_machine do |machine|
           machine.use_start_state do |start_state|

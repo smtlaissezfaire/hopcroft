@@ -1,10 +1,6 @@
 module Hopcroft
   module Regex
     class KleenStar < Base
-      def matches?(str)
-        to_machine.matches?(str)
-      end
-   
       def to_machine
         returning new_machine do |machine|
           machine.use_start_state do |start|

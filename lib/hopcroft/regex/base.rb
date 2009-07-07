@@ -11,6 +11,10 @@ module Hopcroft
         other.respond_to?(:to_regex_s) &&
           to_regex_s == other.to_regex_s
       end
+
+      def matches?(str)
+        to_machine.matches? str
+      end
       
     private
 
