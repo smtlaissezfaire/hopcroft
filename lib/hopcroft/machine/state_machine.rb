@@ -36,14 +36,6 @@ module Hopcroft
         state
       end
 
-      def ==(other)
-        if !other.respond_to?(:states)
-          false
-        else
-          states == other.states
-        end
-      end
-
       def matches_string?(str)
         matches_array? str.split("")
       end

@@ -10,14 +10,6 @@ module Hopcroft
       attr_reader :state
       alias_method :to, :state
 
-      def ==(other)
-        if !other.respond_to?(:symbol) || !other.respond_to?(:state)
-          false
-        else
-          symbol == other.symbol
-        end
-      end
-
       def matches?(str)
         str = str[0..0]
 

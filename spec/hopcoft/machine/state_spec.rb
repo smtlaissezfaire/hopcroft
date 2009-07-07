@@ -79,65 +79,6 @@ module Hopcroft
           transition = @state.transitions.first
           transition.state.should == state
         end
-
-        describe "==" do
-          before do
-            @one = State.new
-            @two = State.new
-          end
-
-          it "should be equal to another with no transitions" do
-            @one.should == @two
-            @two.should == @one
-          end
-
-          it "should not be equal to another with transitions" do
-            @two.add_transition :symbol => :foo
-
-            @one.should_not == @two
-            @two.should_not == @one
-          end
-
-          it "should be equal to another with the same transitions" do
-            @one.add_transition :symbol => :foo
-            @two.add_transition :symbol => :foo
-
-            @one.should == @one
-            @two.should == @two
-          end
-
-          it "should not be equal to another state if one is a final state, but the other isn't" do
-            @one.final_state = true
-            
-            @one.should_not == @two
-            @two.should_not == @one
-          end
-
-          it "should be equal to another with the same transitions in a different order" do
-            @one.add_transition :symbol => :foo
-            @one.add_transition :symbol => :bar
-            
-            @two.add_transition :symbol => :bar
-            @two.add_transition :symbol => :foo
-
-            @one.should == @two
-            @two.should == @one
-          end
-
-          it "should not be == to a plain object one which does not respond_to? final state" do
-            @one.should_not == Object.new
-          end
-
-          it "should not be == to an object which does not respond_to? transitions" do
-            o = Object.new
-            
-            def o.final_state?
-              false
-            end
-            
-            @one.should_not == o
-          end
-        end
       end
     end
   end

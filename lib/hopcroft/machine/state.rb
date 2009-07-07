@@ -63,14 +63,6 @@ module Hopcroft
         transitions.any? { |t| t.matches?(str) }
       end
 
-      def ==(other)
-        if !other.respond_to?(:final_state?) || !other.respond_to?(:transitions)
-          false
-        else
-          final_state? == other.final_state? && same_transitions?(other.transitions)
-        end
-      end
-      
       def add_transitions_to_table(table)
         transitions.each do |transition|
           table.add_state_change(self, transition.to, transition.symbol)
