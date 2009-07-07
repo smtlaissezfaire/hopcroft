@@ -23,8 +23,8 @@ module Hopcroft
       def entries_under_state_for_symbol(state, symbol)
         returning Array.new do |a|
           a << state[symbol]
-          a << state[EpsilonTransition.symbol]
-          a << state[AnyCharTransition.symbol]
+          a << state[EpsilonTransition]
+          a << state[AnyCharTransition]
           a.compact!
           a.flatten!
         end
@@ -52,7 +52,7 @@ module Hopcroft
 
       # Create a transition without marking appropriate start states
       def add_raw_transition(from_state, to_state, transition_symbol)
-        sym = transition_symbol.to_sym
+        sym = transition_symbol.respond_to?(:to_sym) ? transition_symbol.to_sym : transition_symbol
 
         self[from_state] ||= {}
         self[from_state][sym] ||= []
