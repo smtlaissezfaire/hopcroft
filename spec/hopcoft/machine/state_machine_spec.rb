@@ -11,14 +11,10 @@ module Hopcroft
         @machine.states.should be_empty
       end
 
-      it "should have an empty list of start states when beginning" do
-        @machine.start_states.should be_empty
-      end
-
       it "should be able to add a start state" do
         @machine.build_start_state
-        @machine.start_states.should_not be_empty
-        @machine.states.should_not be_empty
+        @machine.start_state.should_not be_nil
+        @machine.states.should_not be_nil
       end
 
       it "should set the start state on the first state to a start state" do

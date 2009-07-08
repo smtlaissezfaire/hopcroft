@@ -7,16 +7,8 @@ module Hopcroft
         end
       end
 
-      def initialize
-        @start_states = []
-      end
+      attr_reader :start_state
 
-      attr_reader :start_states
-
-      def start_state
-        start_states.first
-      end
-      
       def use_start_state
         if start_state
           yield start_state
@@ -24,16 +16,17 @@ module Hopcroft
       end
 
       def states
-        if start_states.any?
-          [start_states, start_states.map { |state| state.substates }].flatten
+        if start_state
+          [start_state, start_state.substates].flatten
         else
           []
         end
       end
 
       def build_start_state(state = State.new)
-        self.start_states << state
-        state
+        returning state do |s|
+          @start_state  = s
+        end
       end
 
       def matches_string?(str)
@@ -48,8 +41,8 @@ module Hopcroft
 
       def state_table
         returning TransitionTable.new do |table|
-          start_states.each do |state|
-            state.add_transitions_to_table(table)
+          if start_state
+            start_state.add_transitions_to_table(table)
           end
         end
       end
