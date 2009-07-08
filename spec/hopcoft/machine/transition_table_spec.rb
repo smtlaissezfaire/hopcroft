@@ -216,6 +216,15 @@ module Hopcroft
 
           @table.matches?([:one, :two]).should be_false
         end
+
+        it "should not consume any chars under an epsilon transition" do
+          start_state = mock(State, :final? => false, :start_state? => true)
+          state_two   = mock(State, :final? => true, :start_state? => false)
+
+          @table.add_state_change start_state, state_two, EpsilonTransition
+
+          @table.matches?([]).should be_true
+        end
       end
     end
   end

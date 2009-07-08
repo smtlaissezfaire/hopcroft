@@ -33,7 +33,15 @@ module Hopcroft
       def matches?(array, next_state = start_states.first)
         if next_state
           if array.empty?
-            next_state.final?
+            if next_state.final?
+              true
+            else
+              if self[next_state] && epsilons = self[next_state][EpsilonTransition]
+                epsilons.any? { |e| matches?(array, e) }
+              else
+                false
+              end
+            end
           else
             entries_for(next_state, array.first).any? do |entry|
               matches?(cdr(array), entry)
