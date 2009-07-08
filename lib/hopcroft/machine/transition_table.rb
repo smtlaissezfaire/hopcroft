@@ -14,7 +14,7 @@ module Hopcroft
 
       def entries_for(state, transition_symbol)
         if entries_for_state = self[state]
-          entries_under_state_for_symbol(entries_for_state, transition_symbol.to_sym)
+          entries_under_state_for_symbol(entries_for_state, obj_to_sym(transition_symbol))
         else
           []
         end
@@ -60,7 +60,7 @@ module Hopcroft
 
       # Create a transition without marking appropriate start states
       def add_raw_transition(from_state, to_state, transition_symbol)
-        sym = transition_symbol.respond_to?(:to_sym) ? transition_symbol.to_sym : transition_symbol
+        sym = obj_to_sym(transition_symbol)
 
         self[from_state] ||= {}
         self[from_state][sym] ||= []
@@ -69,6 +69,10 @@ module Hopcroft
 
       def add_start_state(state)
         start_states << state unless start_states.include?(state)
+      end
+
+      def obj_to_sym(obj)
+        obj.respond_to?(:to_sym) ? obj.to_sym : obj
       end
     end
   end
