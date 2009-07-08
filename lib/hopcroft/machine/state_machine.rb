@@ -23,6 +23,10 @@ module Hopcroft
         end
       end
 
+      def final_states
+        states.select { |s| s.final? }
+      end
+
       def build_start_state(state = State.new)
         returning state do |s|
           @start_state  = s

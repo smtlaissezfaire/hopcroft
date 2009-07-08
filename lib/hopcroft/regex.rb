@@ -20,6 +20,7 @@ module Hopcroft
     using :Dot
     using :CharacterClass
     using :OptionalSymbol
+    using :Concatenation
 
     using :Parser
   end
