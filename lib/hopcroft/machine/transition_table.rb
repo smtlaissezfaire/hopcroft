@@ -1,11 +1,7 @@
 module Hopcroft
   module Machine
     class TransitionTable < Hash
-      def initialize
-        @start_states = []
-      end
-
-      attr_reader :start_states
+      attr_reader :start_state
 
       def add_state_change(from_state, to_state, transition_symbol)
         add_start_state(from_state) if from_state.start_state?
@@ -28,7 +24,7 @@ module Hopcroft
         end
       end
 
-      def matches?(array, next_state = start_states.first)
+      def matches?(array, next_state = start_state)
         if next_state
           if array.empty?
             if next_state.final?
@@ -71,7 +67,7 @@ module Hopcroft
       end
 
       def add_start_state(state)
-        start_states << state unless start_states.include?(state)
+        @start_state = state
       end
 
       def obj_to_sym(obj)

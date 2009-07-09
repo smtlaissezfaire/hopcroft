@@ -8,16 +8,12 @@ module Hopcroft
           @table = TransitionTable.new
         end
 
-        it "should be empty with a new transition table" do
-          @table.start_states.should be_empty
-        end
-
         it "should have a state when a transition is added from the start state to an end state" do
           start_state = mock(State, :start_state? => true)
           second_state = mock(State, :start_state? => false)
           @table.add_state_change(start_state, second_state, :foo)
           
-          @table.start_states.should == [start_state]
+          @table.start_state.should == start_state
         end
 
         it "should only add the start state once per object" do
@@ -28,7 +24,7 @@ module Hopcroft
           @table.add_state_change(start_state, second_state, :foo)
           @table.add_state_change(start_state, third_state, :bar)
           
-          @table.start_states.should == [start_state]
+          @table.start_state.should == start_state
         end
       end
 
