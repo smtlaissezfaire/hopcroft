@@ -8,9 +8,9 @@ module Hopcroft
         add_raw_transition(from_state, to_state, transition_symbol)
       end
 
-      def entries_for(state, transition_symbol)
+      def entries_for(state, given_transition_symbol)
         if entries_for_state = self[state]
-          entries_under_state_for_symbol(entries_for_state, obj_to_sym(transition_symbol))
+          entries_under_state_for_symbol(entries_for_state, obj_to_sym(given_transition_symbol))
         else
           []
         end
