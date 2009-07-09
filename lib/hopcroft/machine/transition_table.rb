@@ -22,11 +22,9 @@ module Hopcroft
 
       def entries_under_state_for_symbol(state, symbol)
         returning Array.new do |a|
-          a << state[symbol]
-          a << state[EpsilonTransition]
-          a << state[AnyCharTransition]
-          a.compact!
-          a.flatten!
+          a.push *transitions_for(state, symbol)
+          a.push *transitions_for(state, EpsilonTransition)
+          a.push *transitions_for(state, AnyCharTransition)
         end
       end
 
@@ -53,6 +51,11 @@ module Hopcroft
       end
 
     private
+
+      def transitions_for(state, transition_symbol)
+        transitions = state[transition_symbol]
+        transitions ? transitions : []
+      end
 
       def cdr(array)
         array[1..array.size]
