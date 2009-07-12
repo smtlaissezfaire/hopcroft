@@ -24,26 +24,20 @@ module Hopcroft
         end
       end
 
-      def matches?(array, next_state = start_state)
-        if next_state
-          if array.empty?
-            if next_state.final?
-              true
-            else
-              if self[next_state] && epsilons = self[next_state][EpsilonTransition]
-                epsilons.any? { |e| matches?(array, e) }
-              else
-                false
-              end
-            end
-          else
-            entries_for(next_state, array.first).any? do |entry|
-              matches?(cdr(array), entry)
-            end
-          end
-        else
-          false
+      def initial_states
+        [start_state, entries_for(start_state, EpsilonTransition)].compact.flatten
+      end
+
+      def next_transitions(states, sym)
+        states.map { |s| entries_for(s, sym) }.compact.flatten
+      end
+
+      def matches?(array, current_states = initial_states)
+        array.each do |sym|
+          current_states = next_transitions(current_states, sym)
         end
+
+        current_states.any? { |state| state.final? }
       end
 
     private
@@ -51,10 +45,6 @@ module Hopcroft
       def transitions_for(state, transition_symbol)
         transitions = state[transition_symbol]
         transitions ? transitions : []
-      end
-
-      def cdr(array)
-        array[1..array.size]
       end
 
       # Create a transition without marking appropriate start states
