@@ -1,10 +1,30 @@
 module Hopcroft
   module Machine
     class State
-      def initialize(options={})
-        self.start_state = options[:start_state] if options.has_key?(:start_state)
-        self.final_state = options[:final]       if options.has_key?(:final)
+      class << self
+        def reset_counter!
+          @counter = 1
+        end
+
+        def next_counter
+          returning counter do |c|
+            @counter += 1
+          end
+        end
+
+        def counter
+          @counter ||= 1
+        end
       end
+
+      def initialize(options={})
+        @start_state = options[:start_state] if options.has_key?(:start_state)
+        @final_state = options[:final]       if options.has_key?(:final)
+        assign_name(options)
+      end
+
+      attr_reader :name
+      alias_method :to_s, :name
 
       def transitions
         @transitions ||= []
@@ -63,6 +83,12 @@ module Hopcroft
           table.add_state_change(self, transition.to, transition.symbol)
           transition.to.add_transitions_to_table(table) unless transition.to == self
         end
+      end
+
+    private
+
+      def assign_name(options)
+        @name = options[:name] ? options[:name] : "State #{self.class.next_counter}"
       end
     end
   end

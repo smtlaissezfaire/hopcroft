@@ -80,6 +80,35 @@ module Hopcroft
           transition.state.should == state
         end
       end
+
+      describe "name" do
+        it "should take a name param" do
+          state = State.new(:name => "foo")
+          state.name.should == "foo"
+        end
+
+        it "should auto-assign a state #" do
+          State.reset_counter!
+          state = State.new
+          state.name.should == "State 1"
+        end
+
+        it "should assign 'State 2' for the second state created" do
+          State.reset_counter!
+
+          State.new
+          state2 = State.new
+
+          state2.name.should == "State 2"
+        end
+      end
+
+      describe "to_s" do
+        it "should be aliased to the name" do
+          s = State.new
+          s.method(:name).should == s.method(:to_s)
+        end
+      end
     end
   end
 end
