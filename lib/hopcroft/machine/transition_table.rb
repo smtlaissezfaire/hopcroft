@@ -40,6 +40,10 @@ module Hopcroft
         current_states.any? { |state| state.final? }
       end
 
+      def inspect
+        TableDisplayer.new(self).to_s
+      end
+
     private
 
       def transitions_for(state, transition_symbol)

@@ -222,6 +222,20 @@ module Hopcroft
           @table.matches?([]).should be_true
         end
       end
+
+      describe "inspect" do
+        before do
+          @table = TransitionTable.new
+          @displayer = mock TableDisplayer
+        end
+
+        it "should output a state table" do
+          TableDisplayer.should_receive(:new).with(@table).and_return @displayer
+          @displayer.should_receive(:to_s)
+          
+          @table.inspect
+        end
+      end
     end
   end
 end
