@@ -32,8 +32,8 @@ module Hopcroft
         states.map { |s| entries_for(s, sym) }.compact.flatten
       end
 
-      def matches?(array, current_states = initial_states)
-        array.each do |sym|
+      def matches?(input_array, current_states = initial_states)
+        input_array.each do |sym|
           current_states = next_transitions(current_states, sym)
         end
 
