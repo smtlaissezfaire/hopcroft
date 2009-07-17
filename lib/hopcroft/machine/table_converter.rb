@@ -16,32 +16,25 @@ module Hopcroft
       end
 
       def header
-        if transition_symbols.any?
-          ["", transition_symbols].flatten
-        else
-          []
-        end
+        transition_symbols.any? ? ["", *transition_symbols] : []
       end
 
       def body
         primary_states.map do |state|
-          returning [state] do |a|
-            transition_symbols.each do |transition|
-              if val = @hash[state][transition]
-                a << val
-              else
-                a << EMPTY_SET_SYMBOL
-              end
-            end
-          end
+          [state, *values_from(state)]
         end
       end
 
       def to_a
-        if @hash.empty?
-          []
-        else
-          [header, body]
+        @hash.empty? ? [] : [header, body]
+      end
+
+    private
+
+      def values_from(state)
+        transition_symbols.map do |transition|
+          val = @hash[state][transition]
+          val ? val : EMPTY_SET_SYMBOL
         end
       end
     end
