@@ -8,5 +8,6 @@ module Hopcroft
     using :StateMachine
     using :EpsilonTransition
     using :AnyCharTransition
+    using :TableConverter
   end
 end
