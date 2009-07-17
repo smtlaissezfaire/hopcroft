@@ -80,23 +80,22 @@ module Hopcroft
         it "should have a state followed by it's result" do
           @hash[:one] = { :transition1 => [:two] }
 
-          @converter.body.should == [[:one, :two]]
+          @converter.body.should == [[:one, [:two]]]
         end
 
         it "should have a symbol with no values if none are present (a degenerative case)" do
           @hash[:one] = { :transition => [] }
-          @converter.body.should == [[:one]]
+          @converter.body.should == [[:one, []]]
         end
 
         it "should use empty strings for symbols which do not exist (the empty set)" do
           @hash[:one] = { :t1 => [:two] }
           @hash[:two] = { :t2 => [:three] }
 
-          @converter.body.should == [[:one, :two, ""], [:two, "", :three]]
+          @converter.body.should == [[:one, [:two], ""], [:two, "", [:three]]]
         end
 
         it "should use multiple target states (for a NFA)" do
-          pending 'todo'
           @hash[:one] = { :t1 => [:two, :three]}
 
           @converter.body.should == [[:one, [:two, :three]]]
@@ -111,7 +110,7 @@ module Hopcroft
         it "should use the header and body" do
           @hash[:one] = { :two => [:three] }
 
-          @converter.to_a.should == [["", :two], [[:one, :three]]]
+          @converter.to_a.should == [["", :two], [[:one, [:three]]]]
         end
       end
     end

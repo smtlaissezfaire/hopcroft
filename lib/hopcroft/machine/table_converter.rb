@@ -26,7 +26,6 @@ module Hopcroft
       def body
         primary_states.map do |state|
           returning [state] do |a|
-            
             transition_symbols.each do |transition|
               if val = @hash[state][transition]
                 a << val
@@ -34,8 +33,6 @@ module Hopcroft
                 a << EMPTY_SET_SYMBOL
               end
             end
-            
-            a.flatten!
           end
         end
       end
