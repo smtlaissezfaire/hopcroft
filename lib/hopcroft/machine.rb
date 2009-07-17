@@ -9,5 +9,6 @@ module Hopcroft
     using :EpsilonTransition
     using :AnyCharTransition
     using :TableConverter
+    using :TableDisplayer
   end
 end
