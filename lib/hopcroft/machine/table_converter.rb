@@ -8,11 +8,11 @@ module Hopcroft
       end
 
       def transition_symbols
-        @hash.values.map { |v| v.keys }.flatten.uniq
+        @transition_symbols ||= @hash.values.map { |v| v.keys }.flatten.uniq
       end
 
       def primary_states
-        @hash.keys
+        @primary_states ||= @hash.keys.dup
       end
 
       def header

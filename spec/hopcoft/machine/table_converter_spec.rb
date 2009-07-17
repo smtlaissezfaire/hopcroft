@@ -41,9 +41,17 @@ module Hopcroft
 
           @converter.transition_symbols.should == [:transition_symbol_1]
         end
+
+        it "should cache the transition symbols" do
+          @hash[:state] = { :one => [] }
+
+          lambda {
+            @hash.delete(:state)
+          }.should_not change { @converter.transition_symbols.dup }
+        end
       end
 
-      describe "header states" do
+      describe "primary states" do
         it "should be empty for an empty hash" do
           @converter.primary_states.should == []
         end
@@ -51,6 +59,14 @@ module Hopcroft
         it "should have a state used as an index in the hash" do
           @hash[:one] = {}
           @converter.primary_states.should == [:one]
+        end
+
+        it "should cache the primary states" do
+          @hash[:one] = {:two => [:three]}
+
+          lambda {
+            @hash.delete(:one)
+          }.should_not change { @converter.primary_states.dup }
         end
       end
 
