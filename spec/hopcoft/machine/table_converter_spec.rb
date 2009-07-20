@@ -103,11 +103,11 @@ module Hopcroft
           @converter.body.should == [[:one, []]]
         end
 
-        it "should use empty strings for symbols which do not exist (the empty set)" do
+        it "should use empty arrays for symbols which do not exist (the empty set)" do
           @hash[:one] = { :t1 => [:two] }
           @hash[:two] = { :t2 => [:three] }
 
-          @converter.body.should == [[:one, [:two], ""], [:two, "", [:three]]]
+          @converter.body.should == [[:one, [:two], []], [:two, [], [:three]]]
         end
 
         it "should use multiple target states (for a NFA)" do

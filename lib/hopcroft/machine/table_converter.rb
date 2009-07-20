@@ -1,7 +1,7 @@
 module Hopcroft
   module Machine
     class TableConverter
-      EMPTY_SET_SYMBOL = ""
+      EMPTY_SET_SYMBOL = []
 
       def initialize(hash)
         @hash = hash

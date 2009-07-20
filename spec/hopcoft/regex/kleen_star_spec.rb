@@ -31,6 +31,14 @@ module Hopcroft
       it "should have the regex string" do
         KleenStar.new("a").to_regex_s.should == "a*"
       end
+
+      it "should be able to output the state table" do
+        star = KleenStar.new("a")
+        
+        lambda {
+          star.to_machine.state_table.inspect
+        }.should_not raise_error
+      end
     end
   end
 end
