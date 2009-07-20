@@ -22,13 +22,10 @@ module Hopcroft
         converted_table.body.map do |row|
           row.map_with_index do |entry, index|
             if index == 0
-              text = entry.name
-
-              text = "-> #{text}" if entry.start_state?
-              text = "* #{text}"  if entry.final_state?
-              text
+              text = decorate_start_state(entry)
+              decorate_final_state(entry, text)
             else
-              entry.map { |state| state.final? ? "* #{state.name}" : state.name }.join(", ")
+              entry.map { |state| decorate_final_state(state) }.join(", ")
             end
           end
         end
@@ -39,6 +36,14 @@ module Hopcroft
       end
 
     private
+
+      def decorate_final_state(state, text = state.name)
+        state.final? ? "* #{text}" : text
+      end
+
+      def decorate_start_state(state)
+        state.start_state? ? "-> #{state.name}" : state.name
+      end
 
       def converted_table
         @table ||= TableConverter.new(@state_hash)
