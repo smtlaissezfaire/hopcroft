@@ -9,10 +9,8 @@ module Hopcroft
       end
 
       it "should not accept 0 chars" do
-        pending 'FIXME' do
-          d = Dot.new
-          d.matches?("").should be_false
-        end
+        d = Dot.new
+        d.matches?("").should be_false
       end
 
       it "should have to_regex_s as a dot" do

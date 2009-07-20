@@ -18,9 +18,12 @@ module Hopcroft
 
       def entries_under_state_for_symbol(state, symbol)
         returning Array.new do |a|
-          a.push *transitions_for(state, symbol)
           a.push *transitions_for(state, EpsilonTransition)
-          a.push *transitions_for(state, AnyCharTransition)
+
+          if symbol != EpsilonTransition
+            a.push *transitions_for(state, symbol)
+            a.push *transitions_for(state, AnyCharTransition)
+          end
         end
       end
 
