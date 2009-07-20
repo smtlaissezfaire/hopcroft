@@ -21,23 +21,21 @@ module Hopcroft
       def body
         converted_table.body.map do |row|
           row.map_with_index do |entry, index|
-            text = entry.is_a?(Array) ?
-                     entry.map { |state| state.name }.join(", ") :
-                     entry.name
-
             if index == 0
+              text = entry.name
+
               text = "-> #{text}" if entry.start_state?
               text = "* #{text}"  if entry.final_state?
               text
             else
-              text
+              entry.map { |state| state.final? ? "* #{state.name}" : state.name }.join(", ")
             end
           end
         end
       end
 
       def to_s
-        table(header, *body).to_s
+        "\n#{table(header, *body).to_s}"
       end
 
     private

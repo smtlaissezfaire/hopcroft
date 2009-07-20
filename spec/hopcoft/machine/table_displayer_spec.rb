@@ -54,6 +54,7 @@ module Hopcroft
           @hash[state] = { :transition => [state] }
 
           @displayer.to_s.should == <<-HERE
+
 +---+------------+
 |   | transition |
 +---+------------+
@@ -83,7 +84,7 @@ HERE
           
           @hash[state] = { :transition => [state] }
 
-          @displayer.to_a.should == [["", "transition"], [["* A", "A"]]]
+          @displayer.to_a.should == [["", "transition"], [["* A", "* A"]]]
         end
 
         it "should use the correct state name with the star" do
@@ -91,7 +92,7 @@ HERE
           
           @hash[state] = { :transition => [state] }
 
-          @displayer.to_a.should == [["", "transition"], [["* B", "B"]]]
+          @displayer.to_a.should == [["", "transition"], [["* B", "* B"]]]
         end
 
         it "should display a * -> <state-name> if the state is both final and a start state" do
@@ -99,7 +100,16 @@ HERE
           
           @hash[state] = { :transition => [state] }
 
-          @displayer.to_a.should == [["", "transition"], [["* -> A", "A"]]]
+          @displayer.to_a.should == [["", "transition"], [["* -> A", "* A"]]]
+        end
+
+        it "should display a star next to a final state in the middle of the table" do
+          start_state = State.new(:name => "A", :final => false, :start_state => true)
+          final_state = State.new(:name => "B", :final => true,  :start_state => false)
+
+          @hash[start_state] = { :transition => [final_state] }
+
+          @displayer.body.should == [["-> A", "* B"]]
         end
       end
     end
