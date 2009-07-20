@@ -1,4 +1,5 @@
-require 'terminal-table'
+require "terminal-table"
+require "facets/enumerable/map_with_index"
 
 module Hopcroft
   module Machine
@@ -19,11 +20,17 @@ module Hopcroft
 
       def body
         converted_table.body.map do |row|
-          row.map do |entry|
-            if entry.is_a?(Array)
-              entry.map { |state| state.name }.join(", ")
+          row.map_with_index do |entry, index|
+            text = entry.is_a?(Array) ?
+                     entry.map { |state| state.name }.join(", ") :
+                     entry.name
+
+            if index == 0
+              text = "-> #{text}" if entry.start_state?
+              text = "* #{text}"  if entry.final_state?
+              text
             else
-              entry.name
+              text
             end
           end
         end
