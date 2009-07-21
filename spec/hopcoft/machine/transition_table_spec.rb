@@ -104,6 +104,17 @@ module Hopcroft
 
           @table.entries_for(from, :a).should == [to]
         end
+
+        it "should follow epsilon moves" do
+          from              = State.new
+          to_epsilon        = State.new
+          target_of_epsilon = State.new
+
+          @table.add_state_change from, to_epsilon, EpsilonTransition
+          @table.add_state_change to_epsilon, target_of_epsilon, :b
+
+          @table.entries_for(from, :b).should == [to_epsilon, target_of_epsilon]
+        end
       end
 
       describe "entries_for" do

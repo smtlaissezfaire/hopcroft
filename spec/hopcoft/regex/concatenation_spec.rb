@@ -33,13 +33,12 @@ module Hopcroft
         end
 
         it "should match a regex of the two regexs put together" do
-          pending 'FIXME: Epsilon transitions are currently consuming characters' do
-            one = Char.new("a")
-            two = Char.new("b")
-            
-            concat = Concatenation.new(one, two)
-            concat.matches?("ab").should be_true
-          end
+          one = Char.new("a")
+          two = Char.new("b")
+          
+          concat = Concatenation.new(one, two)
+          
+          concat.matches?("ab").should be_true
         end
       end
     end

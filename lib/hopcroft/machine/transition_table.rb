@@ -18,11 +18,11 @@ module Hopcroft
 
       def entries_under_state_for_symbol(state, symbol)
         returning Array.new do |a|
-          a.push *transitions_for(state, EpsilonTransition)
+          a.push *targets_for(state, EpsilonTransition)
 
           if symbol != EpsilonTransition
-            a.push *transitions_for(state, symbol)
-            a.push *transitions_for(state, AnyCharTransition)
+            a.push *targets_for(state, symbol)
+            a.push *targets_for(state, AnyCharTransition)
           end
         end
       end
@@ -49,9 +49,29 @@ module Hopcroft
 
     private
 
-      def transitions_for(state, transition_symbol)
-        transitions = state[transition_symbol]
-        transitions ? transitions : []
+      def targets_for(state, transition_symbol )
+        if transition_symbol == EpsilonTransition && targets = state[EpsilonTransition]
+          targets = targets_for_epsilon_transitions(targets)
+        else
+          targets = state[transition_symbol]
+        end
+
+        targets ? targets : []
+      end
+
+      def targets_for_epsilon_transitions(targets)
+        targets.each do |target_state|
+          target_states = transitions_and_targets(target_state)
+          target_states.each do |symbol, _|
+            targets << targets_for(target_states, symbol)
+          end
+        end
+
+        targets.flatten
+      end
+
+      def transitions_and_targets(state)
+        self[state] || {}
       end
 
       # Create a transition without marking appropriate start states
