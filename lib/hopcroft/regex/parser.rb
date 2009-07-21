@@ -14,7 +14,9 @@ module Hopcroft
         @buffer = ""
       end
 
-      attr_reader :parse_results
+      def parse_results
+        @parse_results.inject { |accumulator, obj| accumulator + obj }
+      end
 
       attr_reader :char
 
