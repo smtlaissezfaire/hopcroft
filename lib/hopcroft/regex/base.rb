@@ -20,6 +20,10 @@ module Hopcroft
         Concatenation.new(self, other)
       end
 
+      def |(other)
+        Alternation.new(self, other)
+      end
+
       def to_regexp
         Regexp.new(to_regex_s)
       end

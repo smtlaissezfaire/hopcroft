@@ -34,6 +34,22 @@ module Hopcroft
         end
       end
 
+      describe "|" do
+        it "should create an alternation" do
+          one = Regex::Char.new("a")
+          two = Regex::Char.new("b")
+
+          (one | two).to_regex_s.should == "a|b"
+        end
+
+        it "should use the correct objects" do
+          one = Regex::Char.new("x")
+          two = Regex::Char.new("y")
+
+          (one | two).to_regex_s.should == "x|y"
+        end
+      end
+
       describe "to_regexp" do
         it "should turn the object into a regexp" do
           Char.new("x").to_regexp.should == /x/
