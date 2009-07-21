@@ -7,7 +7,8 @@ module Hopcroft
       STAR          = "*",
       OPEN_BRACKET  = "[",
       CLOSE_BRACKET = "]",
-      ESCAPE_CHAR   = "\\"
+      ESCAPE_CHAR   = "\\",
+      ALTERNATION   = "|"
     ]
 
     extend Using
@@ -21,6 +22,7 @@ module Hopcroft
     using :CharacterClass
     using :OptionalSymbol
     using :Concatenation
+    using :Alternation
 
     using :Parser
   end
