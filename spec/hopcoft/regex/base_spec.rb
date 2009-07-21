@@ -33,6 +33,16 @@ module Hopcroft
           (one + two).to_regex_s.should == "xy"
         end
       end
+
+      describe "to_regexp" do
+        it "should turn the object into a regexp" do
+          Char.new("x").to_regexp.should == /x/
+        end
+
+        it "should use the self" do
+          Char.new("y").to_regexp.should == /y/
+        end
+      end
     end
   end
 end
