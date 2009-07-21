@@ -16,6 +16,23 @@ module Hopcroft
           Regex::KleenStar.new("a").should == Regex::KleenStar.new("a")
         end
       end
+
+      describe "+" do
+        it "should produce a concatenation of two regexs" do
+          one = Regex::Char.new("a")
+          two = Regex::Char.new("b")
+          concat = one + two
+
+          concat.to_regex_s.should == "ab"
+        end
+
+        it "should use the correct objects" do
+          one = Regex::Char.new("x")
+          two = Regex::Char.new("y")
+
+          (one + two).to_regex_s.should == "xy"
+        end
+      end
     end
   end
 end

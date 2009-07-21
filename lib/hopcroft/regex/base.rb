@@ -15,6 +15,10 @@ module Hopcroft
       def matches?(str)
         to_machine.matches? str
       end
+
+      def +(other)
+        Concatenation.new(self, other)
+      end
       
     private
 
