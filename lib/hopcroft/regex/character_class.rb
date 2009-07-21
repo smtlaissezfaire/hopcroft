@@ -3,6 +3,14 @@ module Hopcroft
     class CharacterClass < Base
       class InvalidCharacterClass < StandardError; end
 
+      def self.new(str)
+        if str.size == 1
+          Char.new(str)
+        else
+          super
+        end
+      end
+
       def initialize(str)
         super
         raise InvalidCharacterClass if invalid_expression?

@@ -10,10 +10,11 @@ module Hopcroft
           }.should raise_error(CharacterClass::InvalidCharacterClass)
         end
         
-        it "should be valid with one char" do
-          lambda {
-            CharacterClass.new("a")
-          }.should_not raise_error
+        it "should return a Char if one char long" do
+          char = CharacterClass.new("a")
+          char.should be_a_kind_of(Regex::Char)
+
+          char.to_regex_s.should == "a"
         end
    
         it "should be valid with a-e" do
