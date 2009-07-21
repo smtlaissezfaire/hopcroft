@@ -42,6 +42,11 @@ module Hopcroft
         it "should use the self" do
           Char.new("y").to_regexp.should == /y/
         end
+
+        it "should have #to_regex as an alias" do
+          c = Char.new("a")
+          c.method(:to_regex).should == c.method(:to_regexp)
+        end
       end
     end
   end

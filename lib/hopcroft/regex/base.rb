@@ -23,6 +23,8 @@ module Hopcroft
       def to_regexp
         Regexp.new(to_regex_s)
       end
+
+      alias_method :to_regex, :to_regexp
       
     private
 
