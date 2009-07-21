@@ -97,10 +97,6 @@ module Hopcroft
       def next_char
         @chars[@index + 1]
       end
-
-      def peek(chars, index)
-        chars[index + 1]
-      end
     end
   end
 end
