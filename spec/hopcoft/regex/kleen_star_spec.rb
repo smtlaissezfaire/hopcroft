@@ -39,6 +39,16 @@ module Hopcroft
           star.to_machine.state_table.inspect
         }.should_not raise_error
       end
+
+      describe "==" do
+        it "should be true with subexpressions" do
+          one = KleenStar.new(CharacterClass.new("a-z"))
+          two = KleenStar.new(CharacterClass.new("a-z"))
+
+          one.should == two
+          two.should == one
+        end
+      end
     end
   end
 end

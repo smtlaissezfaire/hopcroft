@@ -91,9 +91,7 @@ module Hopcroft
       end
 
       it "should parse [a-z]* as a kleen star of a char class" do
-        pending 'todo' do
-          Parser.parse("[a-z]*").should == KleenStar.new(CharacterClass.new("a-z"))
-        end
+        Parser.parse("[a-z]*").should == KleenStar.new(CharacterClass.new("a-z"))
       end
     end
   end

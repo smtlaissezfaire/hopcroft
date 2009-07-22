@@ -15,7 +15,11 @@ module Hopcroft
       end
 
       def to_regex_s
-        "#{expression}#{STAR}"
+        if expression.respond_to? :to_regex_s
+          "#{expression.to_regex_s}#{STAR}"
+        else
+          "#{expression}#{STAR}"
+        end
       end
     end
   end

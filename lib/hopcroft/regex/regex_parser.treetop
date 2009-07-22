@@ -16,7 +16,11 @@ module Hopcroft
       end
 
       rule expression do
-        unescaped_char / char_class / plus_expr / optional_expr / kleen_star / dot / chars
+        kleen_star / expression_without_kleen_star
+      end
+
+      rule expression_without_kleen_star do
+        unescaped_char / char_class / plus_expr / optional_expr / dot / chars
       end
 
       rule char_class do
@@ -48,9 +52,9 @@ module Hopcroft
       end
 
       rule kleen_star do
-        char "*" {
+        expression_without_kleen_star "*" {
           def eval
-            KleenStar.new(char.eval)
+            KleenStar.new(expression_without_kleen_star.eval)
           end
         }
       end
