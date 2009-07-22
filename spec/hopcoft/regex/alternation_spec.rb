@@ -58,6 +58,26 @@ module Hopcroft
           end
         end
       end
+
+      describe "displaying the state table" do
+        it "should not raise an error" do
+          lambda {
+            alternation = Alternation.new(Char.new("a"), Char.new("b"))
+            alternation.inspect
+          }.should_not raise_error
+        end
+
+        it "should keep the same number of states after being called several times" do
+          alternation = Alternation.new(Char.new("a"), Char.new("b"))
+          table = alternation.to_machine.state_table
+          
+          lambda {
+            3.times do
+              table.initial_states
+            end
+          }.should_not change { table.initial_states.size }
+        end
+      end
     end
   end
 end

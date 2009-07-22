@@ -60,14 +60,18 @@ module Hopcroft
       end
 
       def targets_for_epsilon_transitions(targets)
-        targets.each do |target_state|
-          target_states = transitions_and_targets(target_state)
-          target_states.each do |symbol, _|
-            targets << targets_for(target_states, symbol)
+        returning Array.new do |a|
+          a << targets
+   
+          targets.each do |target_state|
+            target_states = transitions_and_targets(target_state)
+            target_states.each do |symbol, _|
+              a << targets_for(target_states, symbol)
+            end
           end
-        end
 
-        targets.flatten
+          a.flatten!
+        end
       end
 
       def transitions_and_targets(state)
