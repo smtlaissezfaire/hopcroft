@@ -2,7 +2,7 @@ module Hopcroft
   module Regex
     class OptionalSymbol < Base
       def to_regex_s
-        "#{expression}#{QUESTION}"
+        "#{regex_s_for_expression(expression)}#{QUESTION}"
       end
 
       def to_machine

@@ -29,7 +29,11 @@ module Hopcroft
       end
 
       alias_method :to_regex, :to_regexp
-      
+
+      def regex_s_for_expression(expr)
+        expression.respond_to?(:to_regex_s) ? expression.to_regex_s : expression.to_s
+      end
+
     private
 
       def new_machine

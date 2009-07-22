@@ -12,7 +12,7 @@ module Hopcroft
       end
 
       def to_regex_s
-        "#{expression}#{PLUS}"
+        "#{regex_s_for_expression(expression)}#{PLUS}"
       end
     end
   end
