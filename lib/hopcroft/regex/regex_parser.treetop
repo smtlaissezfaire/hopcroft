@@ -1,0 +1,100 @@
+module Hopcroft
+  module Regex
+    grammar TreetopRegex do
+      rule a_regex do
+        car:expression cdr:expression* {
+          def eval
+            if cdr.elements.any?
+              a = [car.eval, cdr.elements.map { |element| element.eval }]
+              a.flatten!
+              a.inject { |collection, element| collection + element }
+            else
+              car.eval
+            end
+          end
+        }
+      end
+
+      rule expression do
+        unescaped_char / char_class / plus_expr / optional_expr / kleen_star / dot / chars
+      end
+
+      rule char_class do
+        "[" char_class_expr "]" {
+          def eval
+            CharacterClass.new(char_class_expr.text_value)
+          end
+        }
+      end
+
+      rule char_class_expr
+        char "-" char
+      end
+
+      rule plus_expr do
+        char "+" {
+          def eval
+            Plus.new(char.eval)
+          end
+        }
+      end
+
+      rule optional_expr do
+        char "?" {
+          def eval
+            OptionalSymbol.new(char.eval)
+          end
+        }
+      end
+
+      rule kleen_star do
+        char "*" {
+          def eval
+            KleenStar.new(char.eval)
+          end
+        }
+      end
+
+      rule dot do
+        "." {
+          def eval
+            Dot.new
+          end
+        }
+      end
+
+      rule chars do
+        char+ {
+          def eval
+            elements = text_value.map { |char| Char.new(char) }
+            elements.inject { |collection, element| collection + element }
+          end
+        }
+      end
+
+      rule char do
+        escape_char? char_without_escaping {
+          def eval
+            char_without_escaping.text_value
+          end
+        }
+      end
+
+      rule unescaped_char
+        escape_char char_without_escaping {
+          def eval
+            Char.new(char_without_escaping.eval)
+          end
+        }
+      end
+
+      rule char_without_escaping do
+        . { def eval; text_value; end }
+      end
+
+      rule escape_char do
+        "\\"
+      end
+    end
+  end
+end

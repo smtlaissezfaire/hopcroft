@@ -3,11 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + "/../../spec_helper")
 module Hopcroft
   module Regex
     describe Parser do
-      it "should have the parse as nil when initializing" do
-        p = Parser.new
-        p.parse_results.should be_nil
-      end
-
       it "should parse 'a' as a Char" do
         Parser.parse("a").should == Char.new('a')
       end
@@ -36,6 +31,10 @@ module Hopcroft
         Parser.parse("a*").should == KleenStar.new("a")
       end
 
+      it "should parse 'b*' as a kleen star" do
+        Parser.parse("b*").should == KleenStar.new("b")
+      end
+
       it "should parse '\*' as the star char" do
         Parser.parse("\\*").should == Char.new("*")
       end
@@ -48,6 +47,10 @@ module Hopcroft
         Parser.parse("a?").should == OptionalSymbol.new("a")
       end
 
+      it "should parse b? as an optional b" do
+        Parser.parse("b?").should == OptionalSymbol.new("b")
+      end
+
       it "should parse an escaped question mark as a char" do
         Parser.parse("\\?").should == Char.new("?")
       end
@@ -56,12 +59,20 @@ module Hopcroft
         Parser.parse("a+").should == Plus.new("a")
       end
 
+      it "should parse 'b+'" do
+        Parser.parse("b+").should == Plus.new("b")
+      end
+
       it "should parse an escaped plus" do
         Parser.parse("\\+").should == Char.new("+")
       end
 
       it "should parse [a-z] as a character class" do
         Parser.parse("[a-z]").should == CharacterClass.new("a-z")
+      end
+
+      it "should parse [b-c] as a character class" do
+        Parser.parse("[b-c]").should == CharacterClass.new("b-c")
       end
 
       it "should parse \ as an open bracket char" do

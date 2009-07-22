@@ -1,3 +1,5 @@
+require "treetop"
+
 module Hopcroft
   module Regex
     SPECIAL_CHARS = [
@@ -12,7 +14,6 @@ module Hopcroft
     ]
 
     extend Using
-
 
     using :Base
     using :Char
