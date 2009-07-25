@@ -158,6 +158,11 @@ module Hopcroft
         result = Parser.parse '(\(\))'
         result.should == (Char.new("(") + Char.new(")"))
       end
+
+      it "should parse two sets of parens around each other" do
+        result = Parser.parse "((ab))"
+        result.should == (Char.new("a") + Char.new("b"))
+      end
     end
   end
 end

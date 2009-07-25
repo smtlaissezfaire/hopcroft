@@ -6,11 +6,13 @@ module Hopcroft
       end
 
       rule expr_with_parens do
-        "(" expr_without_parens ")" {
+        "(" expr_with_parens ")" {
           def eval
-            expr_without_parens.eval
+            expr_with_parens.eval
           end
         }
+        /
+        expr_without_parens
       end
 
       rule expr_without_parens
