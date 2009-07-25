@@ -46,7 +46,7 @@ module Hopcroft
       end
 
       rule expr_without_optional_expr do
-        char_class / dot / chars
+        char_class / dot / char
       end
 
       rule alternation do
@@ -82,7 +82,7 @@ module Hopcroft
       end
 
       rule char_class_expr
-        char "-" char
+        char_text_value "-" char_text_value
       end
 
       rule kleen_star do
@@ -101,15 +101,15 @@ module Hopcroft
         }
       end
 
-      rule chars do
-        char {
+      rule char do
+        char_text_value {
           def eval
             Char.new(text_value)
           end
         }
       end
 
-      rule char do
+      rule char_text_value do
         escape_char? char_without_escaping {
           def eval
             char_without_escaping.text_value
