@@ -138,6 +138,30 @@ module Hopcroft
         result = Parser.parse("[a-z]?")
         result.should == OptionalSymbol.new(CharacterClass.new("a-z"))
       end
+
+      it "should parse with parens" do
+        result = Parser.parse("([a-z])")
+        result.should be_a_kind_of(CharacterClass)
+      end
+
+      it "should parse an escaped paren inside parens" do
+        result = Parser.parse("(\\()")
+        result.should == Char.new("(")
+      end
+
+      it "should allow parens around a concatenation" do
+        pending 'TODO' do
+          result = Parser.parse("(ab)")
+          result.should == (Char.new("a") + Char.new("b"))
+        end
+      end
+
+      it "should parse matching escaped parens inside a set of parens" do
+        pending 'TODO' do
+          result = Parser.parse '(\(\))'
+          result.should == (Char.new("(") + Char.new(")"))
+        end
+      end
     end
   end
 end

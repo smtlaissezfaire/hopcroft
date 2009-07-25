@@ -20,6 +20,16 @@ module Hopcroft
       end
 
       rule expr_without_escaping do
+        "(" expression ")"  {
+          def eval
+            expression.eval
+          end
+        }
+        /
+        expr_without_parens
+      end
+
+      rule expr_without_parens do
         kleen_star / expr_without_kleen_star
       end
 
