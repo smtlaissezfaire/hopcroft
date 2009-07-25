@@ -90,8 +90,7 @@ module Hopcroft
       rule chars do
         char {
           def eval
-            elements = text_value.map { |char| Char.new(char) }
-            elements.inject { |collection, element| collection + element }
+            Char.new(text_value)
           end
         }
       end
