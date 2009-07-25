@@ -16,11 +16,39 @@ module Hopcroft
       end
 
       rule expression do
-        kleen_star / expression_without_kleen_star
+        escaped_char / expr_without_escaping
       end
 
-      rule expression_without_kleen_star do
-        unescaped_char / char_class / plus_expr / optional_expr / dot / chars
+      rule expr_without_escaping do
+        kleen_star / expr_without_kleen_star
+      end
+
+      rule expr_without_kleen_star do
+        alternation / expr_without_alternation
+      end
+
+      rule expr_without_alternation do
+        plus_expr / expr_without_plus
+      end
+
+      rule expr_without_plus do
+        char_class / optional_expr / dot / chars
+      end
+
+      rule alternation do
+        one:expr_without_alternation "|" two:expr_without_alternation {
+          def eval
+            Alternation.new(one.eval, two.eval)
+          end
+        }
+      end
+
+      rule plus_expr do
+        expr_without_plus "+" {
+          def eval
+            Plus.new(expr_without_plus.eval)
+          end
+        }
       end
 
       rule char_class do
@@ -35,14 +63,6 @@ module Hopcroft
         char "-" char
       end
 
-      rule plus_expr do
-        char "+" {
-          def eval
-            Plus.new(char.eval)
-          end
-        }
-      end
-
       rule optional_expr do
         char "?" {
           def eval
@@ -52,9 +72,9 @@ module Hopcroft
       end
 
       rule kleen_star do
-        expression_without_kleen_star "*" {
+        expr_without_kleen_star "*" {
           def eval
-            KleenStar.new(expression_without_kleen_star.eval)
+            KleenStar.new(expr_without_kleen_star.eval)
           end
         }
       end
@@ -68,7 +88,7 @@ module Hopcroft
       end
 
       rule chars do
-        char+ {
+        char {
           def eval
             elements = text_value.map { |char| Char.new(char) }
             elements.inject { |collection, element| collection + element }
@@ -84,7 +104,7 @@ module Hopcroft
         }
       end
 
-      rule unescaped_char
+      rule escaped_char do
         escape_char char_without_escaping {
           def eval
             Char.new(char_without_escaping.eval)

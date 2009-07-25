@@ -5,6 +5,8 @@ module Hopcroft
         @expressions = expressions
       end
 
+      attr_reader :expressions
+
       def to_regex_s
         regexs.join ALTERNATION
       end

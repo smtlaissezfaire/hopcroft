@@ -93,6 +93,46 @@ module Hopcroft
       it "should parse [a-z]* as a kleen star of a char class" do
         Parser.parse("[a-z]*").should == KleenStar.new(CharacterClass.new("a-z"))
       end
+
+      it "should parse alternation" do
+        result = Parser.parse("a|b")
+        result.should be_a_kind_of(Alternation)
+        result.should == Alternation.new(Char.new("a"), Char.new("b"))
+      end
+
+      it "should parse correct chars in the alternation" do
+        result = Parser.parse("x|y")
+        result.should be_a_kind_of(Alternation)
+        result.should == Alternation.new(Char.new("x"), Char.new("y"))
+      end
+
+      it "should parse '.|a' as an alternation" do
+        result = Parser.parse(".|a")
+        result.should be_a_kind_of(Alternation)
+        result.should == Alternation.new(Dot.new, Char.new("a"))
+      end
+
+      it "should allow a char class in the second position" do
+        result = Parser.parse(".|[a-z]")
+        result.should be_a_kind_of(Alternation)
+        result.should == Alternation.new(Dot.new, CharacterClass.new("a-z"))
+        result.expressions.last.should be_a_kind_of(CharacterClass)
+      end
+
+      it "should allow a plus after a char class" do
+        result = Parser.parse("[a-z]+")
+        result.should be_a_kind_of(Plus)
+        result.should == Plus.new(CharacterClass.new("a-z"))
+      end
+
+      it "should see an escaped plus as a char" do
+        Parser.parse("\+").should be_a_kind_of(Char)
+      end
+
+      it "should see an escaped plus with a argment in front of it as an escaped plus with a concatenation" do
+        result = Parser.parse('a\+')
+        result.should == Concatenation.new(Char.new("a"), Char.new("+"))
+      end
     end
   end
 end
