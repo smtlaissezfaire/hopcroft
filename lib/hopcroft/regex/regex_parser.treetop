@@ -130,7 +130,7 @@ module Hopcroft
       end
 
       rule non_special_char do
-        [a-zA-Z]
+        !("(" / ")") .
       end
 
       rule any_char do

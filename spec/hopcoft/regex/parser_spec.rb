@@ -163,6 +163,26 @@ module Hopcroft
         result = Parser.parse "((ab))"
         result.should == (Char.new("a") + Char.new("b"))
       end
+
+      it "should parse a number" do
+        result = Parser.parse("9")
+        result.should == Char.new("9")
+      end
+
+      it "should parse any single non-special char (one that isn't in the regex set)" do
+        result = Parser.parse("$")
+        result.should == Char.new("$")
+      end
+
+      it "should parse an escaped or" do
+        result = Parser.parse('\|')
+        result.should == Char.new("|")
+      end
+
+      it "should parse an underscore" do
+        result = Parser.parse("_")
+        result.should == Char.new("_")
+      end
     end
   end
 end
