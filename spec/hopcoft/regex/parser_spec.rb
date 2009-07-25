@@ -183,6 +183,17 @@ module Hopcroft
         result = Parser.parse("_")
         result.should == Char.new("_")
       end
+
+      it "should parse a char class with one element" do
+        result = Parser.parse("[a]")
+        result.should == Char.new("a")
+      end
+
+      it "should parse an escaped special char inside a character class" do
+        result = Parser.parse("[\+]")
+        result.should be_a_kind_of(Char)
+        result.should == Char.new("+")
+      end
     end
   end
 end

@@ -90,7 +90,8 @@ module Hopcroft
       end
 
       rule char_class_expr do
-        non_special_char "-" non_special_char
+        non_special_char "-" non_special_char /
+        non_special_char
       end
 
       rule kleen_star do
