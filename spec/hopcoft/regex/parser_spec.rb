@@ -194,6 +194,38 @@ module Hopcroft
         result.should be_a_kind_of(Char)
         result.should == Char.new("+")
       end
+
+      it "should parse an empty char class" do
+        pending 'TODO' do
+          result = Parser.parse("[]")
+          result.should be_nil
+        end
+      end
+
+      it "should return nil if the parse is empty" do
+        pending 'TODO' do
+          result = Parser.parse("")
+          result.should be_nil
+        end
+      end
+
+      it "should raise an error if it cannot parse a string" do
+        pending 'TODO' do
+          lambda {
+            Parser.parse("[")
+          }.should raise_error(Parser::ParseError, "could not parse the regex '['")
+        end
+      end
+
+      it "should use the correct string name" do
+        pending 'TODO' do
+          lambda {
+            Parser.parse("]")
+          }.should raise_error(Parser::ParseError, "could not parse the regex ']'")
+        end
+      end
+
+      it "should allow multiple expressions inside a char class (i.e [a-zA-Z])"
     end
   end
 end
