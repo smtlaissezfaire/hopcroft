@@ -90,7 +90,7 @@ module Hopcroft
       end
 
       rule char_class_expr do
-        char_text_value "-" char_text_value
+        non_special_char "-" non_special_char
       end
 
       rule kleen_star do
@@ -110,15 +110,11 @@ module Hopcroft
       end
 
       rule char do
-        char_text_value {
+        non_special_char {
           def eval
             Char.new(text_value)
           end
         }
-      end
-
-      rule char_text_value do
-        escape_char any_char / non_special_char
       end
 
       rule escaped_char do
