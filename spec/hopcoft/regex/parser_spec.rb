@@ -126,7 +126,7 @@ module Hopcroft
       end
 
       it "should see an escaped plus as a char" do
-        Parser.parse("\+").should be_a_kind_of(Char)
+        Parser.parse('\+').should be_a_kind_of(Char)
       end
 
       it "should see an escaped plus with a argment in front of it as an escaped plus with a concatenation" do
@@ -150,17 +150,13 @@ module Hopcroft
       end
 
       it "should allow parens around a concatenation" do
-        pending 'TODO' do
-          result = Parser.parse("(ab)")
-          result.should == (Char.new("a") + Char.new("b"))
-        end
+        result = Parser.parse("(ab)")
+        result.should == (Char.new("a") + Char.new("b"))
       end
 
       it "should parse matching escaped parens inside a set of parens" do
-        pending 'TODO' do
-          result = Parser.parse '(\(\))'
-          result.should == (Char.new("(") + Char.new(")"))
-        end
+        result = Parser.parse '(\(\))'
+        result.should == (Char.new("(") + Char.new(")"))
       end
     end
   end

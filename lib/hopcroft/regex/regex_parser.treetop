@@ -2,7 +2,23 @@ module Hopcroft
   module Regex
     grammar TreetopRegex do
       rule a_regex do
-        car:expression cdr:expression* {
+        expr_with_parens / expr_without_parens
+      end
+
+      rule expr_with_parens do
+        "(" expr_without_parens ")" {
+          def eval
+            expr_without_parens.eval
+          end
+        }
+      end
+
+      rule expr_without_parens
+        multi_valued_expression
+      end
+
+      rule multi_valued_expression do
+        car:single_value_expression cdr:single_value_expression* {
           def eval
             if cdr.elements.any?
               a = [car.eval, cdr.elements.map { |element| element.eval }]
@@ -15,21 +31,11 @@ module Hopcroft
         }
       end
 
-      rule expression do
+      rule single_value_expression
         escaped_char / expr_without_escaping
       end
 
       rule expr_without_escaping do
-        "(" expression ")"  {
-          def eval
-            expression.eval
-          end
-        }
-        /
-        expr_without_parens
-      end
-
-      rule expr_without_parens do
         kleen_star / expr_without_kleen_star
       end
 
@@ -110,22 +116,32 @@ module Hopcroft
       end
 
       rule char_text_value do
-        escape_char? char_without_escaping {
+        escape_char any_char {
           def eval
-            char_without_escaping.text_value
+            any_char.eval
           end
         }
+        /
+        non_special_char {
+          def eval
+            non_special_char.eval
+          end
+        }        
       end
 
       rule escaped_char do
-        escape_char char_without_escaping {
+        escape_char any_char {
           def eval
-            Char.new(char_without_escaping.eval)
+            Char.new(any_char.eval)
           end
         }
       end
 
-      rule char_without_escaping do
+      rule non_special_char do
+        [a-zA-Z]
+      end
+
+      rule any_char do
         . { def eval; text_value; end }
       end
 
