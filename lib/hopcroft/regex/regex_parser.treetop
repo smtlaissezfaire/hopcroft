@@ -32,7 +32,11 @@ module Hopcroft
       end
 
       rule expr_without_plus do
-        char_class / optional_expr / dot / chars
+        optional_expr / expr_without_optional_expr
+      end
+
+      rule expr_without_optional_expr do
+        char_class / dot / chars
       end
 
       rule alternation do
@@ -51,6 +55,14 @@ module Hopcroft
         }
       end
 
+      rule optional_expr do
+        expr_without_optional_expr "?" {
+          def eval
+            OptionalSymbol.new(expr_without_optional_expr.eval)
+          end
+        }
+      end
+
       rule char_class do
         "[" char_class_expr "]" {
           def eval
@@ -61,14 +73,6 @@ module Hopcroft
 
       rule char_class_expr
         char "-" char
-      end
-
-      rule optional_expr do
-        char "?" {
-          def eval
-            OptionalSymbol.new(char.eval)
-          end
-        }
       end
 
       rule kleen_star do

@@ -133,6 +133,11 @@ module Hopcroft
         result = Parser.parse('a\+')
         result.should == Concatenation.new(Char.new("a"), Char.new("+"))
       end
+
+      it "should allow an optional char class" do
+        result = Parser.parse("[a-z]?")
+        result.should == OptionalSymbol.new(CharacterClass.new("a-z"))
+      end
     end
   end
 end
