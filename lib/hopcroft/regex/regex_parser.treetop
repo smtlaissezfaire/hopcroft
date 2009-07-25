@@ -81,7 +81,7 @@ module Hopcroft
         }
       end
 
-      rule char_class_expr
+      rule char_class_expr do
         char_text_value "-" char_text_value
       end
 
