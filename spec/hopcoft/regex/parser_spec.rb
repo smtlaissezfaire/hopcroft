@@ -195,18 +195,18 @@ module Hopcroft
         result.should == Char.new("+")
       end
 
+      it "should not parse a special char as a regular escaped char" do
+        Parser.parse("[").should_not be_a_kind_of(Char)
+      end
+
       it "should parse an empty char class" do
-        pending 'TODO' do
-          result = Parser.parse("[]")
-          result.should be_nil
-        end
+        result = Parser.parse("[]")
+        result.should be_nil
       end
 
       it "should return nil if the parse is empty" do
-        pending 'TODO' do
-          result = Parser.parse("")
-          result.should be_nil
-        end
+        result = Parser.parse("")
+        result.should be_nil
       end
 
       it "should raise an error if it cannot parse a string" do

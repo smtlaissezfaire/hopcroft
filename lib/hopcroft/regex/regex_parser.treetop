@@ -127,7 +127,7 @@ module Hopcroft
       end
 
       rule non_special_char do
-        !("(" / ")") .
+        !("(" / ")" / "[") .
       end
 
       rule any_char do

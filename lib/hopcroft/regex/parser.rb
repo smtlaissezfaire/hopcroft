@@ -17,7 +17,9 @@ module Hopcroft
       end
 
       def parse_and_eval(str)
-        parse(str).eval
+        if parse = parse(str)
+          parse.eval
+        end
       end
     end
   end
