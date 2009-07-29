@@ -5,7 +5,7 @@ module Hopcroft
   module Regex
     class Parser
       def self.parse(str)
-        new.parse(str).eval
+        new.parse_and_eval(str)
       end
 
       def initialize
