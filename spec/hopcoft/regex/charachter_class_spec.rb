@@ -16,6 +16,11 @@ module Hopcroft
 
           char.to_regex_s.should == "a"
         end
+
+        it "should return a char if two chars long, and the first char is an escape" do
+          char = CharacterClass.new("\\a")
+          char.should be_a_kind_of(Regex::Char)
+        end
    
         it "should be valid with a-e" do
           klass = CharacterClass.new("a-e")

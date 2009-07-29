@@ -3,11 +3,15 @@ module Hopcroft
     class CharacterClass < Base
       class InvalidCharacterClass < StandardError; end
 
-      def self.new(str)
-        if str.size == 1
-          Char.new(str)
-        else
-          super
+      class << self
+        def new(str)
+          one_char_long?(str) ? Char.new(str) : super
+        end
+
+      private
+
+        def one_char_long?(str)
+          str.size == 1 || (str.size == 2 && str[0] == "\\"[0])
         end
       end
 
