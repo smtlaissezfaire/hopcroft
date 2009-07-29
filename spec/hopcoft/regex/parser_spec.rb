@@ -228,6 +228,8 @@ module Hopcroft
       end
 
       it "should allow multiple expressions inside a char class (i.e [a-zA-Z])"
+
+      it "should be able to parse multiple ORs (a|b|c)"
     end
   end
 end
