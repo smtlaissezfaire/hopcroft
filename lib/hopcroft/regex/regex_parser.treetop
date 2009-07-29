@@ -54,7 +54,7 @@ module Hopcroft
       end
 
       rule expr_without_optional_expr do
-        char_class / dot / char
+        char_class / dot / unescaped_char
       end
 
       rule alternation do
@@ -110,7 +110,7 @@ module Hopcroft
         }
       end
 
-      rule char do
+      rule unescaped_char do
         non_special_char {
           def eval
             Char.new(text_value)
