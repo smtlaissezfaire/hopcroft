@@ -218,11 +218,9 @@ module Hopcroft
       end
 
       it "should use the correct string name" do
-        pending 'TODO' do
-          lambda {
-            Parser.parse("]")
-          }.should raise_error(Parser::ParseError, "could not parse the regex ']'")
-        end
+        lambda {
+          Parser.parse("]")
+        }.should raise_error(Parser::ParseError, "could not parse the regex ']'")
       end
 
       it "should allow multiple expressions inside a char class (i.e [a-zA-Z])"

@@ -22,7 +22,7 @@ module Hopcroft
         if parse = parse(str)
           parse.eval
         else
-          raise ParseError, "could not parse the regex '['"
+          raise ParseError, "could not parse the regex '#{str}'"
         end
       end
     end
