@@ -190,11 +190,15 @@ module Hopcroft
       end
 
       it "should parse an escaped special char inside a character class" do
-        pending 'FIXME' do
-          result = Parser.parse('[\+]')
-          result.should be_a_kind_of(Char)
-          result.should == Char.new("+")
-        end
+        result = Parser.parse('[\+]')
+        result.should be_a_kind_of(Char)
+        result.should == Char.new("+")
+      end
+
+      it "should parse two escaped chars within a char range" do
+        result = Parser.parse '[\a-\b]'
+        result.should be_a_kind_of(CharacterClass)
+        result.should == CharacterClass.new("\\a-\\b")
       end
 
       it "should NOT parse an empty char class" do
