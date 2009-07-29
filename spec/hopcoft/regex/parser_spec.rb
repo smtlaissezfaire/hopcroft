@@ -195,26 +195,16 @@ module Hopcroft
         result.should == Char.new("+")
       end
 
-      it "should not parse a special char as a regular escaped char" do
-        Parser.parse("[").should_not be_a_kind_of(Char)
-      end
-
-      it "should parse an empty char class" do
-        result = Parser.parse("[]")
-        result.should be_nil
-      end
-
-      it "should return nil if the parse is empty" do
-        result = Parser.parse("")
-        result.should be_nil
+      it "should NOT parse an empty char class" do
+        lambda {
+          Parser.parse("[]")
+        }.should raise_error(Parser::ParseError)
       end
 
       it "should raise an error if it cannot parse a string" do
-        pending 'TODO' do
-          lambda {
-            Parser.parse("[")
-          }.should raise_error(Parser::ParseError, "could not parse the regex '['")
-        end
+        lambda {
+          Parser.parse("[")
+        }.should raise_error(Parser::ParseError, "could not parse the regex '['")
       end
 
       it "should use the correct string name" do
