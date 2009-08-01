@@ -15,6 +15,8 @@ module Hopcroft
       def matches?(str)
         to_machine.matches? str
       end
+      
+      alias_method :matched_by?, :matches?
 
       def +(other)
         Concatenation.new(self, other)

@@ -26,5 +26,9 @@ module Hopcroft
     using :Alternation
 
     using :Parser
+    
+    def self.compile(from_string)
+      Parser.parse(from_string)
+    end
   end
 end
