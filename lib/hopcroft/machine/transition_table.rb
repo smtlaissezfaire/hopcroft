@@ -3,8 +3,13 @@ module Hopcroft
     class TransitionTable < Hash
       attr_reader :start_state
 
+      def start_state=(start_state)
+        self[start_state] ||= {}
+        @start_state = start_state
+      end
+
       def add_state_change(from_state, to_state, transition_symbol)
-        add_start_state(from_state) if from_state.start_state?
+        self.start_state = from_state if from_state.start_state?
         add_raw_transition(from_state, to_state, transition_symbol)
       end
 
@@ -89,10 +94,6 @@ module Hopcroft
         self[from_state] ||= {}
         self[from_state][sym] ||= []
         self[from_state][sym] << to_state
-      end
-
-      def add_start_state(state)
-        @start_state = state
       end
 
       def obj_to_sym(obj)

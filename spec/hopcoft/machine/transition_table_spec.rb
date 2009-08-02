@@ -250,6 +250,13 @@ module Hopcroft
         it "should display 'Empty table' when empty" do
           @table.inspect.should == "\nEmpty table"
         end
+
+        it "should be able to display a start state with no transitions" do
+          start_state = State.new(:start_state => true, :name => "Foo")
+
+          @table.start_state = start_state
+          @table.inspect.should include("Foo")
+        end
       end
 
       describe "to_hash" do
