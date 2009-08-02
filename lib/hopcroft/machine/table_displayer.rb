@@ -30,7 +30,10 @@ module Hopcroft
       end
 
       def to_s
-        "\n#{table}"
+        returning String.new do |s|
+          s << "\n"
+          s << table
+        end
       end
 
       include Terminal::Table::TableHelper
