@@ -80,8 +80,12 @@ module Hopcroft
 
       def add_transitions_to_table(table)
         transitions.each do |transition|
-          table.add_state_change(self, transition.to, transition.symbol)
-          transition.to.add_transitions_to_table(table) unless transition.to == self
+          to = transition.to
+
+          unless table.has_state_change?(self, to, transition.symbol)
+            table.add_state_change(self, to, transition.symbol)
+            transition.to.add_transitions_to_table(table)
+          end
         end
       end
 

@@ -19,6 +19,12 @@ module Hopcroft
         self[from_state][sym] << to_state
       end
 
+      def has_state_change?(from_state, to_state, transition_symbol)
+        self[from_state] &&
+          self[from_state][transition_symbol] &&
+          self[from_state][transition_symbol].include?(to_state)
+      end
+
       def entries_for(state, given_transition_symbol)
         if entries_for_state = self[state]
           entries_under_state_for_symbol(entries_for_state, obj_to_sym(given_transition_symbol))

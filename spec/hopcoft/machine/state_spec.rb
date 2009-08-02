@@ -79,6 +79,18 @@ module Hopcroft
           transition = @state.transitions.first
           transition.state.should == state
         end
+
+        it "should be able to add transitions recursively" do
+          s1 = State.new
+          s2 = State.new
+
+          s1.add_transition :state => s2, :epsilon => true
+          s2.add_transition :state => s1, :epsilon => true
+
+          table = TransitionTable.new
+
+          s1.add_transitions_to_table(table)
+        end
       end
 
       describe "name" do
