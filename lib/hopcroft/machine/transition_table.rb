@@ -10,8 +10,13 @@ module Hopcroft
         @start_state = start_state
       end
 
+      # Create a transition without marking appropriate start states
       def add_state_change(from_state, to_state, transition_symbol)
-        add_raw_transition(from_state, to_state, transition_symbol)
+        sym = obj_to_sym(transition_symbol)
+
+        self[from_state] ||= {}
+        self[from_state][sym] ||= []
+        self[from_state][sym] << to_state
       end
 
       def entries_for(state, given_transition_symbol)
@@ -88,15 +93,6 @@ module Hopcroft
 
       def transitions_and_targets(state)
         self[state] || {}
-      end
-
-      # Create a transition without marking appropriate start states
-      def add_raw_transition(from_state, to_state, transition_symbol)
-        sym = obj_to_sym(transition_symbol)
-
-        self[from_state] ||= {}
-        self[from_state][sym] ||= []
-        self[from_state][sym] << to_state
       end
 
       def obj_to_sym(obj)
