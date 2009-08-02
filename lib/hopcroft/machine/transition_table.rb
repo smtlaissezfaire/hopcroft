@@ -47,6 +47,10 @@ module Hopcroft
         TableDisplayer.new(self).to_s
       end
 
+      def to_hash
+        Hash.new(self)
+      end
+
     private
 
       def targets_for(state, transition_symbol )

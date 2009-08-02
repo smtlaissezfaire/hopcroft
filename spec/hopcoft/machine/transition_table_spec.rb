@@ -250,8 +250,12 @@ module Hopcroft
         it "should display 'Empty table' when empty" do
           @table.inspect.should == "\nEmpty table"
         end
+      end
 
-        it "should be able to display a start state with no transitions"
+      describe "to_hash" do
+        it "should return a hash" do
+          TransitionTable.new.to_hash.class.should == Hash
+        end
       end
     end
   end
