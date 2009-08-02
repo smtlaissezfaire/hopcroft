@@ -46,12 +46,8 @@ module Hopcroft
     private
 
       def valid_expression?
-        if expression.include?("-")
-          one, two = expression.split("-")
-          two > one
-        else
-          true
-        end
+        one, two = expression.split("-")
+        two > one
       end
 
       def invalid_expression?
