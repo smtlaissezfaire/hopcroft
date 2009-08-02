@@ -70,8 +70,8 @@ module Hopcroft
       end
 
       describe "header" do
-        it "should be empty with an empty hash" do
-          @converter.header.should == []
+        it "should have an empty string with an empty hash" do
+          @converter.header.should == [""]
         end
 
         it "should use the transition symbols, preceeded by an empty string" do

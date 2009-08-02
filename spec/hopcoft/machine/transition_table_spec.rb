@@ -246,6 +246,10 @@ module Hopcroft
           
           @table.inspect
         end
+
+        it "should display 'Empty table' when empty" do
+          @table.inspect.should == "\nEmpty table"
+        end
       end
     end
   end

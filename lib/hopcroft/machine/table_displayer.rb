@@ -4,6 +4,9 @@ require "facets/enumerable/map_with_index"
 module Hopcroft
   module Machine
     class TableDisplayer
+      NEWLINE = "\n"
+      EMPTY_TABLE_MESSAGE = "Empty table"
+
       def initialize(state_table_hash)
         @state_hash = state_table_hash
       end
@@ -31,7 +34,7 @@ module Hopcroft
 
       def to_s
         returning String.new do |s|
-          s << "\n"
+          s << NEWLINE
           s << table
         end
       end
@@ -39,7 +42,11 @@ module Hopcroft
       include Terminal::Table::TableHelper
 
       def table
-        super(header, *body).to_s
+        if @state_hash.empty?
+          EMPTY_TABLE_MESSAGE
+        else
+          super(header, *body).to_s
+        end
       end
 
     private

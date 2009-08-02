@@ -16,7 +16,7 @@ module Hopcroft
       end
 
       def header
-        transition_symbols.any? ? ["", *transition_symbols] : []
+        ["", *transition_symbols]
       end
 
       def body
