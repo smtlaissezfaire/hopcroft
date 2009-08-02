@@ -7,27 +7,29 @@ module Hopcroft
         s = KleenStar.new("f")
         s.expression.should == "f"
       end
+
+      describe "matching" do
+        it "should match 0 chars" do
+          s = KleenStar.new("a")
+          s.matches?("").should be_true
+        end
+
+        it "should match one char" do
+          s = KleenStar.new("a")
+          s.matches?("a").should be_true
+        end
+     
+        it "should match a different char" do
+          s = KleenStar.new("a")
+          s.matches?("b").should be_true
+        end
    
-      it "should match one char" do
-        s = KleenStar.new("a")
-        s.matches?("a").should be_true
+        it "should match many of the same chars" do
+          s = KleenStar.new("a")
+          s.matches?("aa").should be_true
+        end
       end
    
-      it "should match a different char" do
-        s = KleenStar.new("a")
-        s.matches?("b").should be_true
-      end
-
-      it "should match many of the same chars" do
-        s = KleenStar.new("a")
-        s.matches?("aa").should be_true
-      end
-
-      it "should match 0 chars" do
-        s = KleenStar.new("a")
-        s.matches?("").should be_true
-      end
-
       it "should have the regex string" do
         KleenStar.new("a").to_regex_s.should == "a*"
       end
