@@ -52,9 +52,7 @@ module Hopcroft
       end
       
       it "should be matched by 'aa'" do
-        pending 'FIXME: This is a bug' do
-          @regex.should be_matched_by("aa")
-        end
+        @regex.should be_matched_by("aa")
       end
       
       it "should not be matched by 'aab'" do

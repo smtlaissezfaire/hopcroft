@@ -6,10 +6,7 @@ module Hopcroft
           machine.use_start_state do |start|
             start.final_state = true
 
-            start.add_transition :symbol => @expression, :final => true do |final_state|
-              final_state.add_transition :symbol => @expression, :state => final_state
-              start.add_transition :epsilon => true, :state => final_state
-            end
+            start.add_transition :state => @expression.to_machine.start_state, :epsilon => true
           end
         end
       end

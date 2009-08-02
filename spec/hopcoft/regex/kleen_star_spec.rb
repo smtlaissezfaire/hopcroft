@@ -29,10 +29,8 @@ module Hopcroft
         end
    
         it "should match many of the same chars" do
-          pending 'FIXME: BUG' do
-            s = new_kleen_star_with_string("a")
-            s.matches?("aa").should be_true
-          end
+          s = new_kleen_star_with_string("a")
+          s.matches?("aa").should be_true
         end
       end
    
