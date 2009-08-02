@@ -43,7 +43,6 @@ module Hopcroft
         args[:start_state] = false unless args.has_key?(:start_state)
         state = args[:state] ||= State.new(args)
 
-
         transitions << transition_for(args, state)
         
         yield(state) if block_given?

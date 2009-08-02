@@ -72,7 +72,7 @@ module Hopcroft
 
     private
 
-      def targets_for(state, transition_symbol )
+      def targets_for(state, transition_symbol)
         if transition_symbol == EpsilonTransition && targets = state[EpsilonTransition]
           targets = targets_for_epsilon_transitions(targets)
         else
