@@ -1,6 +1,8 @@
 module Hopcroft
   module Machine
     class TransitionTable < Hash
+      class MissingStartState < StandardError; end
+      
       attr_reader :start_state
 
       def start_state=(start_state)
@@ -9,7 +11,6 @@ module Hopcroft
       end
 
       def add_state_change(from_state, to_state, transition_symbol)
-        self.start_state = from_state if from_state.start_state?
         add_raw_transition(from_state, to_state, transition_symbol)
       end
 
@@ -41,6 +42,8 @@ module Hopcroft
       end
 
       def matches?(input_array, current_states = initial_states)
+        raise MissingStartState unless start_state
+
         input_array.each do |sym|
           current_states = next_transitions(current_states, sym)
         end

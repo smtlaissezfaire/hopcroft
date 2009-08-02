@@ -3,31 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + "/../../spec_helper")
 module Hopcroft
   module Machine
     describe TransitionTable do
-      describe "start states" do
-        before do
-          @table = TransitionTable.new
-        end
-
-        it "should have a state when a transition is added from the start state to an end state" do
-          start_state = mock(State, :start_state? => true)
-          second_state = mock(State, :start_state? => false)
-          @table.add_state_change(start_state, second_state, :foo)
-          
-          @table.start_state.should == start_state
-        end
-
-        it "should only add the start state once per object" do
-          start_state = mock(State, :start_state? => true)
-          second_state = mock(State, :start_state? => false)
-          third_state  = mock(State, :start_state? => false)
-
-          @table.add_state_change(start_state, second_state, :foo)
-          @table.add_state_change(start_state, third_state, :bar)
-          
-          @table.start_state.should == start_state
-        end
-      end
-
       describe "adding a state change" do
         before do
           @table = TransitionTable.new
@@ -65,6 +40,7 @@ module Hopcroft
           first_result  = mock(State, :start_state? => false)
           second_result = mock(State, :start_state? => false)
 
+          @table.start_state = from
           @table.add_state_change(from, first_result,  :a)
           @table.add_state_change(from, second_result, :b)
           
@@ -143,20 +119,18 @@ module Hopcroft
         it "should match if one symbol in the table, and the symbol is given" do
           start_state = mock(State, :final? => false, :start_state? => true)
           final_state = mock(State, :final? => true,  :start_state? => false)
-          
+
+          @table.start_state = start_state
           @table.add_state_change(start_state, final_state, :foo)
 
           @table.matches?([:foo]).should be_true
-        end
-
-        it "should not match if there are no start states" do
-          @table.matches?([:foo]).should be_false
         end
 
         it "should not match when it cannot index the transition" do
           start_state = mock(State, :final? => false, :start_state? => true)
           final_state = mock(State, :final? => true,  :start_state? => false)
           
+          @table.start_state = start_state
           @table.add_state_change(start_state, final_state, :foo)
 
           @table.matches?([:bar]).should be_false
@@ -166,18 +140,16 @@ module Hopcroft
           start_state = mock(State, :final? => false, :start_state? => true)
           final_state = mock(State, :final? => false,  :start_state? => false)
           
+          @table.start_state = start_state
           @table.add_state_change(start_state, final_state, :foo)
 
           @table.matches?([:foo]).should be_false
         end
 
-        it "should not match if there is no start state" do
-          start_state = mock(State, :final? => false, :start_state? => false)
-          final_state = mock(State, :final? => true,  :start_state? => false)
-          
-          @table.add_state_change(start_state, final_state, :foo)
-
-          @table.matches?([:foo]).should be_false
+        it "should raise an error if there is no start state" do
+          lambda {
+            @table.matches?([:foo])
+          }.should raise_error(TransitionTable::MissingStartState)
         end
 
         it "should match when following two symbols" do
@@ -185,6 +157,7 @@ module Hopcroft
           state_one   = mock(State, :final? => false, :start_state? => false)
           state_two   = mock(State, :final? => true,  :start_state? => false)
 
+          @table.start_state = start_state
           @table.add_state_change start_state, state_one, :one
           @table.add_state_change state_one,   state_two, :two
 
@@ -196,6 +169,7 @@ module Hopcroft
           state_one   = mock(State, :final? => false,  :start_state? => false)
           state_two   = mock(State, :final? => false,  :start_state? => false)
 
+          @table.start_state = start_state
           @table.add_state_change start_state, state_one, :one
           @table.add_state_change state_one,   state_two, :two
 
@@ -207,6 +181,7 @@ module Hopcroft
           state_one   = mock(State, :final? => false,  :start_state? => false)
           state_two   = mock(State, :final? => true,  :start_state? => false)
 
+          @table.start_state = start_state
           @table.add_state_change start_state, state_one, :one
           @table.add_state_change start_state, state_two, :one
 
@@ -218,6 +193,7 @@ module Hopcroft
           state_one   = mock(State, :final? => false, :start_state? => false)
           state_two   = mock(State, :final? => true,  :start_state? => false)
 
+          @table.start_state = start_state
           @table.add_state_change start_state, state_one, :one
           @table.add_state_change start_state, state_two, :two
 
@@ -228,6 +204,7 @@ module Hopcroft
           start_state = mock(State, :final? => false, :start_state? => true)
           state_two   = mock(State, :final? => true, :start_state? => false)
 
+          @table.start_state = start_state
           @table.add_state_change start_state, state_two, EpsilonTransition
 
           @table.matches?([]).should be_true

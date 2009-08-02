@@ -51,8 +51,7 @@ module Hopcroft
           @machine.state_table.should be_empty
         end
         
-        it "should index a start state with a start state with no transitions" do
-          @machine.build_start_state
+        it "should be empty with no states" do
           @machine.state_table.should be_empty
         end
         
@@ -76,6 +75,12 @@ module Hopcroft
           start_state.add_transition :symbol => :foo, :state => start_state
           
           @machine.state_table.entries_for(start_state, :foo).should == [start_state]
+        end
+
+        it "should add a start state with no transitions to the table" do
+          start_state = @machine.build_start_state
+          
+          @machine.state_table.start_state.should == start_state
         end
       end
     end
