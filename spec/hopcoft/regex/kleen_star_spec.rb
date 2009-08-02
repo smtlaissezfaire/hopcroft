@@ -32,6 +32,22 @@ module Hopcroft
           s = new_kleen_star_with_string("a")
           s.matches?("aa").should be_true
         end
+
+        it "should match 'aaaa' with '(a|b)*'" do
+          pending 'TODO'
+          expr = Alternation.new(Char.new("a"), Char.new("b"))
+
+          s = KleenStar.new(expr)
+          s.matches?("aaaa").should be_true
+        end
+
+        it "should match 'bbbb' with '(a|b)*'" do
+          pending 'TODO'
+          expr = Alternation.new(Char.new("a"), Char.new("b"))
+
+          s = KleenStar.new(expr)
+          s.matches?("bbbb").should be_true
+        end
       end
    
       it "should have the regex string" do
