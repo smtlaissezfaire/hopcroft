@@ -4,8 +4,6 @@ require "facets/enumerable/map_with_index"
 module Hopcroft
   module Machine
     class TableDisplayer
-      include Terminal::Table::TableHelper
-
       def initialize(state_table_hash)
         @state_hash = state_table_hash
       end
@@ -32,7 +30,13 @@ module Hopcroft
       end
 
       def to_s
-        "\n#{table(header, *body).to_s}"
+        "\n#{table}"
+      end
+
+      include Terminal::Table::TableHelper
+
+      def table
+        super(header, *body).to_s
       end
 
     private
