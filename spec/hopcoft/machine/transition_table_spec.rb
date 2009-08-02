@@ -250,6 +250,8 @@ module Hopcroft
         it "should display 'Empty table' when empty" do
           @table.inspect.should == "\nEmpty table"
         end
+
+        it "should be able to display a start state with no transitions"
       end
     end
   end
