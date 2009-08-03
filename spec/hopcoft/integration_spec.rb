@@ -52,6 +52,7 @@ module Hopcroft
       end
       
       it "should be matched by 'aa'" do
+        @regex.matched_by?("aa")
         @regex.should be_matched_by("aa")
       end
       
@@ -100,9 +101,8 @@ module Hopcroft
       end
       
       it "should not be matched with the string 'ab'" do
-        pending 'FIXME: This is a bug' do
-          @regex.should_not be_matched_by("ab")
-        end
+        @regex.matched_by?("ab")
+        @regex.should_not be_matched_by("ab")
       end
     end
     

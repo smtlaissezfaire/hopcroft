@@ -9,6 +9,12 @@ module Hopcroft
             subexpression_start_state.start_state = false
 
             start_state.add_transition :state => subexpression_start_state, :epsilon => true
+            subexpression.final_states.each do |state|
+              copy = @expression.to_machine
+              copy.start_state.start_state = false
+
+              state.add_transition :state => copy.start_state, :epsilon => true
+            end
           end
         end
       end

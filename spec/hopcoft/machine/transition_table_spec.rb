@@ -51,17 +51,6 @@ module Hopcroft
           @table.targets_for(from, :a).should == [first_result, second_result]
         end
 
-        it "should have an entry for an epsilon transition under any symbol" do
-          from = State.new :start_state => true
-          to = from.add_transition :epsilon => true
-
-          transition = from.transitions.first.symbol
-          
-          @table.add_state_change(from, to, transition)
-
-          @table.targets_for(from, :a).should == [to]
-        end
-
         it "should have a transition for an 'any' transition" do
           from = State.new :start_state => true
           to = from.add_transition :any => true
@@ -71,17 +60,6 @@ module Hopcroft
           @table.add_state_change from, to, transition
 
           @table.targets_for(from, :a).should == [to]
-        end
-
-        it "should follow epsilon moves" do
-          from              = State.new :start_state => true
-          to_epsilon        = State.new :start_state => false
-          target_of_epsilon = State.new :start_state => false
-
-          @table.add_state_change from, to_epsilon, EpsilonTransition
-          @table.add_state_change to_epsilon, target_of_epsilon, :b
-
-          @table.targets_for(from, :b).should == [to_epsilon, target_of_epsilon]
         end
       end
 

@@ -26,10 +26,11 @@ module Hopcroft
       end
 
       def targets_for(state, transition_sym)
-        append targets_for_sym(state, transition_sym),
-               epsilon_targets_for_sym(state, transition_sym)
+        find_targets_matching(state, transition_sym) do |target|
+          epsilon_states_following(target)
+        end
       end
-      
+
       def initial_states
         [start_state] + epsilon_states_following(start_state)
       end
@@ -58,21 +59,9 @@ module Hopcroft
 
     private
 
-      def targets_for_sym(state, transition_sym)
-        find_targets_matching(state, transition_sym) do |target|
-          epsilon_states_following(target)
-        end
-      end
-      
       def epsilon_states_following(state)
         find_targets_matching(state, EpsilonTransition) do |target|
           epsilon_states_following(target)
-        end
-      end
-      
-      def epsilon_targets_for_sym(state, sym)
-        find_targets_matching(state, EpsilonTransition) do |target|
-          targets_for(target, sym)
         end
       end
       

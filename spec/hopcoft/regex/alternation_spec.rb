@@ -50,10 +50,8 @@ module Hopcroft
         end
 
         it "should not match 'ab' with 'a|b'" do
-          pending do
-            alternation = Alternation.new(Char.new("a"), Char.new("b"))
-            alternation.matches?("ab").should be_false
-          end
+          alternation = Alternation.new(Char.new("a"), Char.new("b"))
+          alternation.matches?("ab").should be_false
         end
       end
 

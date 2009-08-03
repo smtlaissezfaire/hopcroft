@@ -98,41 +98,6 @@ module Hopcroft
           @table.targets_for(@state1, :a).should == [@state2, @state3]
         end
         
-        it "should match an epsilon transition" do
-          @table.add_state_change @state1, @state2, EpsilonTransition
-          @table.targets_for(@state1, :a).should == [@state2]
-        end
-        
-        it "should match multiple epsilon transitions eminating from the same state" do
-          @table.add_state_change @state1, @state2, EpsilonTransition
-          @table.add_state_change @state1, @state3, EpsilonTransition
-          
-          @table.targets_for(@state1, :a).should == [@state2, @state3]
-        end
-        
-        it "should match a char after matching an epsilon transition" do
-          @table.add_state_change @state1, @state2, EpsilonTransition
-          @table.add_state_change @state2, @state3, :a
-          
-          @table.targets_for(@state1, :a).should == [@state2, @state3]
-        end
-        
-        it "should match epsilon transitions recursively" do
-          @table.add_state_change @state1, @state2, EpsilonTransition
-          @table.add_state_change @state2, @state3, EpsilonTransition
-          
-          @table.targets_for(@state1, :a).should == [@state2, @state3]
-        end
-        
-        it "should not match a char after matching through epsilon transition through (Start -> Epsilon -> Match -> Epsilon -> Match)" do
-          @table.add_state_change @state1, @state2, EpsilonTransition
-          @table.add_state_change @state2, @state3, :a
-          @table.add_state_change @state3, @state4, EpsilonTransition
-          @table.add_state_change @state4, @state5, :a
-          
-          @table.targets_for(@state1, :a).should == [@state2, @state3, @state4]
-        end
-        
         it "should match a char under an AnyCharTransition" do
           @table.add_state_change @state1, @state2, AnyCharTransition
           
@@ -143,13 +108,6 @@ module Hopcroft
           @table.add_state_change @state1, @state2, AnyCharTransition
           
           @table.targets_for(@state1, :b).should == [@state2]
-        end
-        
-        it "should match anychar after an e move" do
-          @table.add_state_change @state1, @state2, EpsilonTransition
-          @table.add_state_change @state2, @state3, AnyCharTransition
-          
-          @table.targets_for(@state1, :a).should == [@state2, @state3]
         end
       end
     end
