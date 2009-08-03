@@ -30,6 +30,34 @@ module Hopcroft
                epsilon_targets_for_sym(state, transition_sym)
       end
       
+      def initial_states
+        [start_state] + epsilon_states_following(start_state)
+      end
+
+      def next_transitions(states, sym)
+        states.map { |s| targets_for(s, sym) }.compact.flatten
+      end
+
+      def matches?(input_array, current_states = initial_states)
+        raise MissingStartState unless start_state
+
+        input_array.each do |sym|
+          current_states = next_transitions(current_states, sym.to_sym)
+        end
+
+        current_states.any? { |state| state.final? }
+      end
+
+      def inspect
+        TableDisplayer.new(self).to_s
+      end
+
+      def to_hash
+        Hash.new(self)
+      end
+
+    private
+
       def targets_for_sym(state, transition_sym)
         find_targets_matching(state, transition_sym) do |target|
           epsilon_states_following(target)
@@ -75,32 +103,6 @@ module Hopcroft
       
       def append(array1, array2)
         array1.push *array2
-      end
-      
-      def initial_states
-        [start_state] + epsilon_states_following(start_state)
-      end
-
-      def next_transitions(states, sym)
-        states.map { |s| targets_for(s, sym) }.compact.flatten
-      end
-
-      def matches?(input_array, current_states = initial_states)
-        raise MissingStartState unless start_state
-
-        input_array.each do |sym|
-          current_states = next_transitions(current_states, sym.to_sym)
-        end
-
-        current_states.any? { |state| state.final? }
-      end
-
-      def inspect
-        TableDisplayer.new(self).to_s
-      end
-
-      def to_hash
-        Hash.new(self)
       end
     end
   end
