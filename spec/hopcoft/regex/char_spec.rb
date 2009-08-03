@@ -18,6 +18,11 @@ module Hopcroft
         c.matches?("ab").should be_false
       end
 
+      it "should not match an empty string" do
+        c = Char.new("a")
+        c.matches?("").should be_false
+      end
+
       it "should raise an error if constructed with the empty string" do
         lambda { 
           Char.new("")

@@ -101,14 +101,14 @@ module Hopcroft
       end
 
       def next_transitions(states, sym)
-        states.map { |s| entries_for(s, sym) }.compact.flatten
+        states.map { |s| new_targets_for(s, sym) }.compact.flatten
       end
 
       def matches?(input_array, current_states = initial_states)
         raise MissingStartState unless start_state
 
         input_array.each do |sym|
-          current_states = next_transitions(current_states, sym)
+          current_states = next_transitions(current_states, sym.to_sym)
         end
 
         current_states.any? { |state| state.final? }

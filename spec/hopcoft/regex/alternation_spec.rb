@@ -39,10 +39,8 @@ module Hopcroft
         end
 
         it "should not match a char not present" do
-          pending do
-            alternation = Alternation.new(Char.new("a"), Char.new("b"))
-            alternation.matches?("x").should be_false
-          end
+          alternation = Alternation.new(Char.new("a"), Char.new("b"))
+          alternation.matches?("x").should be_false
         end
 
         it "should match 'b' with 'a|b'" do

@@ -4,9 +4,11 @@ module Hopcroft
       def to_machine
         new_machine do |machine|
           machine.use_start_state do |start_state|
-            start_state.add_transition :symbol => expression, :final => true do |final_state|
-              final_state.add_transition :symbol => expression, :state => final_state
-            end
+            subexpression = @expression.to_machine
+            subexpression_start_state = subexpression.start_state
+            subexpression_start_state.start_state = false
+
+            start_state.add_transition :state => subexpression_start_state, :epsilon => true
           end
         end
       end

@@ -9,28 +9,32 @@ module Hopcroft
       end
       
       describe "matching" do
+        def plus_with_char(str)
+          Plus.new(Char.new(str))
+        end
+        
         it "should not match an empty string" do
-          s = Plus.new("a")
+          s = plus_with_char("a")
           s.matches?("").should be_false
         end
         
         it "should match one char" do
-          s = Plus.new("a")
+          s = plus_with_char("a")
           s.matches?("a").should be_true
         end
-
+        
         it "should not match a different char" do
-          s = Plus.new("a")
+          s = plus_with_char("a")
           s.matches?("b").should be_false
         end
-
+        
         it "should match many of the same chars" do
-          s = Plus.new("a")
+          s = plus_with_char("a")
           s.matches?("aa").should be_true
         end
         
         it "should not match when any of the chars are different" do
-          s = Plus.new("a")
+          s = plus_with_char("a")
           s.matches?("aab").should be_false
         end
       end

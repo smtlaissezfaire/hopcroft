@@ -66,9 +66,7 @@ module Hopcroft
       end
       
       it "should be matched by 'a'" do
-        pending 'FIXME: This is a bug' do
-          @regex.should be_matched_by("a")
-        end
+        @regex.should be_matched_by("a")
       end
       
       it "should NOT be matched by the empty string" do
@@ -76,9 +74,7 @@ module Hopcroft
       end
       
       it "should be matched by 'aa'" do
-        pending 'FIXME: This is a bug' do
-          @regex.should be_matched_by("aa")
-        end
+        @regex.should be_matched_by("aa")
       end
       
       it "should not be matched by 'aab'" do
@@ -100,9 +96,7 @@ module Hopcroft
       end
       
       it "should not be matched by a 'c'" do
-        pending 'FIXME: This is a bug' do
-          @regex.should_not be_matched_by("c")
-        end
+        @regex.should_not be_matched_by("c")
       end
       
       it "should not be matched with the string 'ab'" do

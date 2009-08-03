@@ -23,9 +23,9 @@ module Hopcroft
           s.matches?("a").should be_true
         end
      
-        it "should match a different char" do
+        it "should NOT match a different char" do
           s = new_kleen_star_with_string("a")
-          s.matches?("b").should be_true
+          s.matches?("b").should be_false
         end
    
         it "should match many of the same chars" do
