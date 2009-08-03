@@ -24,7 +24,8 @@ module Hopcroft
       end
 
       attr_reader :name
-      alias_method :to_s, :name
+      alias_method :to_s,    :name
+      alias_method :inspect, :name
 
       def transitions
         @transitions ||= []

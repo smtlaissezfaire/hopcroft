@@ -121,6 +121,13 @@ module Hopcroft
           s.method(:name).should == s.method(:to_s)
         end
       end
+
+      describe "inspect" do
+        it "should be alias by name" do
+          s = State.new
+          s.inspect.should == s.name
+        end
+      end
     end
   end
 end
