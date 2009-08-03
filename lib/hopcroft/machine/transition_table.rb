@@ -12,7 +12,7 @@ module Hopcroft
 
       # Create a transition without marking appropriate start states
       def add_state_change(from_state, to_state, transition_symbol)
-        sym = obj_to_sym(transition_symbol)
+        sym = transition_symbol
 
         self[from_state]      ||= {}
         self[from_state][sym] ||= []
@@ -101,12 +101,6 @@ module Hopcroft
 
       def to_hash
         Hash.new(self)
-      end
-
-    private
-
-      def obj_to_sym(obj)
-        obj.respond_to?(:to_sym) ? obj.to_sym : obj
       end
     end
   end

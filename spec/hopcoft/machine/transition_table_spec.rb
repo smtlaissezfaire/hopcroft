@@ -27,15 +27,6 @@ module Hopcroft
           @table.matches?("a").should be_true
         end
 
-        it "should be able to use a string when creating the table" do
-          from = mock(State, :start_state? => false)
-          to   = mock(State, :start_state? => false)
-
-          @table.add_state_change(from, to, "a")
-          
-          @table.targets_for(from, :a).should == [to]
-        end
-
         it "should be able to use multiple transitions from the same state" do
           from          = mock(State, :start_state? => false)
           first_result  = mock(State, :start_state? => false)
