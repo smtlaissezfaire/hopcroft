@@ -97,7 +97,7 @@ module Hopcroft
       end
 
       def initial_states
-        [start_state, entries_for(start_state, EpsilonTransition)].compact.flatten
+        [start_state] + epsilon_states_following(start_state)
       end
 
       def next_transitions(states, sym)

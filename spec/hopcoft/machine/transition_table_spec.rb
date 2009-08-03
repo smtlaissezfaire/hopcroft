@@ -82,9 +82,9 @@ module Hopcroft
         end
 
         it "should follow epsilon moves" do
-          from              = State.new
-          to_epsilon        = State.new
-          target_of_epsilon = State.new
+          from              = State.new :start_state => true
+          to_epsilon        = State.new :start_state => false
+          target_of_epsilon = State.new :start_state => false
 
           @table.add_state_change from, to_epsilon, EpsilonTransition
           @table.add_state_change to_epsilon, target_of_epsilon, :b
@@ -239,6 +239,39 @@ module Hopcroft
       describe "to_hash" do
         it "should return a hash" do
           TransitionTable.new.to_hash.class.should == Hash
+        end
+      end
+      
+      describe "initial states" do
+        describe "for a start_state to an epsilon transition" do
+          # +--------------+--------------------------------------+-------------+
+          # |              | Hopcroft::Machine::EpsilonTransition |      a      |
+          # +--------------+--------------------------------------+-------------+
+          # | -> State 207 | State 208                            |             |
+          # | State 208    |                                      | * State 209 |
+          # +--------------+--------------------------------------+-------------+
+          before do
+            @state1 = State.new :start_state => true,  :name => "State 1"
+            @state2 = State.new :start_state => false, :name => "State 2"
+            @state3 = State.new :start_state => false, :name => "State 3", :final_state => true
+            
+            @table = TransitionTable.new
+            @table.add_state_change @state1, @state2, EpsilonTransition
+            @table.add_state_change @state2, @state3, :a
+            @table.start_state = @state1
+          end
+          
+          it "should have state 1 as an initial state (it is a start state)" do
+            @table.initial_states.should include(@state1)
+          end
+          
+          it "should have state 2 as an initial state (it has an epsilon transition from the start state)" do
+            @table.initial_states.should include(@state2)
+          end
+          
+          it "should not have state 3 as an initial state" do
+            @table.initial_states.should_not include(@state3)
+          end
         end
       end
     end
