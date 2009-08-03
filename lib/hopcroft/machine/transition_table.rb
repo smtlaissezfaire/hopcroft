@@ -25,7 +25,7 @@ module Hopcroft
           self[from_state][transition_symbol].include?(to_state)
       end
 
-      def new_targets_for(state, transition_sym)
+      def targets_for(state, transition_sym)
         append targets_for_sym(state, transition_sym),
                epsilon_targets_for_sym(state, transition_sym)
       end
@@ -44,7 +44,7 @@ module Hopcroft
       
       def epsilon_targets_for_sym(state, sym)
         find_targets_matching(state, EpsilonTransition) do |target|
-          new_targets_for(target, sym)
+          targets_for(target, sym)
         end
       end
       
@@ -82,7 +82,7 @@ module Hopcroft
       end
 
       def next_transitions(states, sym)
-        states.map { |s| new_targets_for(s, sym) }.compact.flatten
+        states.map { |s| targets_for(s, sym) }.compact.flatten
       end
 
       def matches?(input_array, current_states = initial_states)

@@ -59,7 +59,7 @@ module Hopcroft
           start_state = @machine.build_start_state
           second_state = start_state.add_transition :symbol => :foo
           
-          @machine.state_table.new_targets_for(start_state, :foo).should == [second_state]
+          @machine.state_table.targets_for(start_state, :foo).should == [second_state]
         end
         
         it "should match multiple transitions on the same key (a NFA)" do
@@ -67,14 +67,14 @@ module Hopcroft
           state_one = start_state.add_transition :symbol => :foo
           state_two = start_state.add_transition :symbol => :foo
           
-          @machine.state_table.new_targets_for(start_state, :foo).should == [state_one, state_two]
+          @machine.state_table.targets_for(start_state, :foo).should == [state_one, state_two]
         end
         
         it "should be able to have a state with a transition to itself" do
           start_state = @machine.build_start_state
           start_state.add_transition :symbol => :foo, :state => start_state
           
-          @machine.state_table.new_targets_for(start_state, :foo).should == [start_state]
+          @machine.state_table.targets_for(start_state, :foo).should == [start_state]
         end
 
         it "should add a start state with no transitions to the table" do
