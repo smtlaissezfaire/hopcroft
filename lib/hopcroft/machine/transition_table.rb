@@ -25,14 +25,6 @@ module Hopcroft
           self[from_state][transition_symbol].include?(to_state)
       end
 
-      def entries_for(state, given_transition_symbol)
-        if entries_for_state = self[state]
-          entries_under_state_for_symbol(entries_for_state, obj_to_sym(given_transition_symbol))
-        else
-          []
-        end
-      end
-      
       def new_targets_for(state, transition_sym)
         append targets_for_sym(state, transition_sym),
                epsilon_targets_for_sym(state, transition_sym)
@@ -85,17 +77,6 @@ module Hopcroft
         array1.push *array2
       end
       
-      def entries_under_state_for_symbol(state, symbol)
-        returning Array.new do |a|
-          a.push *targets_for(state, EpsilonTransition)
-
-          if symbol != EpsilonTransition
-            a.push *targets_for(state, symbol)
-            a.push *targets_for(state, AnyCharTransition)
-          end
-        end
-      end
-
       def initial_states
         [start_state] + epsilon_states_following(start_state)
       end
@@ -123,35 +104,6 @@ module Hopcroft
       end
 
     private
-
-      def targets_for(state, transition_symbol)
-        if transition_symbol == EpsilonTransition && targets = state[EpsilonTransition]
-          targets = targets_for_epsilon_transitions(targets)
-        else
-          targets = state[transition_symbol]
-        end
-
-        targets ? targets : []
-      end
-
-      def targets_for_epsilon_transitions(targets)
-        returning Array.new do |a|
-          a << targets
-   
-          targets.each do |target_state|
-            target_states = transitions_and_targets(target_state)
-            target_states.each do |symbol, _|
-              a << targets_for(target_states, symbol)
-            end
-          end
-
-          a.flatten!
-        end
-      end
-
-      def transitions_and_targets(state)
-        self[state] || {}
-      end
 
       def obj_to_sym(obj)
         obj.respond_to?(:to_sym) ? obj.to_sym : obj

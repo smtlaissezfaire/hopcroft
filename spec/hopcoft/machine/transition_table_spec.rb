@@ -14,16 +14,17 @@ module Hopcroft
 
           @table.add_state_change(from, to, :a)
           
-          @table.entries_for(from, :a).should == [to]
+          @table.new_targets_for(from, :a).should == [to]
         end
 
         it "should be able to use strings when finding a start state" do
-          from = mock(State, :start_state? => false)
-          to   = mock(State, :start_state? => false)
+          from = mock State, :start_state? => true,  :final? => false
+          to   = mock State, :start_state? => false, :final? => true
 
           @table.add_state_change(from, to, :a)
+          @table.start_state = from
           
-          @table.entries_for(from, "a").should == [to]
+          @table.matches?("a").should be_true
         end
 
         it "should be able to use a string when creating the table" do
@@ -32,7 +33,7 @@ module Hopcroft
 
           @table.add_state_change(from, to, "a")
           
-          @table.entries_for(from, :a).should == [to]
+          @table.new_targets_for(from, :a).should == [to]
         end
 
         it "should be able to use multiple transitions from the same state" do
@@ -44,8 +45,8 @@ module Hopcroft
           @table.add_state_change(from, first_result,  :a)
           @table.add_state_change(from, second_result, :b)
           
-          @table.entries_for(from, :a).should == [first_result]
-          @table.entries_for(from, :b).should == [second_result]
+          @table.new_targets_for(from, :a).should == [first_result]
+          @table.new_targets_for(from, :b).should == [second_result]
         end
 
         it "should be able to use the same transition symbol to different states (for an NFA)" do
@@ -56,7 +57,7 @@ module Hopcroft
           @table.add_state_change(from, first_result,  :a)
           @table.add_state_change(from, second_result, :a)
           
-          @table.entries_for(from, :a).should == [first_result, second_result]
+          @table.new_targets_for(from, :a).should == [first_result, second_result]
         end
 
         it "should have an entry for an epsilon transition under any symbol" do
@@ -67,7 +68,7 @@ module Hopcroft
           
           @table.add_state_change(from, to, transition)
 
-          @table.entries_for(from, :a).should == [to]
+          @table.new_targets_for(from, :a).should == [to]
         end
 
         it "should have a transition for an 'any' transition" do
@@ -78,7 +79,7 @@ module Hopcroft
 
           @table.add_state_change from, to, transition
 
-          @table.entries_for(from, :a).should == [to]
+          @table.new_targets_for(from, :a).should == [to]
         end
 
         it "should follow epsilon moves" do
@@ -89,11 +90,11 @@ module Hopcroft
           @table.add_state_change from, to_epsilon, EpsilonTransition
           @table.add_state_change to_epsilon, target_of_epsilon, :b
 
-          @table.entries_for(from, :b).should == [to_epsilon, target_of_epsilon]
+          @table.new_targets_for(from, :b).should == [to_epsilon, target_of_epsilon]
         end
       end
 
-      describe "entries_for" do
+      describe "new_targets_for" do
         before do
           @table = TransitionTable.new
           @state = mock(State, :start_state? => false, :final? => false)
@@ -103,11 +104,11 @@ module Hopcroft
         it "should reutrn an empty array if it indexes the state, but no transitions for that state" do
           @table.add_state_change(@state, @state, :foo)
 
-          @table.entries_for(@state, :bar).should == []
+          @table.new_targets_for(@state, :bar).should == []
         end
 
         it "should return an empty array if it does not index the state" do
-          @table.entries_for(@state, :foo).should == []
+          @table.new_targets_for(@state, :foo).should == []
         end
       end
 
