@@ -123,9 +123,31 @@ module Hopcroft
       end
 
       describe "inspect" do
-        it "should be alias by name" do
-          s = State.new
-          s.inspect.should == s.name
+        it "should display the name" do
+          s = State.new(:name => "State 1")
+          s.inspect.should include("State 1")
+        end
+
+        it "should show start state, final state, etc." do
+          s = State.new(:name => "State 1", :start_state => true, :final => true)
+          s.inspect.should == "State 1 {start: true, final: true, transitions: 0}"
+        end
+
+        it "should display the correct value for the start state" do
+          s = State.new(:name => "State 1", :start_state => false, :final => true)
+          s.inspect.should == "State 1 {start: false, final: true, transitions: 0}"
+        end
+
+        it "should display the correct value for the final state" do
+          s = State.new(:name => "State 1", :start_state => true, :final => false)
+          s.inspect.should == "State 1 {start: true, final: false, transitions: 0}"
+        end
+
+        it "should display 1 transition" do
+          s = State.new(:name => "State 1", :start_state => true, :final => true)
+          s.add_transition
+
+          s.inspect.should == "State 1 {start: true, final: true, transitions: 1}"
         end
       end
     end

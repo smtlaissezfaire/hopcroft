@@ -25,7 +25,10 @@ module Hopcroft
 
       attr_reader :name
       alias_method :to_s,    :name
-      alias_method :inspect, :name
+
+      def inspect
+        "#{name} {start: #{start_state?}, final: #{final_state?}, transitions: #{transitions.size}}"
+      end
 
       def transitions
         @transitions ||= []
