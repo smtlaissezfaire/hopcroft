@@ -14,7 +14,7 @@ module Hopcroft
       def add_state_change(from_state, to_state, transition_symbol)
         sym = obj_to_sym(transition_symbol)
 
-        self[from_state] ||= {}
+        self[from_state]      ||= {}
         self[from_state][sym] ||= []
         self[from_state][sym] << to_state
       end
@@ -32,7 +32,59 @@ module Hopcroft
           []
         end
       end
+      
+      def new_targets_for(state, transition_sym)
+        append targets_for_sym(state, transition_sym),
+               epsilon_targets_for_sym(state, transition_sym)
+      end
+      
+      def targets_for_sym(state, transition_sym)
+        find_targets_matching(state, transition_sym) do |target|
+          epsilon_states_following(target)
+        end
+      end
+      
+      def epsilon_states_following(state)
+        find_targets_matching(state, EpsilonTransition) do |target|
+          epsilon_states_following(target)
+        end
+      end
+      
+      def epsilon_targets_for_sym(state, sym)
+        find_targets_matching(state, EpsilonTransition) do |target|
+          new_targets_for(target, sym)
+        end
+      end
+      
+      def find_targets_matching(state, transition_sym, &recursion_block)
+        returning Array.new do |a|
+          direct_targets = find_targets_for(state, transition_sym)
+          append a, direct_targets
+        
+          direct_targets.each do |target|
+            append a, recursion_block.call(target)
+          end
+        end
+      end
+      
+      def find_targets_for(state, transition_sym)
+        returning Array.new do |a|
+          if state = self[state]
+            if state[transition_sym]
+              append a, state[transition_sym]
+            end
 
+            if state[AnyCharTransition] && transition_sym != EpsilonTransition
+              append a, state[AnyCharTransition]
+            end
+          end
+        end
+      end
+      
+      def append(array1, array2)
+        array1.push *array2
+      end
+      
       def entries_under_state_for_symbol(state, symbol)
         returning Array.new do |a|
           a.push *targets_for(state, EpsilonTransition)
