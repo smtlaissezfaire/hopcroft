@@ -3,6 +3,11 @@ require File.expand_path(File.dirname(__FILE__) + "/../../spec_helper")
 module Hopcroft
   module Machine
     describe State do
+      it "should set the start state on the first state to a start state" do
+        state = State.new
+        state.should be_a_start_state
+      end
+
       it "should have no transitions to begin with" do
         s = State.new
         s.transitions.should == []

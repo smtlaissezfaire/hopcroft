@@ -1,13 +1,11 @@
 module Hopcroft
   module Machine
     class StateMachine
-      def self.new_with_start_state
-        returning new do |obj|
-          obj.build_start_state
-        end
+      def initialize(start_state = State.new)
+        @start_state = start_state
       end
 
-      attr_reader :start_state
+      attr_accessor :start_state
 
       def use_start_state
         if start_state
@@ -25,12 +23,6 @@ module Hopcroft
 
       def final_states
         states.select { |s| s.final? }
-      end
-
-      def build_start_state(state = State.new)
-        returning state do |s|
-          @start_state = s
-        end
       end
 
       def matches_string?(str)

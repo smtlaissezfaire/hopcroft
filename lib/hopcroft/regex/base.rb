@@ -45,7 +45,7 @@ module Hopcroft
     private
 
       def new_machine
-        returning Machine::StateMachine.new_with_start_state do |machine|
+        returning Machine::StateMachine.new do |machine|
           yield machine, machine.start_state if block_given?
         end
       end
