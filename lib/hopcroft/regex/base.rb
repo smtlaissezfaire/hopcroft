@@ -36,6 +36,12 @@ module Hopcroft
         expression.respond_to?(:to_regex_s) ? expression.to_regex_s : expression.to_s
       end
 
+      def to_machine
+        new_machine do |m, start_state|
+          build_machine(start_state)
+        end
+      end
+
     private
 
       def new_machine

@@ -11,14 +11,12 @@ module Hopcroft
         regexs.join ALTERNATION
       end
 
-      def to_machine
-        new_machine do |machine, start|
-          @expressions.each do |expr|
-            subexpression_start = expr.to_machine.start_state
-            subexpression_start.start_state = false
+      def build_machine(start)
+        @expressions.each do |expr|
+          subexpression_start = expr.to_machine.start_state
+          subexpression_start.start_state = false
 
-            start.add_transition :state => subexpression_start, :epsilon => true
-          end
+          start.add_transition :state => subexpression_start, :epsilon => true
         end
       end
 

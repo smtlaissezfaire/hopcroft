@@ -16,10 +16,8 @@ module Hopcroft
         end
       end
 
-      def to_machine
-        new_machine do |machine, start_state|
-          start_state.add_transition :symbol => expression, :final => true
-        end
+      def build_machine(start_state)
+        start_state.add_transition :symbol => expression, :final => true
       end
     end
   end

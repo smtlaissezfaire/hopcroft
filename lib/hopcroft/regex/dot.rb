@@ -3,10 +3,8 @@ module Hopcroft
     class Dot < Base
       def initialize; end
 
-      def to_machine
-        new_machine do |machine, start|
-          start.add_transition :any => true, :final => true
-        end
+      def build_machine(start)
+        start.add_transition :any => true, :final => true
       end
 
       def to_regex_s

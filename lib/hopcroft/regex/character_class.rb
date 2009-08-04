@@ -20,11 +20,9 @@ module Hopcroft
         raise InvalidCharacterClass if invalid_expression?
       end
 
-      def to_machine
-        new_machine do |machine, start_state|
-          each_symbol do |sym|
-            start_state.add_transition :symbol => sym, :final => true
-          end
+      def build_machine(start_state)
+        each_symbol do |sym|
+          start_state.add_transition :symbol => sym, :final => true
         end
       end
 

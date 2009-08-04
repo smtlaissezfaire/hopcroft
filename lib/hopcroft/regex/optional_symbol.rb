@@ -5,11 +5,9 @@ module Hopcroft
         "#{regex_s_for_expression(expression)}#{QUESTION}"
       end
 
-      def to_machine
-        new_machine do |machine, start|
-          start.final_state = true
-          start.add_transition :symbol => :a, :final => true
-        end
+      def build_machine(start)
+        start.final_state = true
+        start.add_transition :symbol => :a, :final => true
       end
     end
   end
