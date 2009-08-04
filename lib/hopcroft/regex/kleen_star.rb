@@ -2,20 +2,18 @@ module Hopcroft
   module Regex
     class KleenStar < Base
       def to_machine
-        returning new_machine do |machine|
-          machine.use_start_state do |start|
-            start.final_state = true
+        new_machine do |machine, start|
+          start.final_state = true
 
-            other_machine = @expression.to_machine
-            other_start   = other_machine.start_state
-            other_start.start_state = false
+          other_machine = @expression.to_machine
+          other_start   = other_machine.start_state
+          other_start.start_state = false
 
-            start.add_transition :state => other_start, :epsilon => true
+          start.add_transition :state => other_start, :epsilon => true
 
-            other_machine.final_states.each do |state|
-              state.add_transition :state => Plus.new(@expression).to_machine.start_state,
-                                   :epsilon => true
-            end
+          other_machine.final_states.each do |state|
+            state.add_transition :state => Plus.new(@expression).to_machine.start_state,
+                                 :epsilon => true
           end
         end
       end

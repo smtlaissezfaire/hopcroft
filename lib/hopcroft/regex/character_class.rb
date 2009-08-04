@@ -21,11 +21,9 @@ module Hopcroft
       end
 
       def to_machine
-        new_machine do |machine|
-          machine.use_start_state do |start_state|
-            each_symbol do |sym|
-              start_state.add_transition :symbol => sym, :final => true
-            end
+        new_machine do |machine, start_state|
+          each_symbol do |sym|
+            start_state.add_transition :symbol => sym, :final => true
           end
         end
       end
