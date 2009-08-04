@@ -29,7 +29,7 @@ module Hopcroft
 
       def build_start_state(state = State.new)
         returning state do |s|
-          @start_state  = s
+          @start_state = s
         end
       end
 
