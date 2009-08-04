@@ -27,10 +27,8 @@ module Hopcroft
 
       def state_table
         returning TransitionTable.new do |table|
-          if start_state
-            table.start_state = start_state
-            start_state.add_transitions_to_table(table)
-          end
+          table.start_state = start_state
+          start_state.add_transitions_to_table(table)
         end
       end
     end
