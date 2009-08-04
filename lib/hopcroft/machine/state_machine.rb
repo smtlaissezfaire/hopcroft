@@ -7,12 +7,6 @@ module Hopcroft
 
       attr_accessor :start_state
 
-      def use_start_state
-        if start_state
-          yield start_state
-        end
-      end
-
       def states
         if start_state
           [start_state, start_state.substates].flatten
