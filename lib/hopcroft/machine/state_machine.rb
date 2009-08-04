@@ -8,11 +8,7 @@ module Hopcroft
       attr_accessor :start_state
 
       def states
-        if start_state
-          [start_state, start_state.substates].flatten
-        else
-          []
-        end
+        [start_state, start_state.substates].flatten
       end
 
       def final_states
