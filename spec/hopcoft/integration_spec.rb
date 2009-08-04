@@ -52,8 +52,11 @@ module Hopcroft
       end
       
       it "should be matched by 'aa'" do
-        @regex.matched_by?("aa")
         @regex.should be_matched_by("aa")
+      end
+      
+      it "should be matched by 'aaa'" do
+        @regex.should be_matched_by("aaa")
       end
       
       it "should not be matched by 'aab'" do
@@ -80,6 +83,13 @@ module Hopcroft
       
       it "should not be matched by 'aab'" do
         @regex.should_not be_matched_by("aab")
+      end
+      
+      it "should be matched by 'aaa'" do
+        pending 'fixme: bug' do
+          @regex.matches?("aaa")
+          @regex.should be_matched_by("aaa")
+        end
       end
     end
     
