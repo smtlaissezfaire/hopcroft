@@ -8,7 +8,7 @@ module Hopcroft
         start.add_transition :machine => other_machine
 
         other_machine.final_states.each do |state|
-          state.add_transition :machine => Plus.new(@expression).to_machine
+          state.add_transition :state => start, :epsilon => true
         end
       end
 

@@ -32,6 +32,11 @@ module Hopcroft
           s = new_kleen_star_with_string("a")
           s.matches?("aa").should be_true
         end
+        
+        it "should match 10 chars" do
+          s = new_kleen_star_with_string("a")
+          s.matches?("aaaaaaaaaa").should be_true
+        end
 
         it "should match 'aaaa' with '(a|b)*'" do
           pending 'TODO'
