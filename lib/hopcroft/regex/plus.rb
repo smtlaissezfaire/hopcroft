@@ -7,7 +7,7 @@ module Hopcroft
         start_state.add_transition :machine => subexpression
 
         subexpression.final_states.each do |state|
-          state.add_transition :machine => @expression.to_machine
+          state.add_transition :machine => KleenStar.new(@expression).to_machine
         end
       end
 

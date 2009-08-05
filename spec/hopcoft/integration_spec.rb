@@ -86,10 +86,8 @@ module Hopcroft
       end
       
       it "should be matched by 'aaa'" do
-        pending 'fixme: bug' do
-          @regex.matches?("aaa")
-          @regex.should be_matched_by("aaa")
-        end
+        @regex.matches?("aaa")
+        @regex.should be_matched_by("aaa")
       end
     end
     
