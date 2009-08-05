@@ -66,6 +66,30 @@ module Hopcroft
           @machine.state_table.start_state.should == start_state
         end
       end
+
+      describe "deep_copy" do
+        before do
+          @machine = StateMachine.new
+        end
+
+        it "should create a new instance" do
+          @machine.deep_clone.should_not equal(@machine)
+        end
+
+        it "should have a cloned start state" do
+          @machine.deep_clone.start_state.should_not equal(@machine.start_state)
+        end
+
+        it "should have the cloned start state as a final state if the original machine did" do
+          @machine.start_state.final_state = true
+          @machine.deep_clone.start_state.should be_a_final_state
+        end
+
+        it "should call deep_clone on the start state" do
+          @machine.start_state.should_receive(:deep_clone)
+          @machine.deep_clone
+        end
+      end
     end
   end
 end

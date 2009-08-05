@@ -194,6 +194,65 @@ module Hopcroft
           s.inspect.should == "State 1 {start: true, final: true, transitions: 1}"
         end
       end
+
+      describe "deep_clone" do
+        before do
+          @state = State.new
+        end
+
+        it "should be of class State" do
+          clone = @state.deep_clone
+          clone.should be_a_kind_of(State)
+        end
+
+        it "should be a new instance" do
+          clone = @state.deep_clone
+          clone.should_not equal(@state)
+        end
+
+        it "should be a final state if the original was a final state" do
+          @state.final_state = true
+          clone = @state.deep_clone
+          clone.should be_a_final_state
+        end
+
+        it "should not have the same transition objects" do
+          @state.add_transition
+          transition = @state.transitions.first
+
+          clone = @state.deep_clone
+          clone.transitions.first.should_not equal(transition)
+        end
+
+        it "should have one transition if the original had one transition" do
+          @state.add_transition
+
+          clone = @state.deep_clone
+          clone.transitions.size.should == 1
+        end
+
+        it "should have two transitions if the original had two transition" do
+          @state.add_transition
+          @state.add_transition
+
+          clone = @state.deep_clone
+          clone.transitions.size.should == 2
+        end
+
+        it "should have a transition as a Transition object" do
+          @state.add_transition
+
+          clone = @state.deep_clone
+          clone.transitions.first.should be_a_kind_of(Transition)
+        end
+
+        it "should call deep_clone on the transitions" do
+          @state.add_transition
+
+          @state.transitions.first.should_receive(:deep_clone)
+          @state.deep_clone
+        end
+      end
     end
   end
 end

@@ -9,6 +9,10 @@ module Hopcroft
       attr_reader :symbol
       attr_reader :state
       alias_method :to, :state
+
+      def deep_clone
+        self.class.new(symbol, state.deep_clone)
+      end
     end
   end
 end

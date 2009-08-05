@@ -31,6 +31,12 @@ module Hopcroft
           start_state.add_transitions_to_table(table)
         end
       end
+
+      def deep_clone
+        returning clone do |c|
+          c.start_state = c.start_state.deep_clone
+        end
+      end
     end
   end
 end

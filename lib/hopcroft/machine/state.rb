@@ -34,6 +34,8 @@ module Hopcroft
         @transitions ||= []
       end
 
+      attr_writer :transitions
+
       # Accepts the following hash arguments:
       #
       #   :machine     => m (optional).  Links current state to start state of machine
@@ -101,6 +103,12 @@ module Hopcroft
             table.add_state_change(self, to, transition.symbol)
             transition.to.add_transitions_to_table(table)
           end
+        end
+      end
+
+      def deep_clone
+        returning clone do |c|
+          c.transitions = transitions.map { |t| t.deep_clone }
         end
       end
 
