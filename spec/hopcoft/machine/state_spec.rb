@@ -96,6 +96,45 @@ module Hopcroft
 
           s1.add_transitions_to_table(table)
         end
+        
+        describe "passed :machine => m" do
+          before do
+            @state   = State.new
+            @machine = StateMachine.new
+          end
+          
+          it "should add a transition to another state machines first state" do
+            other_machine_start_state = @machine.start_state
+            
+            @state.add_transition :machine => @machine
+
+            @state.transitions.first.state.should == other_machine_start_state
+          end
+          
+          it "should add the transition as an epsilon transition" do
+            @state.add_transition :machine => @machine
+            
+            @state.transitions.first.should be_a_kind_of(EpsilonTransition)
+          end
+          
+          it "should no longer have the other machines start state as a start state in this machine" do
+            other_machine_start_state = @machine.start_state
+            
+            @state.add_transition :machine => @machine
+            
+            @state.transitions.first.state.should_not be_a_start_state
+          end
+          
+          it "should not modify the start state of the original machine (it should dup the machine)" do
+            pending do
+              other_machine_start_state = @machine.start_state
+            
+              @state.add_transition :machine => @machine
+            
+              other_machine_start_state.should be_a_start_state
+            end
+          end
+        end
       end
 
       describe "name" do

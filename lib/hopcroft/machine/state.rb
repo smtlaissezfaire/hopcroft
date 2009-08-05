@@ -36,6 +36,8 @@ module Hopcroft
 
       # Accepts the following hash arguments:
       #
+      #   :machine     => m (optional).  Links current state to start state of machine
+      #                   given with an epsilon transition.
       #   :start_state => true | false. Make the state a start state.  Defaults to false
       #   :final       => true | false. Make the state a final state.  Defaults to false
       #   :state       => a_state (if none passed, a new one is constructed)
@@ -45,12 +47,22 @@ module Hopcroft
       #
       def add_transition(args={})
         args[:start_state] = false unless args.has_key?(:start_state)
-        state = args[:state] ||= State.new(args)
 
-        transitions << transition_for(args, state)
+        if args[:machine]
+          machine = args[:machine]
+
+          args[:state] = machine.start_state
+          args[:state].start_state = false
+          args[:epsilon] = true
+        else
+          args[:state] ||= State.new(args)
+        end
         
-        yield(state) if block_given?
-        state
+        returning args[:state] do |state|
+          transitions << transition_for(args, state)
+          yield(state) if block_given?
+          state
+        end
       end
 
       def transition_for(args, state)
