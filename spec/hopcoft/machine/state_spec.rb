@@ -243,6 +243,28 @@ module Hopcroft
           @state.deep_clone
         end
       end
+
+      describe "substates" do
+        before do
+          @state = State.new
+        end
+        
+        it "should have none with no transitions" do
+          @state.substates.should == []
+        end
+        
+        it "should have a state which is linked to by a transition" do
+          new_state = @state.add_transition :symbol => :foo
+          @state.substates.should == [new_state]
+        end
+        
+        it "should have multiple states" do
+          one = @state.add_transition :symbol => :foo
+          two = @state.add_transition :symbol => :foo
+          
+          @state.substates.should == [one, two]
+        end
+      end
     end
   end
 end
