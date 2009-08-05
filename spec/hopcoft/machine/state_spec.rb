@@ -124,16 +124,6 @@ module Hopcroft
             
             @state.transitions.first.state.should_not be_a_start_state
           end
-          
-          it "should not modify the start state of the original machine (it should dup the machine)" do
-            pending do
-              other_machine_start_state = @machine.start_state
-            
-              @state.add_transition :machine => @machine
-            
-              other_machine_start_state.should be_a_start_state
-            end
-          end
         end
       end
 
