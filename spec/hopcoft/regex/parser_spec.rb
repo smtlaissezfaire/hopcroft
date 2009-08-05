@@ -44,11 +44,11 @@ module Hopcroft
       end
 
       it "should parse a? as an optional a" do
-        Parser.parse("a?").should == OptionalSymbol.new("a")
+        Parser.parse("a?").should == OptionalSymbol.new(Char.new("a"))
       end
 
       it "should parse b? as an optional b" do
-        Parser.parse("b?").should == OptionalSymbol.new("b")
+        Parser.parse("b?").should == OptionalSymbol.new(Char.new("b"))
       end
 
       it "should parse an escaped question mark as a char" do
