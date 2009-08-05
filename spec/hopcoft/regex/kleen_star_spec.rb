@@ -39,7 +39,6 @@ module Hopcroft
         end
 
         it "should match 'aaaa' with '(a|b)*'" do
-          pending 'TODO'
           expr = Alternation.new(Char.new("a"), Char.new("b"))
 
           s = KleenStar.new(expr)
@@ -47,7 +46,6 @@ module Hopcroft
         end
 
         it "should match 'bbbb' with '(a|b)*'" do
-          pending 'TODO'
           expr = Alternation.new(Char.new("a"), Char.new("b"))
 
           s = KleenStar.new(expr)
