@@ -92,7 +92,7 @@ module Hopcroft
       attr_writer :final_state
 
       def substates
-        transitions.map { |t| t.state }
+        transitions.map { |t| [t.state, t.state.substates] }.flatten
       end
 
       def add_transitions_to_table(table)

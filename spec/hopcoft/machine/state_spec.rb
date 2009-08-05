@@ -264,6 +264,13 @@ module Hopcroft
           
           @state.substates.should == [one, two]
         end
+
+        it "should show states of the states (should find the states substates recursively)" do
+          substate     = @state.add_transition   :symbol => :foo
+          sub_substate = substate.add_transition :symbol => :foo
+
+          @state.substates.should == [substate, sub_substate]
+        end
       end
     end
   end
