@@ -37,6 +37,11 @@ module Hopcroft
         optional = OptionalSymbol.new("a")
         optional.matches?("ab").should be_false
       end
+      
+      it "should match the correct char" do
+        optional = OptionalSymbol.new("b")
+        optional.matches?("b").should be_true
+      end
     end
   end
 end

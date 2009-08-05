@@ -7,7 +7,7 @@ module Hopcroft
 
       def build_machine(start)
         start.final_state = true
-        start.add_transition :symbol => :a, :final => true
+        start.add_transition :symbol => @expression, :final => true
       end
     end
   end
