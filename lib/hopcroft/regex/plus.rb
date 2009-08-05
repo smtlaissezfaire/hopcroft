@@ -3,15 +3,11 @@ module Hopcroft
     class Plus < Base
       def build_machine(start_state)
         subexpression = @expression.to_machine
-        subexpression_start_state = subexpression.start_state
-        subexpression_start_state.start_state = false
 
-        start_state.add_transition :state => subexpression_start_state, :epsilon => true
+        start_state.add_transition :machine => subexpression
+
         subexpression.final_states.each do |state|
-          copy = @expression.to_machine
-          copy.start_state.start_state = false
-
-          state.add_transition :state => copy.start_state, :epsilon => true
+          state.add_transition :machine => @expression.to_machine
         end
       end
 

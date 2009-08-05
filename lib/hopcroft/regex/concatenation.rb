@@ -19,11 +19,8 @@ module Hopcroft
         machines = components.dup
 
         machines.each_cons(2) do |first, second|
-          second_start_state = second.start_state
-          second.start_state.start_state = false
-          
           first.final_states.each do |state|
-            state.add_transition :state => second_start_state, :epsilon => true
+            state.add_transition :machine => second
             state.final_state = false
           end
         end

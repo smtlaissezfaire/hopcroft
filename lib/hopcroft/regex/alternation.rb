@@ -13,10 +13,7 @@ module Hopcroft
 
       def build_machine(start)
         @expressions.each do |expr|
-          subexpression_start = expr.to_machine.start_state
-          subexpression_start.start_state = false
-
-          start.add_transition :state => subexpression_start, :epsilon => true
+          start.add_transition :machine => expr.to_machine
         end
       end
 
