@@ -4,8 +4,8 @@ module Hopcroft
   module Regex
     describe Plus do
       it "should take a regex" do
-        s = Plus.new("f")
-        s.expression.should == "f"
+        s = Plus.new(Char.new("f"))
+        s.expression.should == Char.new("f")
       end
       
       describe "matching" do
@@ -40,7 +40,7 @@ module Hopcroft
       end
       
       it "should have the regex string" do
-        Plus.new("a").to_regex_s.should == "a+"
+        Plus.new(Char.new("a")).to_regex_s.should == "a+"
       end
     end
   end

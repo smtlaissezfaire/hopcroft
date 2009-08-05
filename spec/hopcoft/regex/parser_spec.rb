@@ -28,11 +28,11 @@ module Hopcroft
       end
 
       it "should parse 'a*' as a kleen star" do
-        Parser.parse("a*").should == KleenStar.new("a")
+        Parser.parse("a*").should == KleenStar.new(Char.new("a"))
       end
 
       it "should parse 'b*' as a kleen star" do
-        Parser.parse("b*").should == KleenStar.new("b")
+        Parser.parse("b*").should == KleenStar.new(Char.new("b"))
       end
 
       it "should parse '\*' as the star char" do
@@ -56,11 +56,11 @@ module Hopcroft
       end
 
       it "should parse a plus" do
-        Parser.parse("a+").should == Plus.new("a")
+        Parser.parse("a+").should == Plus.new(Char.new("a"))
       end
 
       it "should parse 'b+'" do
-        Parser.parse("b+").should == Plus.new("b")
+        Parser.parse("b+").should == Plus.new(Char.new("b"))
       end
 
       it "should parse an escaped plus" do

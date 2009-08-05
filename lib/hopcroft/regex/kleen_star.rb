@@ -13,7 +13,7 @@ module Hopcroft
       end
 
       def to_regex_s
-        "#{regex_s_for_expression(expression)}#{STAR}"
+        "#{expression.to_regex_s}#{STAR}"
       end
     end
   end

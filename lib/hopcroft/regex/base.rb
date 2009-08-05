@@ -32,10 +32,6 @@ module Hopcroft
 
       alias_method :to_regex, :to_regexp
 
-      def regex_s_for_expression(expr)
-        expression.respond_to?(:to_regex_s) ? expression.to_regex_s : expression.to_s
-      end
-
       def to_machine
         new_machine do |m, start_state|
           build_machine(start_state)

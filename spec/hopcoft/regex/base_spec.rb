@@ -9,11 +9,11 @@ module Hopcroft
         end
 
         it "should be false if the other object generates a different regex" do
-          Regex::KleenStar.new("a").should_not == Regex::KleenStar.new("b")
+          Regex::KleenStar.new(Char.new("a")).should_not == Regex::KleenStar.new(Char.new("b"))
         end
 
         it "should be true if the other generates the same regex" do
-          Regex::KleenStar.new("a").should == Regex::KleenStar.new("a")
+          Regex::KleenStar.new(Char.new("a")).should == Regex::KleenStar.new(Char.new("a"))
         end
       end
 
