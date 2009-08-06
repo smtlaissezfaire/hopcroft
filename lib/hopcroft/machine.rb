@@ -2,7 +2,7 @@ module Hopcroft
   module Machine
     extend Using
     
-    using :TransitionTable
+    using :NfaTransitionTable
     using :State
     using :Transition
     using :StateMachine

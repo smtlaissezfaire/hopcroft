@@ -26,7 +26,7 @@ module Hopcroft
       end
 
       def state_table
-        returning TransitionTable.new do |table|
+        returning NfaTransitionTable.new do |table|
           table.start_state = start_state
           start_state.add_transitions_to_table(table)
         end

@@ -2,10 +2,10 @@ require File.expand_path(File.dirname(__FILE__) + "/../../../spec_helper")
 
 module Hopcroft
   module Machine
-    describe TransitionTable do
+    describe NfaTransitionTable do
       describe "new_transitions_for" do
         before do
-          @table = TransitionTable.new
+          @table = NfaTransitionTable.new
           @state1 = State.new
           @state2 = State.new(:start_state => false)
           @state3 = State.new(:start_state => false)

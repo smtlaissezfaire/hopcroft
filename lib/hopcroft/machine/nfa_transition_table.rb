@@ -1,6 +1,6 @@
 module Hopcroft
   module Machine
-    class TransitionTable < Hash
+    class NfaTransitionTable < Hash
       class MissingStartState < StandardError; end
       
       attr_reader :start_state

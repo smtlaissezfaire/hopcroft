@@ -2,10 +2,10 @@ require File.expand_path(File.dirname(__FILE__) + "/../../spec_helper")
 
 module Hopcroft
   module Machine
-    describe TransitionTable do
+    describe NfaTransitionTable do
       describe "adding a state change" do
         before do
-          @table = TransitionTable.new
+          @table = NfaTransitionTable.new
         end
 
         it "should create a two dimensional entry, with [from_state][transition] = [to_state]" do
@@ -65,7 +65,7 @@ module Hopcroft
 
       describe "targets_for" do
         before do
-          @table = TransitionTable.new
+          @table = NfaTransitionTable.new
           @state = mock(State, :start_state? => false, :final? => false)
           @transition = :foo
         end
@@ -83,7 +83,7 @@ module Hopcroft
 
       describe "matching a symbol" do
         before do
-          @table = TransitionTable.new
+          @table = NfaTransitionTable.new
         end
 
         it "should match if one symbol in the table, and the symbol is given" do
@@ -119,7 +119,7 @@ module Hopcroft
         it "should raise an error if there is no start state" do
           lambda {
             @table.matches?([:foo])
-          }.should raise_error(TransitionTable::MissingStartState)
+          }.should raise_error(NfaTransitionTable::MissingStartState)
         end
 
         it "should match when following two symbols" do
@@ -183,7 +183,7 @@ module Hopcroft
 
       describe "inspect" do
         before do
-          @table = TransitionTable.new
+          @table = NfaTransitionTable.new
           @displayer = mock TableDisplayer
         end
 
@@ -208,7 +208,7 @@ module Hopcroft
 
       describe "to_hash" do
         it "should return a hash" do
-          TransitionTable.new.to_hash.class.should == Hash
+          NfaTransitionTable.new.to_hash.class.should == Hash
         end
       end
       
@@ -225,7 +225,7 @@ module Hopcroft
             @state2 = State.new :start_state => false, :name => "State 2"
             @state3 = State.new :start_state => false, :name => "State 3", :final_state => true
             
-            @table = TransitionTable.new
+            @table = NfaTransitionTable.new
             @table.add_state_change @state1, @state2, EpsilonTransition
             @table.add_state_change @state2, @state3, :a
             @table.start_state = @state1

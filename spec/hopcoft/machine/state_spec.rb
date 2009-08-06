@@ -92,7 +92,7 @@ module Hopcroft
           s1.add_transition :state => s2, :epsilon => true
           s2.add_transition :state => s1, :epsilon => true
 
-          table = TransitionTable.new
+          table = NfaTransitionTable.new
 
           s1.add_transitions_to_table(table)
         end
