@@ -1,11 +1,11 @@
 module Hopcroft
   module Regex
-    grammar TreetopRegex do
-      rule a_regex do
+    grammar TreetopRegex
+      rule a_regex
         expr_with_parens / expr_without_parens
       end
 
-      rule expr_with_parens do
+      rule expr_with_parens
         "(" expr_with_parens ")" {
           def eval
             expr_with_parens.eval
@@ -19,7 +19,7 @@ module Hopcroft
         multi_valued_expression
       end
 
-      rule multi_valued_expression do
+      rule multi_valued_expression
         car:single_value_expression cdr:single_value_expression* {
           def eval
             if cdr.elements.any?
@@ -37,27 +37,27 @@ module Hopcroft
         escaped_char / expr_without_escaping
       end
 
-      rule expr_without_escaping do
+      rule expr_without_escaping
         kleen_star / expr_without_kleen_star
       end
 
-      rule expr_without_kleen_star do
+      rule expr_without_kleen_star
         alternation / expr_without_alternation
       end
 
-      rule expr_without_alternation do
+      rule expr_without_alternation
         plus_expr / expr_without_plus
       end
 
-      rule expr_without_plus do
+      rule expr_without_plus
         optional_expr / expr_without_optional_expr
       end
 
-      rule expr_without_optional_expr do
+      rule expr_without_optional_expr
         char_class / dot / unescaped_char
       end
 
-      rule alternation do
+      rule alternation
         one:expr_without_alternation "|" two:expr_without_alternation {
           def eval
             Alternation.new(one.eval, two.eval)
@@ -65,7 +65,7 @@ module Hopcroft
         }
       end
 
-      rule plus_expr do
+      rule plus_expr
         expr_without_plus "+" {
           def eval
             Plus.new(expr_without_plus.eval)
@@ -73,7 +73,7 @@ module Hopcroft
         }
       end
 
-      rule optional_expr do
+      rule optional_expr
         expr_without_optional_expr "?" {
           def eval
             OptionalSymbol.new(expr_without_optional_expr.eval)
@@ -81,7 +81,7 @@ module Hopcroft
         }
       end
 
-      rule char_class do
+      rule char_class
         "[" char_class_expr "]" {
           def eval
             CharacterClass.new(char_class_expr.eval)
@@ -89,7 +89,7 @@ module Hopcroft
         }
       end
 
-      rule char_class_expr do
+      rule char_class_expr
         one:char "-" two:char {
           def eval
             "#{one.text_value}-#{two.text_value}"
@@ -103,7 +103,7 @@ module Hopcroft
         }
       end
 
-      rule kleen_star do
+      rule kleen_star
         expr_without_kleen_star "*" {
           def eval
             KleenStar.new(expr_without_kleen_star.eval)
@@ -111,7 +111,7 @@ module Hopcroft
         }
       end
 
-      rule dot do
+      rule dot
         "." {
           def eval
             Dot.new
@@ -119,11 +119,11 @@ module Hopcroft
         }
       end
 
-      rule char do
+      rule char
         unescaped_char / escaped_char
       end
 
-      rule unescaped_char do
+      rule unescaped_char
         non_special_char {
           def eval
             Char.new(text_value)
@@ -131,7 +131,7 @@ module Hopcroft
         }
       end
 
-      rule escaped_char do
+      rule escaped_char
         escape_char any_char {
           def eval
             Char.new(any_char.text_value)
@@ -139,15 +139,15 @@ module Hopcroft
         }
       end
 
-      rule non_special_char do
+      rule non_special_char
         !("(" / ")" / "[" / "+" / "?" / "+" / "]" / "|" / "*" / "\\") .
       end
 
-      rule any_char do
+      rule any_char
         .
       end
 
-      rule escape_char do
+      rule escape_char
         "\\"
       end
     end
