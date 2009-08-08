@@ -6,8 +6,10 @@ module Hopcroft
     class Parser
       class ParseError < StandardError; end
 
-      def self.parse(str)
-        new.parse_and_eval(str)
+      def self.parse(str, debugging = false)
+        obj = new
+        obj.debug = debugging
+        obj.parse_and_eval(str)
       end
 
       def initialize
@@ -17,11 +19,18 @@ module Hopcroft
       def parse(str)
         @parser.parse(str)
       end
-
+      
+      def debugging?
+        @debug ? true : false
+      end
+      
+      attr_writer :debug
+      
       def parse_and_eval(str)
         if parse = parse(str)
           parse.eval
         else
+          puts @parser.inspect if debugging?
           raise ParseError, "could not parse the regex '#{str}'"
         end
       end

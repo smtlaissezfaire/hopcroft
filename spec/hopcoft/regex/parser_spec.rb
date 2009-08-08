@@ -237,6 +237,18 @@ module Hopcroft
           result.should be_a_kind_of(Plus)
         end
       end
+      
+      describe "debugging info" do
+        it "should have debugging info off by default" do
+          Parser.new.should_not be_debugging
+        end
+        
+        it "should be able to set debugging information" do
+          p = Parser.new
+          p.debug = true
+          p.should be_debugging
+        end
+      end
     end
   end
 end
