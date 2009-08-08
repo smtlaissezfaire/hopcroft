@@ -1,15 +1,11 @@
 module Hopcroft
   module Machine
-    class NfaTransitionTable < Hash
-      class MissingStartState < StandardError; end
-      
-      attr_reader :start_state
-
+    class NfaTransitionTable < TransitionTable
       def start_state=(start_state)
         self[start_state] ||= {}
-        @start_state = start_state
+        super
       end
-
+      
       # Create a transition without marking appropriate start states
       def add_state_change(from_state, to_state, transition_symbol)
         sym = transition_symbol
@@ -37,24 +33,6 @@ module Hopcroft
 
       def next_transitions(states, sym)
         states.map { |s| targets_for(s, sym) }.compact.flatten
-      end
-
-      def matches?(input_array, current_states = initial_states)
-        raise MissingStartState unless start_state
-
-        input_array.each do |sym|
-          current_states = next_transitions(current_states, sym.to_sym)
-        end
-
-        current_states.any? { |state| state.final? }
-      end
-
-      def inspect
-        TableDisplayer.new(self).to_s
-      end
-
-      def to_hash
-        Hash.new(self)
       end
 
     private
