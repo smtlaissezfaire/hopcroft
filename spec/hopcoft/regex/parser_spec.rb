@@ -230,6 +230,13 @@ module Hopcroft
       it "should allow multiple expressions inside a char class (i.e [a-zA-Z])"
 
       it "should be able to parse multiple ORs (a|b|c)"
+      
+      it "should be able to parse (a|b)+" do
+        pending do
+          result = Parser.parse("(a|b)+")
+          result.should be_a_kind_of(Plus)
+        end
+      end
     end
   end
 end
