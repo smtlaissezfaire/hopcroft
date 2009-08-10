@@ -5,9 +5,7 @@ module Hopcroft
       
       class MultiExpression < Base
         def eval
-          second_expression.respond_to?(:call) ?
-            second_expression.call(first_expression) :
-            first_expression
+          second_expression.call(first_expression)
         end
       end
       
@@ -71,7 +69,9 @@ module Hopcroft
       
       class Epsilon < Base
         def eval
-          # nil
+          lambda do |obj|
+            obj
+          end
         end
       end
       
