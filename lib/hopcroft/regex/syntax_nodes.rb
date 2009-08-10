@@ -3,9 +3,9 @@ module Hopcroft
     module SyntaxNodes
       class Base < ::Treetop::Runtime::SyntaxNode; end
       
-      class Subexpression < Base
+      class LeftFactoredExpression < Base
         def eval
-          char = leading_expression.eval.call(leading_expression)
+          char = left_factored_expression.eval.call(left_factored_expression)
           subexpr = subexpression.eval
           
           if subexpr.respond_to?(:call)

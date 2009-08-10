@@ -22,7 +22,7 @@ module Hopcroft
       
       rule regex
         LEFT_PARENS regex RIGHT_PARENS subexpression <SyntaxNodes::ParenthesizedSubexpression> /
-        leading_expression subexpression             <SyntaxNodes::Subexpression>
+        left_factored_expression       subexpression <SyntaxNodes::LeftFactoredExpression>
       end
       
       rule subexpression
@@ -34,7 +34,7 @@ module Hopcroft
         ""        <SyntaxNodes::Epsilon>
       end
       
-      rule leading_expression
+      rule left_factored_expression
         dot / character_class / single_char
       end
       
