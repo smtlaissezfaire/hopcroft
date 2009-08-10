@@ -21,8 +21,8 @@ module Hopcroft
       # See http://en.wikipedia.org/wiki/Left_recursion#Removing_immediate_left_recursion
       
       rule regex
-        LEFT_PARENS regex RIGHT_PARENS    <SyntaxNodes::ParenthesizedExpression> /
-        leading_expression subexpression  <SyntaxNodes::Subexpression>
+        LEFT_PARENS regex RIGHT_PARENS subexpression <SyntaxNodes::ParenthesizedSubexpression> /
+        leading_expression subexpression             <SyntaxNodes::Subexpression>
       end
       
       rule subexpression

@@ -6,7 +6,6 @@ module Hopcroft
       class Subexpression < Base
         def eval
           char = leading_expression.eval.call(leading_expression)
-        
           subexpr = subexpression.eval
           
           if subexpr.respond_to?(:call)
@@ -19,9 +18,18 @@ module Hopcroft
         end
       end
       
-      class ParenthesizedExpression < Base
+      class ParenthesizedSubexpression < Base
         def eval
-          regex.eval
+          char    = regex.eval
+          subexpr = subexpression.eval
+          
+          if subexpr.respond_to?(:call)
+            subexpr.call(char)
+          elsif subexpr
+            char + subexpr
+          else
+            char
+          end
         end
       end
       

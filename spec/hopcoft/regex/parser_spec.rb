@@ -266,10 +266,8 @@ module Hopcroft
       it "should be able to parse multiple ORs (a|b|c)"
       
       it "should be able to parse (a|b)+" do
-        pending do
-          result = Parser.parse("(a|b)+")
-          result.should be_a_kind_of(Plus)
-        end
+        result = Parser.parse("(a|b)+")
+        result.should be_a_kind_of(Plus)
       end
       
       describe "debugging info" do
