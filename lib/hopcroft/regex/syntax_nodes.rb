@@ -3,33 +3,35 @@ module Hopcroft
     module SyntaxNodes
       class Base < ::Treetop::Runtime::SyntaxNode; end
       
-      class LeftFactoredExpression < Base
+      class MultiExpression < Base
         def eval
-          char = left_factored_expression.eval.call(left_factored_expression)
-          subexpr = subexpression.eval
-          
-          if subexpr.respond_to?(:call)
-            subexpr.call(char)
-          elsif subexpr
-            char + subexpr
+          if second_expression.respond_to?(:call)
+            second_expression.call(first_expression)
+          elsif second_expression
+            first_expression + second_expression
           else
-            char
+            first_expression
           end
         end
       end
       
-      class ParenthesizedSubexpression < Base
-        def eval
-          char    = regex.eval
-          subexpr = subexpression.eval
-          
-          if subexpr.respond_to?(:call)
-            subexpr.call(char)
-          elsif subexpr
-            char + subexpr
-          else
-            char
-          end
+      class LeftFactoredExpression < MultiExpression
+        def first_expression
+          @first_expression ||= left_factored_expression.eval.call(left_factored_expression)
+        end
+        
+        def second_expression
+          @second_expression ||= subexpression.eval
+        end
+      end
+      
+      class ParenthesizedSubexpression < MultiExpression
+        def first_expression
+          @first_expression ||= regex.eval
+        end
+        
+        def second_expression
+          @second_expression ||= subexpression.eval
         end
       end
       
