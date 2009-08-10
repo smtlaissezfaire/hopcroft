@@ -115,12 +115,37 @@ module Hopcroft
     end
     
     describe "the regex /(a|b)+/" do
-      it "should not match the empty string"
-      it "should match an a"
-      it "should match 'b'"
-      it "should match 'aaa'"
-      it "should match 'bbb'"
-      it "should match 'ababababbbaaa'"
+      before do
+        @regex = Regex.compile("(a|b)+")
+      end
+      
+      it "should not match the empty string" do
+        @regex.should_not be_matched_by("")
+      end
+      
+      it "should match an a" do
+        @regex.should be_matched_by("a")
+      end
+      
+      it "should match 'b'" do
+        @regex.should be_matched_by("b")
+      end
+        
+      it "should match 'aaa'" do
+        @regex.should be_matched_by("aaa")
+      end
+        
+      it "should match 'bbb'" do
+        @regex.should be_matched_by("bbb")
+      end
+        
+      it "should match 'ababababbbaaa'" do
+        @regex.should be_matched_by('ababababbbaaa')
+      end
+      
+      it "should not be matched if it contains a different char" do
+        @regex.should_not be_matched_by("ababbbbaacaab")
+      end
     end
   end
 end
