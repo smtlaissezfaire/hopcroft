@@ -1,154 +1,90 @@
 module Hopcroft
   module Regex
     grammar TreetopRegex
-      rule a_regex
-        expr_with_parens / expr_without_parens
+      # expr -> expr "*"
+      #      -> expr "+"
+      #      -> expr expr  # concatenation
+      #      -> "(" expr ")"
+      #      -> /[a-zA-Z]+/
+      #      
+      # after left factorization:
+      #      
+      # expr -> "(" expr-prime ")"
+      #      -> /[az-A-Z]/ expr-prime
+      #      
+      # expr-prime -> ""
+      #            -> "*"
+      #            -> "+"
+      #            -> expr
+      #            
+      #
+      # See http://en.wikipedia.org/wiki/Left_recursion#Removing_immediate_left_recursion
+      
+      rule regex
+        LEFT_PARENS regex RIGHT_PARENS    <SyntaxNodes::ParenthesizedExpression> /
+        leading_expression subexpression  <SyntaxNodes::Subexpression>
       end
-
-      rule expr_with_parens
-        "(" expr_with_parens ")" {
-          def eval
-            expr_with_parens.eval
-          end
-        }
-        /
-        expr_without_parens
+      
+      rule subexpression
+        "*"       <SyntaxNodes::KleenStar>          /
+        "+"       <SyntaxNodes::Plus>               /
+        "?"       <SyntaxNodes::OptionalSymbol>     /
+        "|" regex <SyntaxNodes::Alternation>        /
+        regex                                       /
+        ""        <SyntaxNodes::Epsilon>
       end
-
-      rule expr_without_parens
-        multi_valued_expression
+      
+      rule leading_expression
+        dot / character_class / single_char
       end
-
-      rule multi_valued_expression
-        car:single_value_expression cdr:single_value_expression* {
-          def eval
-            if cdr.elements.any?
-              a = [car.eval, cdr.elements.map { |element| element.eval }]
-              a.flatten!
-              a.inject { |collection, element| collection + element }
-            else
-              car.eval
-            end
-          end
-        }
+      
+      rule character_class
+        LEFT_BRACKET inner_char_class RIGHT_BRACKET <SyntaxNodes::CharClass>
       end
-
-      rule single_value_expression
-        escaped_char / expr_without_escaping
+      
+      rule inner_char_class
+        one:single_char "-" two:single_char <SyntaxNodes::TwoCharClass> /
+        single_char                         <SyntaxNodes::OneCharCharClass>
       end
-
-      rule expr_without_escaping
-        kleen_star / expr_without_kleen_star
-      end
-
-      rule expr_without_kleen_star
-        alternation / expr_without_alternation
-      end
-
-      rule expr_without_alternation
-        plus_expr / expr_without_plus
-      end
-
-      rule expr_without_plus
-        optional_expr / expr_without_optional_expr
-      end
-
-      rule expr_without_optional_expr
-        char_class / dot / unescaped_char
-      end
-
-      rule alternation
-        one:expr_without_alternation "|" two:expr_without_alternation {
-          def eval
-            Alternation.new(one.eval, two.eval)
-          end
-        }
-      end
-
-      rule plus_expr
-        expr_without_plus "+" {
-          def eval
-            Plus.new(expr_without_plus.eval)
-          end
-        }
-      end
-
-      rule optional_expr
-        expr_without_optional_expr "?" {
-          def eval
-            OptionalSymbol.new(expr_without_optional_expr.eval)
-          end
-        }
-      end
-
-      rule char_class
-        "[" char_class_expr "]" {
-          def eval
-            CharacterClass.new(char_class_expr.eval)
-          end
-        }
-      end
-
-      rule char_class_expr
-        one:char "-" two:char {
-          def eval
-            "#{one.text_value}-#{two.text_value}"
-          end
-        }
-        /
-        char {
-          def eval
-            text_value
-          end
-        }
-      end
-
-      rule kleen_star
-        expr_without_kleen_star "*" {
-          def eval
-            KleenStar.new(expr_without_kleen_star.eval)
-          end
-        }
-      end
-
+      
       rule dot
-        "." {
-          def eval
-            Dot.new
-          end
-        }
+        "." <SyntaxNodes::Dot>
       end
-
-      rule char
-        unescaped_char / escaped_char
+      
+      rule single_char
+        non_special_char / escaped_char
       end
-
-      rule unescaped_char
-        non_special_char {
-          def eval
-            Char.new(text_value)
-          end
-        }
-      end
-
-      rule escaped_char
-        escape_char any_char {
-          def eval
-            Char.new(any_char.text_value)
-          end
-        }
-      end
-
+      
       rule non_special_char
-        !("(" / ")" / "[" / "+" / "?" / "+" / "]" / "|" / "*" / "\\") .
+        !("(" / ")" / "[" / "+" / "?" / "+" / "]" / "|" / "*" / "\\") ANY_CHAR <SyntaxNodes::NonSpecialChar>
       end
-
-      rule any_char
+      
+      rule escaped_char
+        ESCAPE any_char:ANY_CHAR <SyntaxNodes::EscapedChar>
+      end
+      
+      rule ANY_CHAR
         .
       end
-
-      rule escape_char
+      
+      rule LEFT_BRACKET
+        "["
+      end
+      
+      rule RIGHT_BRACKET
+        "]"
+      end
+      
+      rule ESCAPE
         "\\"
+      end
+      
+      rule LEFT_PARENS
+        "("
+      end
+      
+      rule RIGHT_PARENS
+        ")"
       end
     end
   end

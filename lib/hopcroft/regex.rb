@@ -24,7 +24,7 @@ module Hopcroft
     using :OptionalSymbol
     using :Concatenation
     using :Alternation
-
+    using :SyntaxNodes
     using :Parser
     
     def self.compile(from_string)
