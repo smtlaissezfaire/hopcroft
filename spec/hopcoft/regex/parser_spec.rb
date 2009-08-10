@@ -263,7 +263,10 @@ module Hopcroft
       
       it "should allow multiple expressions inside a char class (i.e [a-zA-Z])"
       
-      it "should be able to parse multiple ORs (a|b|c)"
+      it "should be able to parse multiple ORs (a|b|c)" do
+        result = Parser.parse("a|b|c")
+        result.should == Alternation.new(Char.new("a"), Alternation.new(Char.new("b"), Char.new("c")))
+      end
       
       it "should be able to parse (a|b)+" do
         result = Parser.parse("(a|b)+")
