@@ -276,6 +276,23 @@ module Hopcroft
         result.should be_a_kind_of(Plus)
       end
       
+      it "should be able to parse (a|b+)x" do
+        result = Parser.parse("(a|b+)x")
+        result.should be_a_kind_of(Concatenation)
+      end
+      
+      it "should be able to parse (a|b)+x" do
+        pending do
+          result = Parser.parse("(a|b)+x", true)
+          result.should be_a_kind_of(Concatenation)
+        end
+      end
+      
+      it "should be able to parse (a)" do
+        result = Parser.parse("(a)")
+        result.should be_a_kind_of(Char)
+      end
+      
       describe "debugging info" do
         it "should have debugging info off by default" do
           Parser.new.should_not be_debugging

@@ -147,5 +147,19 @@ module Hopcroft
         @regex.should_not be_matched_by("ababbbbaacaab")
       end
     end
+    
+    describe "the regex (a|b)+x" do
+      before do
+        # @regex = Regex.compile("(a|b)+x")
+      end
+      
+      it "should match 'ax'"
+      
+      it "should match 'bx'"
+      
+      it "should match 'ababx'"
+      
+      it "should not match 'x'"
+    end
   end
 end
