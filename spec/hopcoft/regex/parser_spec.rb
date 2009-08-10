@@ -283,7 +283,7 @@ module Hopcroft
       
       it "should be able to parse (a|b)+x" do
         pending do
-          result = Parser.parse("(a|b)+x", true)
+          result = Parser.parse("(a|b)+x")
           result.should be_a_kind_of(Concatenation)
         end
       end
