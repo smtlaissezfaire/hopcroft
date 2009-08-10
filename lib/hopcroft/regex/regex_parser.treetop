@@ -43,6 +43,10 @@ module Hopcroft
       end
       
       rule inner_char_class
+        inner_char_class_expr+ <SyntaxNodes::MultipleInnerCharClassExpressions>
+      end
+      
+      rule inner_char_class_expr
         one:single_char "-" two:single_char <SyntaxNodes::TwoCharClass> /
         single_char                         <SyntaxNodes::OneCharCharClass>
       end

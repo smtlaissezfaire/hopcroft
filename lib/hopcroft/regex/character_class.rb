@@ -4,8 +4,12 @@ module Hopcroft
       class InvalidCharacterClass < StandardError; end
 
       class << self
-        def new(str)
-          one_char_long?(str) ? Char.new(str) : super
+        def new(*strs)
+          if strs.size == 1 && one_char_long?(strs.first)
+            Char.new(strs.first)
+          else
+            super
+          end
         end
 
       private
@@ -15,8 +19,8 @@ module Hopcroft
         end
       end
 
-      def initialize(str)
-        super
+      def initialize(*strs)
+        @expressions = strs
         raise InvalidCharacterClass if invalid_expression?
       end
 
@@ -31,19 +35,36 @@ module Hopcroft
       end
 
       def symbols
-        start, finish = expression.split("-")
-        Range.new(start, finish).to_a.map { |e| e.to_s }
+        @expressions.map { |expr| symbols_for_expr(expr) }.flatten
       end
 
       def to_regex_s
-        "#{OPEN_BRACKET}#{expression}#{CLOSE_BRACKET}"
+        "#{OPEN_BRACKET}#{expression_regex}#{CLOSE_BRACKET}"
       end
 
     private
+    
+      def symbols_for_expr(expr)
+        if expr.include?("-")
+          Range.new(*expr.split("-")).to_a.map { |e| e.to_s }
+        else
+          expr
+        end
+      end
+    
+      def expression_regex
+        @expressions.join("")
+      end
 
       def valid_expression?
-        one, two = expression.split("-")
-        two > one
+        @expressions.all? do |expr|
+          if expr.include?("-")
+            one, two = expr.split("-")
+            two > one
+          else
+            true
+          end
+        end
       end
 
       def invalid_expression?

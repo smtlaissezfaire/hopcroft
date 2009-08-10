@@ -102,7 +102,15 @@ module Hopcroft
       class CharClass < Base
         def eval
           lambda do
-            CharacterClass.new(inner_char_class.eval.call)
+            CharacterClass.new(*inner_char_class.eval.call)
+          end
+        end
+      end
+      
+      class MultipleInnerCharClassExpressions < Base
+        def eval
+          lambda do
+            elements.map { |e| e.eval.call }
           end
         end
       end

@@ -261,7 +261,10 @@ module Hopcroft
         }.should raise_error(Parser::ParseError, "could not parse the regex ']'")
       end
       
-      it "should allow multiple expressions inside a char class (i.e [a-zA-Z])"
+      it "should allow multiple expressions inside a char class (i.e [a-zA-Z])" do
+        result = Parser.parse("[a-zA-Z]")
+        result.should be_a_kind_of(CharacterClass)
+      end
       
       it "should be able to parse multiple ORs (a|b|c)" do
         result = Parser.parse("a|b|c")

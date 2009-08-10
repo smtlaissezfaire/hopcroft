@@ -24,7 +24,7 @@ module Hopcroft
    
         it "should be valid with a-e" do
           klass = CharacterClass.new("a-e")
-          klass.expression.should == "a-e"
+          klass.to_regex_s.should == "[a-e]"
         end
    
         it "should be invalid if the second char comes before the first in the alphabet" do
@@ -41,6 +41,14 @@ module Hopcroft
 
         it "should have the regex string" do
           CharacterClass.new("a-c").to_regex_s.should == "[a-c]"
+        end
+        
+        it "should be valid with multiple ranges" do
+          CharacterClass.new("a-c", "e-f").to_regex_s.should == "[a-ce-f]"
+        end
+        
+        it "should allow a range and a single char" do
+          CharacterClass.new("a-c", "d").to_regex_s.should == "[a-cd]"
         end
       end
 
@@ -70,7 +78,26 @@ module Hopcroft
           klass.matches?("0").should be_true
         end
 
-        it "should match in a multi-range expression [0-9a-eA-E]"
+        it "should match in a multi-range expression [0-9a-eA-E]" do
+          klass = CharacterClass.new("0-9", "a-e", "A-E")
+          klass.should be_matched_by("0")
+          klass.should be_matched_by("1")
+          klass.should be_matched_by("9")
+          klass.should be_matched_by("a")
+          klass.should be_matched_by("e")
+          klass.should be_matched_by("A")
+          klass.should be_matched_by("E")
+          klass.should_not be_matched_by("f")
+          klass.should_not be_matched_by("X")
+        end
+        
+        it "should match when given a range and a single char" do
+          klass = CharacterClass.new("0-9", "a")
+          klass.should be_matched_by("0")
+          klass.should be_matched_by("9")
+          klass.should be_matched_by("a")
+          klass.should_not be_matched_by("b")
+        end
       end
     end
   end
