@@ -30,7 +30,7 @@ module Hopcroft
         "+"       <SyntaxNodes::Plus>               /
         "?"       <SyntaxNodes::OptionalSymbol>     /
         "|" regex <SyntaxNodes::Alternation>        /
-        regex                                       /
+        regex     <SyntaxNodes::Concatenation>      /
         ""        <SyntaxNodes::Epsilon>
       end
       

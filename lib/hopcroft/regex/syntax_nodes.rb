@@ -5,13 +5,9 @@ module Hopcroft
       
       class MultiExpression < Base
         def eval
-          if second_expression.respond_to?(:call)
-            second_expression.call(first_expression)
-          elsif second_expression
-            first_expression + second_expression
-          else
+          second_expression.respond_to?(:call) ?
+            second_expression.call(first_expression) :
             first_expression
-          end
         end
       end
       
@@ -32,6 +28,20 @@ module Hopcroft
         
         def second_expression
           @second_expression ||= subexpression.eval
+        end
+      end
+      
+      module Concatenation
+        def eval
+          lambda do |obj|
+            subexpressions = elements.map { |e| e.eval }.compact
+            
+            if subexpressions.any?
+              Regex::Concatenation.new(obj, subexpressions.first.call(self))
+            else
+              obj
+            end
+          end
         end
       end
       
