@@ -4,13 +4,13 @@ module Hopcroft
   module Regex
     describe Parser do
       it "should parse 'a' as a Char" do
-        Parser.parse("a").should == Char.new('a')
+        Parser.parse("a", true).should == Char.new('a')
       end
       
       it "should parse '(a)' as a Char" do
         Parser.parse("(a)").should == Char.new("a")
       end
-
+      
       it "should parse 'b' as a Char" do
         Parser.parse("b").should == Char.new("b")
       end
@@ -174,8 +174,10 @@ module Hopcroft
       end
       
       it "should parse an escaped paren inside parens" do
-        result = Parser.parse('(\()')
-        result.should == Char.new("(")
+        pending do
+          result = Parser.parse('(\()')
+          result.should == Char.new("(")
+        end
       end
       
       it "should allow parens around a concatenation" do
@@ -184,8 +186,10 @@ module Hopcroft
       end
       
       it "should parse matching escaped parens inside a set of parens" do
-        result = Parser.parse '(\(\))'
-        result.should == (Char.new("(") + Char.new(")"))
+        pending do
+          result = Parser.parse '(\(\))'
+          result.should == (Char.new("(") + Char.new(")"))
+        end
       end
       
       it "should parse two sets of parens around each other" do
@@ -282,10 +286,8 @@ module Hopcroft
       end
       
       it "should be able to parse (a|b)+x" do
-        pending do
-          result = Parser.parse("(a|b)+x")
-          result.should be_a_kind_of(Concatenation)
-        end
+        result = Parser.parse("(a|b)+x")
+        result.should be_a_kind_of(Concatenation)
       end
       
       it "should be able to parse (a)" do
@@ -294,12 +296,20 @@ module Hopcroft
       end
       
       it "should be able to parse 'a+b+'" do
-        pending do
-          result = Parser.parse("a+b+")
-          result.should be_a_kind_of(Concatenation)
-        end
+        result = Parser.parse("a+b+", true)
+        result.should be_a_kind_of(Concatenation)
       end
-      
+
+      it "should be able to parse 'a+b+c+'" do
+        result = Parser.parse("a+b+c+")
+        result.should be_a_kind_of(Concatenation)
+      end
+
+      it "should parse an eval 'a+b+c+" do
+        result = Parser.parse("a+b+c+")
+        result.should == (Plus.new(Char.new("a")) + Plus.new(Char.new("b")) + Plus.new(Char.new("c")))
+      end
+
       describe "debugging info" do
         it "should have debugging info off by default" do
           Parser.new.should_not be_debugging

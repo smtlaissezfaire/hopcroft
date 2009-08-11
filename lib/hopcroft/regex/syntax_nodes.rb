@@ -3,139 +3,120 @@ module Hopcroft
     module SyntaxNodes
       class Base < ::Treetop::Runtime::SyntaxNode; end
       
-      class MultiExpression < Base
+      class Regex < Base
         def eval
-          second_expression.call(first_expression)
-        end
-      end
-      
-      class LeftFactoredExpression < MultiExpression
-        def first_expression
-          @first_expression ||= left_factored_expression.eval.call(left_factored_expression)
-        end
-        
-        def second_expression
-          @second_expression ||= subexpression.eval
-        end
-      end
-      
-      class ParenthesizedSubexpression < MultiExpression
-        def first_expression
-          @first_expression ||= regex.eval
-        end
-        
-        def second_expression
-          @second_expression ||= subexpression.eval
-        end
-      end
-      
-      module Concatenation
-        def eval
-          lambda do |obj|
-            subexpressions = elements.map { |e| e.eval }.compact
-            
-            if subexpressions.any?
-              Regex::Concatenation.new(obj, subexpressions.first.call(self))
-            else
-              obj
-            end
+          if tuple = regex_prime.eval
+            tuple.first.new(branch.eval, tuple.last)
+          else
+            branch.eval
           end
         end
       end
       
-      class Plus < Base
+      module Char
         def eval
-          lambda do |obj|
-            Hopcroft::Regex::Plus.new(obj)
-          end
+          Hopcroft::Regex::Char.new(text_value)
         end
       end
       
-      class KleenStar < Base
+      class Branch < Base
         def eval
-          lambda do |obj|
-            Hopcroft::Regex::KleenStar.new(obj)
-          end
-        end
-      end
-      
-      class OptionalSymbol < Base
-        def eval
-          lambda do |obj|
-            Hopcroft::Regex::OptionalSymbol.new(obj)
-          end
-        end
-      end
-      
-      class Epsilon < Base
-        def eval
-          lambda do |obj|
-            obj
+          if branch_prime.eval
+            closure.eval + branch_prime.eval
+          else
+            closure.eval
           end
         end
       end
       
       class Alternation < Base
         def eval
-          lambda do |obj|
-            Regex::Alternation.new(obj, regex.eval)
+          if sub = subexpression.eval
+            subexpression = sub.first.new(branch.eval, sub.last)
+            [Hopcroft::Regex::Alternation, subexpression]
+          else
+            [Hopcroft::Regex::Alternation, branch.eval]
+          end
+        end
+      end
+
+      class Concatenation < Base
+        def eval
+          if other = branch_prime.eval
+            closure.eval + branch_prime.eval
+          else
+            closure.eval
           end
         end
       end
       
-      class Dot < Base
+      class Closure < Base
         def eval
-          lambda do |obj|
-            Regex::Dot.new
+          if closure_prime.eval
+            closure_prime.eval.new(atom.eval)
+          else
+            atom.eval
           end
         end
       end
       
-      module NonSpecialChar
+      class KleenStar < Base
         def eval
-          lambda do |obj|
-            Char.new(obj.text_value)
-          end
+          Hopcroft::Regex::KleenStar
         end
       end
       
-      class CharClass < Base
+      class OptionalExpression < Base
         def eval
-          lambda do
-            CharacterClass.new(*inner_char_class.eval.call)
-          end
+          Hopcroft::Regex::OptionalSymbol
         end
       end
       
-      class MultipleInnerCharClassExpressions < Base
+      class OneOrMoreExpression < Base
         def eval
-          lambda do
-            elements.map { |e| e.eval.call }
-          end
+          Hopcroft::Regex::Plus
+        end
+      end
+      
+      class CharacterClass < Base
+        def eval
+          Hopcroft::Regex::CharacterClass.new(*inner_char_class.eval)
+        end
+      end
+      
+      class MultipleInnerCharClass < Base
+        def eval
+          elements.map { |e| e.eval }
         end
       end
       
       class TwoCharClass < Base
         def eval
-          lambda do
-            "#{one.text_value}-#{two.text_value}"
-          end
+          "#{one.text_value}-#{two.text_value}"
         end
       end
       
-      module OneCharCharClass
+      module OneCharClass
         def eval
-          lambda do
-            text_value
-          end
+          text_value
         end
       end
       
-      class EscapedChar < Base
+      class Epsilon < Base
         def eval
-          lambda do |obj|
-            Char.new(any_char.text_value)
-          end
+          nil
+        end
+      end
+      
+      class ParenthesizedExpression < Base
+        def eval
+          regex.eval
+        end
+      end
+      
+      class Dot < Base
+        def eval
+          Hopcroft::Regex::Dot.new
         end
       end
     end
