@@ -15,7 +15,7 @@ module Hopcroft
       
       module Char
         def eval
-          Hopcroft::Regex::Char.new(text_value)
+          Hopcroft::Regex::Char.new(any_char.text_value)
         end
       end
       

@@ -100,7 +100,7 @@ module Hopcroft
         parenthesized_expression             /
         dot                                  /
         character_class                      /
-        single_char <SyntaxNodes::Char>
+        single_char
       end
       
       rule dot
@@ -129,11 +129,11 @@ module Hopcroft
       end
       
       rule non_special_char
-        !("(" / ")" / "[" / "+" / "?" / "+" / "]" / "|" / "*" / "\\") ANY_CHAR
+        !("(" / ")" / "[" / "+" / "?" / "+" / "]" / "|" / "*" / "\\") any_char:ANY_CHAR <SyntaxNodes::Char>
       end
       
       rule escaped_char
-        ESCAPE any_char:ANY_CHAR
+        ESCAPE any_char:ANY_CHAR <SyntaxNodes::Char>
       end
       
       rule OR

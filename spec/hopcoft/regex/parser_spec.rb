@@ -174,10 +174,8 @@ module Hopcroft
       end
       
       it "should parse an escaped paren inside parens" do
-        pending do
-          result = Parser.parse('(\()')
-          result.should == Char.new("(")
-        end
+        result = Parser.parse('(\()')
+        result.should == Char.new("(")
       end
       
       it "should allow parens around a concatenation" do
@@ -186,10 +184,8 @@ module Hopcroft
       end
       
       it "should parse matching escaped parens inside a set of parens" do
-        pending do
-          result = Parser.parse '(\(\))'
-          result.should == (Char.new("(") + Char.new(")"))
-        end
+        result = Parser.parse '(\(\))'
+        result.should == (Char.new("(") + Char.new(")"))
       end
       
       it "should parse two sets of parens around each other" do
