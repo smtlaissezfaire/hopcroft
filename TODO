@@ -1,0 +1,6 @@
+- More integration specs
+- NFA -> DFA minimization using the subset construction algorithm (or another, if there is one).
+  - Integration tests should be matching against both the DFA + NFA matching techniques
+- Google Protocol buffer output for DFA state table. Conversion of the buffer to a regex.
+- Unicode support
+- Empty regexs (//) should be matched by an empty string
