@@ -90,9 +90,22 @@ module Hopcroft
       alias_method :final?, :final_state?
 
       attr_writer :final_state
-
-      def substates
-        transitions.map { |t| [t.state, t.state.substates] }.flatten
+      
+      def substates(excluded_states = [])
+        returning [] do |list|
+          follow_states.each do |state|
+            unless excluded_states.include?(state)
+              excluded_states << state
+              
+              list.push state
+              list.push *state.substates(excluded_states)
+            end
+          end
+        end
+      end
+      
+      def follow_states(excluded_states = [])
+        transitions.map { |t| t.state }.reject { |s| excluded_states.include?(s) }
       end
 
       def add_transitions_to_table(table)

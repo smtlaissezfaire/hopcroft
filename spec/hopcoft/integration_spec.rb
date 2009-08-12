@@ -150,10 +150,12 @@ module Hopcroft
     
     describe "the regex (a|b)+x" do
       before do
-        # @regex = Regex.compile("(a|b)+x")
+        @regex = Regex.compile("(a|b)+x")
       end
       
-      it "should match 'ax'"
+      it "should match 'ax'" do
+        @regex.should be_matched_by("ax")
+      end
       
       it "should match 'bx'"
       

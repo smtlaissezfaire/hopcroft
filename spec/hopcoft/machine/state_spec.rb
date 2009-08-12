@@ -271,6 +271,31 @@ module Hopcroft
 
           @state.substates.should == [substate, sub_substate]
         end
+        
+        it "should work with recursive transitions" do
+          @state.add_transition :state => @state
+          
+          @state.substates.should == [@state]
+        end
+        
+        it "should not find duplicate states" do
+          state2 = @state.add_transition
+          state3 = state2.add_transition
+          state4 = state3.add_transition
+          
+          state5 = state2.add_transition
+                   state4.add_transition :state => state5
+          
+          @state.substates.should == [state2, state3, state4, state5]
+        end
+        
+        it "should deal with infinite recursion on more than one level" do
+          state2 = @state.add_transition
+          state3 = state2.add_transition
+          state3.add_transition :state => @state
+          
+          @state.substates.should == [state2, state3, @state]
+        end
       end
     end
   end
