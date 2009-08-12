@@ -5,11 +5,10 @@ module Hopcroft
       
       attr_accessor :start_state
       
-      # def add_state_change(from, to, sym)
-      #   self[from]      ||= {}
-      #   self[from][sym]   = to
-      # end
-      # 
+      def add_state_change(from, to, sym)
+        raise NotImplementedError
+      end
+      
       def has_state_change?(from, to, sym)
         self[from] && self[from][sym]
       end
@@ -22,10 +21,10 @@ module Hopcroft
         TableDisplayer.new(self).to_s
       end
       
-      # def matches?(*args)
-      #   raise NotImplementedError
-      # end
-      # 
+      def matches?(input_array)
+        raise NotImplementedError
+      end
+      
       def matched_by?(*args)
         matches?(*args)
       end
