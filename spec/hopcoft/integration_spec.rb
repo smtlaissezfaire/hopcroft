@@ -157,11 +157,17 @@ module Hopcroft
         @regex.should be_matched_by("ax")
       end
       
-      it "should match 'bx'"
+      it "should match 'bx'" do
+        @regex.should be_matched_by("bx")
+      end
       
-      it "should match 'ababx'"
+      it "should match 'ababx'" do
+        @regex.should be_matched_by("ababx")
+      end
       
-      it "should not match 'x'"
+      it "should not match 'x'" do
+        @regex.should_not be_matched_by("x")
+      end
     end
   end
 end
