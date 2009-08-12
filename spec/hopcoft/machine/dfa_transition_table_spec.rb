@@ -102,6 +102,66 @@ module Hopcroft
             @table.matches?("foo")
           }.should raise_error(DfaTransitionTable::MissingStartState)
         end
+        
+        describe "with a start state which is a final state, with no transitions" do
+          before do
+            @state = State.new(:final => true)
+            @table.start_state = @state
+          end
+          
+          it "should match the start state with no input chars" do
+            @table.should be_matched_by([])
+          end
+          
+          it "should not match when given an input symbol" do
+            @table.should_not be_matched_by(["a"])
+          end
+        end
+        
+        describe "with only a start state & no final states" do
+          before do
+            @state = State.new(:final => false)
+            @table.start_state = @state
+          end
+          
+          it "should not match with no input" do
+            @table.should_not be_matched_by([])
+          end
+          
+          it "should not match when given an input symbol" do
+            @table.should_not be_matched_by(["a"])
+          end
+        end
+        
+        describe "with a start state which leads to a final state" do
+          before do
+            @state       = State.new
+            @final_state = State.new(:final => true)
+            
+            @table.start_state = @state
+            @table.add_state_change @state, @final_state, "a"
+          end
+          
+          it "should not match when given no input" do
+            @table.should_not be_matched_by([])
+          end
+          
+          it "should match when given the one char" do
+            @table.should be_matched_by(["a"])
+          end
+          
+          it "should not match when given a different char" do
+            @table.should_not be_matched_by(["b"])
+          end
+          
+          it "should not match when given the input symbol repeatedly" do
+            @table.should_not be_matched_by(["a", "a"])
+          end
+          
+          it "should return false if it does not match" do
+            @table.matched_by?(["a", "a"]).should be_false
+          end
+        end
       end
       
       describe "inspect" do

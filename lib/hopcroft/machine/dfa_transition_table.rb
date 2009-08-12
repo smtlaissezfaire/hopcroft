@@ -17,9 +17,26 @@ module Hopcroft
         self[state] && self[state][sym] ? self[state][sym] : nil
       end
       
+      def matches?(input_array, target = start_state)
+        raise_if_no_start_state
+        
+        input_array.each do |char|
+          target = target_for(target, char)
+          return false unless target
+        end
+        
+        final_state? target
+      end
+      
       alias_method :initial_state,    :start_state
       alias_method :initial_states,   :start_state
       alias_method :next_transitions, :target_for
+      
+    private
+    
+      def final_state?(target)
+        target.final?
+      end
     end
   end
 end

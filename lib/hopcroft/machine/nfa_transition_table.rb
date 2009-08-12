@@ -34,7 +34,17 @@ module Hopcroft
       def next_transitions(states, sym)
         states.map { |s| targets_for(s, sym) }.compact.flatten
       end
+      
+      def matches?(input_array, current_states = initial_states)
+        raise_if_no_start_state
+        
+        input_array.each do |sym|
+          current_states = next_transitions(current_states, sym.to_sym)
+        end
 
+        current_states.any? { |state| state.final? }
+      end
+      
     private
 
       def epsilon_states_following(state)

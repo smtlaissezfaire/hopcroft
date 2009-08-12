@@ -14,16 +14,6 @@ module Hopcroft
         self[from] && self[from][sym]
       end
       
-      def matches?(input_array, current_states = initial_states)
-        raise MissingStartState unless start_state
-
-        input_array.each do |sym|
-          current_states = next_transitions(current_states, sym.to_sym)
-        end
-
-        current_states.any? { |state| state.final? }
-      end
-      
       def to_hash
         Hash.new(self)
       end
@@ -31,6 +21,20 @@ module Hopcroft
       def inspect
         TableDisplayer.new(self).to_s
       end
+      
+      def matches?(*args)
+        raise NotImplementedError
+      end
+      
+      def matched_by?(*args)
+        matches?(*args)
+      end
+      
+    private
+    
+      def raise_if_no_start_state
+        raise MissingStartState unless start_state
+      end    
     end
   end
 end
