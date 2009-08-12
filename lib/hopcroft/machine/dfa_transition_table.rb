@@ -10,7 +10,7 @@ module Hopcroft
       end
       
       def has_state_change?(from, to, sym)
-        self[from] && self[from][sym] && self[from][sym] == to ? true : false
+        super && self[from][sym] == to ? true : false
       end
       
       def target_for(state, sym)

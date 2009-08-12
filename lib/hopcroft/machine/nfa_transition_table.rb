@@ -16,9 +16,7 @@ module Hopcroft
       end
 
       def has_state_change?(from_state, to_state, transition_symbol)
-        self[from_state] &&
-          self[from_state][transition_symbol] &&
-          self[from_state][transition_symbol].include?(to_state)
+        super && self[from_state][transition_symbol].include?(to_state)
       end
 
       def targets_for(state, transition_sym)

@@ -10,9 +10,9 @@ module Hopcroft
       #   self[from][sym]   = to
       # end
       # 
-      # def has_state_change?(from, to, sym)
-      #   self[from] && self[from][sym]
-      # end
+      def has_state_change?(from, to, sym)
+        self[from] && self[from][sym]
+      end
       
       def to_hash
         Hash.new(self)
