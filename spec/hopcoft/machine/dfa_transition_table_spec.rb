@@ -169,6 +169,16 @@ module Hopcroft
           TableDisplayer.should_receive(:new)
           @table.inspect
         end
+        
+        it "should output a display with rows + columns (it should not raise an error)" do
+          state1, state2 = State.new, State.new
+          
+          @table.add_state_change(state1, state2, :a_sym)
+          
+          lambda {
+            @table.inspect
+          }.should_not raise_error
+        end
       end
     end
   end

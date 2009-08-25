@@ -26,7 +26,11 @@ module Hopcroft
               text = decorate_start_state(entry)
               decorate_final_state(entry, text)
             else
-              entry.map { |state| decorate_final_state(state) }.join(", ")
+              if entry.respond_to?(:map)
+                entry.map { |state| decorate_final_state(state) }.join(", ")
+              else
+                decorate_final_state(entry)
+              end
             end
           end
         end
