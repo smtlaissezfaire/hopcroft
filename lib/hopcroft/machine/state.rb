@@ -1,31 +1,18 @@
 module Hopcroft
   module Machine
     class State
-      class << self
-        def reset_counter!
-          @counter = 1
-        end
-
-        def next_counter
-          returning counter do |c|
-            @counter += 1
-          end
-        end
-
-        def counter
-          @counter ||= 1
-        end
-      end
+      extend Identifiable
 
       def initialize(options={})
+        track_id
+        
         @start_state = options[:start_state] if options.has_key?(:start_state)
         @final_state = options[:final]       if options.has_key?(:final)
-        @id          = self.class.next_counter
+        
         assign_name(options)
       end
 
       attr_reader  :name
-      attr_reader  :id
       alias_method :to_s, :name
 
       def inspect

@@ -2,6 +2,7 @@ module Hopcroft
   module Machine
     extend Using
     
+    using :Identifiable
     using :TransitionTable
     using :NfaTransitionTable
     using :DfaTransitionTable
