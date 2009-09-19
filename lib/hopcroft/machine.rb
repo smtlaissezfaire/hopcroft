@@ -12,5 +12,6 @@ module Hopcroft
     using :AnyCharTransition
     using :TableConverter
     using :TableDisplayer
+    using :StateMachineHelpers
   end
 end

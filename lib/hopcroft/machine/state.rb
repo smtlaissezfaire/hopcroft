@@ -37,6 +37,10 @@ module Hopcroft
       end
 
       attr_writer :transitions
+      
+      def epsilon_transitions
+        transitions.select { |t| t.epsilon_transition? }
+      end
 
       # Accepts the following hash arguments:
       #

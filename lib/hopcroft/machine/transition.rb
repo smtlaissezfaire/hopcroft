@@ -13,6 +13,10 @@ module Hopcroft
       def deep_clone
         self.class.new(symbol, state.deep_clone)
       end
+      
+      def epsilon_transition?
+        symbol == EpsilonTransition
+      end
     end
   end
 end
