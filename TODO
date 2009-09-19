@@ -4,3 +4,4 @@
 - Google Protocol buffer output for DFA state table. Conversion of the buffer to a regex.
 - Unicode support
 - Empty regexs (//) should be matched by an empty string
+- Get rid of NFA transition table in favor of DFA transition table
