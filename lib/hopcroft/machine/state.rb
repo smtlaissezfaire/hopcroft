@@ -20,11 +20,13 @@ module Hopcroft
       def initialize(options={})
         @start_state = options[:start_state] if options.has_key?(:start_state)
         @final_state = options[:final]       if options.has_key?(:final)
+        @id          = self.class.next_counter
         assign_name(options)
       end
 
-      attr_reader :name
-      alias_method :to_s,    :name
+      attr_reader  :name
+      attr_reader  :id
+      alias_method :to_s, :name
 
       def inspect
         "#{name} {start: #{start_state?}, final: #{final_state?}, transitions: #{transitions.size}}"
@@ -128,7 +130,7 @@ module Hopcroft
     private
 
       def assign_name(options)
-        @name = options[:name] ? options[:name] : "State #{self.class.next_counter}"
+        @name = options[:name] ? options[:name] : "State #{@id}"
       end
     end
   end

@@ -297,6 +297,25 @@ module Hopcroft
           @state.substates.should == [state2, state3, @state]
         end
       end
+      
+      describe "id" do
+        it "should have an id as an integer" do
+          State.new.id.should be_a_kind_of(Fixnum)
+        end
+        
+        it "should be auto-incrementing" do
+          s1 = State.new
+          s2 = State.new
+          
+          s2.id.should equal(s1.id + 1)
+        end
+        
+        it "should be 1 after reset_counter! is called" do
+          State.reset_counter!
+          s1 = State.new
+          s1.id.should equal(1)
+        end
+      end
     end
   end
 end
