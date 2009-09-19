@@ -61,6 +61,22 @@ module Hopcroft
           @obj.epsilon_closure([state1]).should include(state2)
           @obj.epsilon_closure([state1]).should include(state3)
         end
+        
+        it "should not recur infinitely" do
+          state = State.new
+          
+          state.add_transition :state => state, :epsilon => true
+          
+          @obj.epsilon_closure([state]).should include(state)
+        end
+        
+        it "should not include the same state twice" do
+          state = State.new
+          
+          state.add_transition :state => state, :epsilon => true
+          
+          @obj.epsilon_closure([state]).should == [state]
+        end
       end
     end
   end

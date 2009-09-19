@@ -11,12 +11,13 @@ module Hopcroft
 
     private
 
-      def epsilon_closure_for_state(state)
+      def epsilon_closure_for_state(state, seen_states = [])
         returning [] do |set|
-          set << state
-          state.epsilon_transitions.each do |transition|
-            set << transition.state
-            set.concat(epsilon_closure_for_state(transition.state))
+          if !seen_states.include?(state)
+            set << state
+            state.epsilon_transitions.each do |transition|
+              set.concat(epsilon_closure_for_state(transition.state, seen_states << state))
+            end
           end
         end
       end
