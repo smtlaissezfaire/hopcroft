@@ -1,7 +1,7 @@
 module Hopcroft
   module Machine
     class State
-      extend Identifiable
+      include Identifiable
 
       def initialize(options={})
         track_id

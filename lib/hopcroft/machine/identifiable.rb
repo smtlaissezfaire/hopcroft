@@ -8,6 +8,8 @@ module Hopcroft
             include InstanceMethods
           end
         end
+        
+        alias_method :included, :extended
       end
       
       module ClassMethods
