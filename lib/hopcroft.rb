@@ -8,4 +8,5 @@ module Hopcroft
 
   using :Regex
   using :Machine
+  using :Converters
 end

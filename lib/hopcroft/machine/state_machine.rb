@@ -37,6 +37,10 @@ module Hopcroft
           c.start_state = c.start_state.deep_clone
         end
       end
+      
+      def symbols
+        state_table.symbols
+      end
     end
   end
 end

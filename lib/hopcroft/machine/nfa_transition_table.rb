@@ -43,6 +43,10 @@ module Hopcroft
         current_states.any? { |state| state.final? }
       end
       
+      def symbols
+        values.map { |v| v.keys }.flatten.uniq.reject { |sym| sym == EpsilonTransition }
+      end
+      
     private
 
       def epsilon_states_following(state)

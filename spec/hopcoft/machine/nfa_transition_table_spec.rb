@@ -244,6 +244,56 @@ module Hopcroft
           end
         end
       end
+      
+      describe "symbols" do
+        before do
+          @table = NfaTransitionTable.new
+          
+          @state1 = State.new :start_state => true,  :name => "State 1"
+          @state2 = State.new :start_state => false, :name => "State 2"
+          @state3 = State.new :start_state => false, :name => "State 3", :final_state => true
+        end
+        
+        it "should have no symbols with no transitions" do
+          @table.symbols.should == []
+        end
+        
+        it "should have no symbols with a start state, but no transitions" do
+          @table.start_state = @state1
+          @table.symbols.should == []
+        end
+        
+        it "should report a regular symbol" do
+          @table.start_state = @state1
+          @table.add_state_change @state1, @state2, :foo
+          
+          @table.symbols.should == [:foo]
+        end
+        
+        it "should report several regular symbols" do
+          @table.start_state = @state1
+          @table.add_state_change @state1, @state2, :foo
+          @table.add_state_change @state2, @state3, :bar
+          
+          @table.symbols.should include(:foo)
+          @table.symbols.should include(:bar)
+        end
+        
+        it "should report a symbol only once" do
+          @table.start_state = @state1
+          @table.add_state_change @state1, @state2, :foo
+          @table.add_state_change @state2, @state3, :foo
+          
+          @table.symbols.should == [:foo]
+        end
+        
+        it "should not report epsilon symbols" do
+          @table.start_state = @state1
+          @table.add_state_change @state1, @state2, EpsilonTransition
+          
+          @table.symbols.should == []
+        end
+      end
     end
   end
 end
