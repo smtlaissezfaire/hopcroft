@@ -25,12 +25,14 @@ module Hopcroft
         state_table.matches?(array)
       end
 
-      def state_table
+      def nfa_state_table
         returning NfaTransitionTable.new do |table|
           table.start_state = start_state
           start_state.add_transitions_to_table(table)
         end
       end
+
+      alias_method :state_table, :nfa_state_table
 
       def deep_clone
         returning clone do |c|
