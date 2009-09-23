@@ -1,6 +1,8 @@
 module Hopcroft
   module Converters
     class NfaToDfaConverter
+      include Machine::StateMachineHelpers
+      
       def initialize(nfa)
         @nfa = nfa
         @nfa_states = {}
@@ -10,19 +12,21 @@ module Hopcroft
       attr_reader :nfa
       
       def convert
-        start_state = @nfa.start_state
+        start_state = [@nfa.start_state]
         @nfa_states = { start_state => false }
         
         returning new_machine do |dfa|
-          dfa.start_state = find_or_create_state(nfa.start_state)
+          dfa.start_state = find_or_create_state(start_state)
           
           while nfa_state = unmarked_states.first
             mark_state(nfa_state)
-          
+
             symbols.each do |sym|
-              if target_nfa_state = move(nfa_state, sym)
-                add_nfa_state(target_nfa_state)
-                find_or_create_state(nfa_state).add_transition :symbol => sym, :state => find_or_create_state(target_nfa_state)
+              target_nfa_states = move(epsilon_closure(nfa_state), sym)
+              
+              if target_nfa_states.any?
+                add_nfa_state(target_nfa_states)
+                find_or_create_state(nfa_state).add_transition :symbol => sym, :state => find_or_create_state(target_nfa_states)
               end
             end
           end
@@ -56,14 +60,18 @@ module Hopcroft
       end
     
       def move(nfa_states, symbol)
-        if transition = nfa_states.transitions.detect { |t| t.symbol == symbol }
-          transition.state
-        else
-          nil
+        target_transitions = []
+        
+        nfa_states.each do |state|
+          additional_transitions = state.transitions.select { |t| t.symbol == symbol }
+          target_transitions.concat(additional_transitions)
         end
+        
+        target_transitions.map { |t| t.state }
       end
       
       def find_or_create_state(nfa_states)
+        nfa_states = ordered_nfa_states(nfa_states)
         find_dfa_corresponding_to_nfa_state(nfa_states) || new_dfa_state(nfa_states)
       end
       
@@ -73,6 +81,10 @@ module Hopcroft
       
       def new_dfa_state(nfa_states)
         @nfa_to_dfa_states[nfa_states] = Machine::State.new
+      end
+      
+      def ordered_nfa_states(nfa_states)
+        nfa_states.sort_by { |state| state.id }
       end
     
       def new_machine

@@ -28,6 +28,10 @@ module Hopcroft
       def epsilon_transitions
         transitions.select { |t| t.epsilon_transition? }
       end
+      
+      def number_of_transitions
+        transitions.size
+      end
 
       # Accepts the following hash arguments:
       #

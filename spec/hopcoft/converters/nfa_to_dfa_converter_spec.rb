@@ -106,6 +106,30 @@ module Hopcroft
             @conversion.start_state.transitions.size.should == 1
           end
         end
+        
+        describe "an NFA with an epsilon transition (start -> a -> epsilon -> b)" do
+          before do
+            two   = @nfa.start_state.add_transition  :symbol => :a
+            three = two.add_transition               :symbol => Machine::EpsilonTransition
+            four  = three.add_transition             :symbol => :b
+            
+            @conversion = @converter.convert
+          end
+          
+          it "should have one transition coming from the start state" do
+            @conversion.start_state.number_of_transitions.should == 1
+          end
+          
+          it "should have the first transition on an a" do
+            @conversion.start_state.transitions.first.symbol.should equal(:a)
+          end
+          
+          it "should have a second transition to a b" do
+            second_state = @conversion.start_state.transitions.first.state
+            second_state.transitions.size.should == 1
+            second_state.transitions.first.symbol.should equal(:b)
+          end
+        end
       end
     end
   end
