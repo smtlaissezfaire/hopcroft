@@ -27,7 +27,7 @@ module Hopcroft
     using :SyntaxNodes
     using :Parser
     
-    def self.compile(from_string)
+    def self.parse(from_string)
       Parser.parse(from_string)
     end
   end
