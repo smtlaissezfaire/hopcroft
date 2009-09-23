@@ -130,6 +130,29 @@ module Hopcroft
             second_state.transitions.first.symbol.should equal(:b)
           end
         end
+        
+        describe "with an epsilon transition on the same symbol to two different final states" do
+          before do
+            two   = @nfa.start_state.add_transition :symbol => :a
+            three = @nfa.start_state.add_transition :symbol => :a
+            
+            @conversion = @converter.convert
+          end
+          
+          it "should have only one transition out of the start state" do
+            @conversion.start_state.transitions.size.should == 1
+          end
+          
+          it "should have the transition out of the start state on the symbol" do
+            @conversion.start_state.transitions.first.symbol.should == :a
+          end
+          
+          it "should transition to a new state with no transitions" do
+            target_state = @conversion.start_state.transitions.first.state
+            
+            target_state.transitions.should == []
+          end
+        end
       end
     end
   end
