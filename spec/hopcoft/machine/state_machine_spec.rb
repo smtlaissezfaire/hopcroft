@@ -90,6 +90,33 @@ module Hopcroft
           @machine.deep_clone
         end
       end
+      
+      describe "to_dfa" do
+        before do
+          @machine = StateMachine.new
+        end
+        
+        it "should call the NFA to Dfa converter" do
+          converter = mock 'converter', :convert => true
+          
+          Converters::NfaToDfaConverter.should_receive(:new).with(@machine).and_return converter
+          @machine.to_dfa
+        end
+        
+        it "should call convert" do
+          converter = mock 'converter', :convert => true
+          Converters::NfaToDfaConverter.stub!(:new).and_return(converter)
+          
+          converter.should_receive(:convert)
+          @machine.to_dfa
+        end
+        
+        it "should return a new state machine" do
+          dfa = @machine.to_dfa
+          dfa.should be_a_kind_of(StateMachine)
+          dfa.should_not equal(@machine)
+        end
+      end
     end
   end
 end

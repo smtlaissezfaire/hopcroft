@@ -43,6 +43,10 @@ module Hopcroft
       def symbols
         state_table.symbols
       end
+      
+      def to_dfa
+        Converters::NfaToDfaConverter.new(self).convert
+      end
     end
   end
 end
