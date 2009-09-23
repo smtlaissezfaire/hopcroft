@@ -32,11 +32,13 @@ module Hopcroft
 
       alias_method :to_regex, :to_regexp
 
-      def to_machine
+      def to_nfa
         new_machine do |m, start_state|
           build_machine(start_state)
         end
       end
+      
+      alias_method :to_machine, :to_nfa
 
     private
 
