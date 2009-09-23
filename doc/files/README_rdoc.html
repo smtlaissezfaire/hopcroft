@@ -32,7 +32,7 @@
         </div>
         <div class='last-update'>
           Last Update:
-          <span class='datetime'>Tue Jun 30 02:32:00 -0400 2009</span>
+          <span class='datetime'>Wed Sep 23 05:10:34 -0400 2009</span>
         </div>
       </div>
       <div id='content'>
@@ -42,6 +42,11 @@
             <p>
             A library for dealing with regular languages: Regexes and State Machines.
             </p>
+            <h2>Example</h2>
+            <p>
+            If you can understand the following, welcome to the club!
+            </p>
+            <pre>ruby-1.8.6-p383 &gt; Hopcroft::Regex.parse(&quot;a|b&quot;)&#x000A; =&gt; #&lt;Hopcroft::Regex::Alternation:0x122698c @expressions=[#&lt;Hopcroft::Regex::Char:0x12240ec @expression=&quot;a&quot;&gt;, #&lt;Hopcroft::Regex::Char:0x1224a4c @expression=&quot;b&quot;&gt;]&gt;&#x000A;ruby-1.8.6-p383 &gt; Hopcroft::Regex.parse(&quot;a|b&quot;).to_machine&#x000A; =&gt; #&lt;Hopcroft::Machine::StateMachine:0x121f074 @start_state=State 1 {start: true, final: false, transitions: 2}&gt;&#x000A;ruby-1.8.6-p383 &gt; Hopcroft::Regex.parse(&quot;a|b&quot;).to_machine.to_dfa&#x000A; =&gt; #&lt;Hopcroft::Machine::StateMachine:0x120d630 @start_state=State 12 {start: true, final: false, transitions: 2}&gt;&#x000A;&#x000A;ruby-1.8.6-p383 &gt; Hopcroft::Regex.parse(&quot;a|b&quot;).to_machine&#x000A; =&gt; #&lt;Hopcroft::Machine::StateMachine:0x5f1b1c @start_state=State 24 {start: true, final: false, transitions: 2}&gt;&#x000A;ruby-1.8.6-p383 &gt; Hopcroft::Regex.parse(&quot;a|b&quot;).to_machine.state_table&#x000A; =&gt;&#x000A;+-------------+------------+------------+--------------------------------------+&#x000A;|             | b          | a          | Hopcroft::Machine::EpsilonTransition |&#x000A;+-------------+------------+------------+--------------------------------------+&#x000A;| State 32    | * State 33 |            |                                      |&#x000A;| State 30    |            | * State 31 |                                      |&#x000A;| -&gt; State 29 |            |            | State 30, State 32                   |&#x000A;+-------------+------------+------------+--------------------------------------+&#x000A;&#x000A;ruby-1.8.6-p383 &gt; Hopcroft::Regex.parse(&quot;a|b&quot;).to_machine.to_dfa.state_table&#x000A; =&gt;&#x000A;+-------------+----------+----------+&#x000A;|             | a        | b        |&#x000A;+-------------+----------+----------+&#x000A;| -&gt; State 21 | State 22 | State 23 |&#x000A;+-------------+----------+----------+</pre>
           </div>
           <div id='section'>
           </div>

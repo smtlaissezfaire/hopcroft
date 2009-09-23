@@ -46,7 +46,12 @@
             <h2>Methods</h2>
             <h3>public class</h3>
             <ol>
-              <li><a href="#M000056">new</a></li>
+              <li><a href="#M000122">new</a></li>
+            </ol>
+            <h3>public instance</h3>
+            <ol>
+              <li><a href="#M000123">deep_clone</a></li>
+              <li><a href="#M000124">epsilon_transition?</a></li>
             </ol>
           </div>
           <div id='section'>
@@ -81,17 +86,44 @@
             </div>
             <div id='methods'>
               <h2>Public class methods</h2>
-              <div class='public-class method' id='method-M000056'>
-                <a name='M000056'>      </a>
+              <div class='public-class method' id='method-M000122'>
+                <a name='M000122'>      </a>
                 <div class='synopsis'>
                   <span class='name'>new</span>
                   <span class='arguments'>(symbol, state)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000056-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000122-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000056-source'>   <span class="ruby-comment cmt"># File lib/hopcroft/machine/transition.rb, line 4</span>&#x000A;4:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">symbol</span>, <span class="ruby-identifier">state</span>)&#x000A;5:         <span class="ruby-ivar">@symbol</span> = <span class="ruby-identifier">symbol</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:to_sym</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">symbol</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">symbol</span>&#x000A;6:         <span class="ruby-ivar">@state</span>  = <span class="ruby-identifier">state</span>&#x000A;7:       <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000122-source'>   <span class="ruby-comment cmt"># File lib/hopcroft/machine/transition.rb, line 4</span>&#x000A;4:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">symbol</span>, <span class="ruby-identifier">state</span>)&#x000A;5:         <span class="ruby-ivar">@symbol</span> = <span class="ruby-identifier">symbol</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:to_sym</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">symbol</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">symbol</span>&#x000A;6:         <span class="ruby-ivar">@state</span>  = <span class="ruby-identifier">state</span>&#x000A;7:       <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <h2>Public instance methods</h2>
+              <div class='public-instance method' id='method-M000123'>
+                <a name='M000123'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>deep_clone</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000123-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000123-source'>    <span class="ruby-comment cmt"># File lib/hopcroft/machine/transition.rb, line 13</span>&#x000A;13:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">deep_clone</span>&#x000A;14:         <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">symbol</span>, <span class="ruby-identifier">state</span>.<span class="ruby-identifier">deep_clone</span>)&#x000A;15:       <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000124'>
+                <a name='M000124'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>epsilon_transition?</span>
+                  <span class='arguments'>()</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000124-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000124-source'>    <span class="ruby-comment cmt"># File lib/hopcroft/machine/transition.rb, line 17</span>&#x000A;17:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">epsilon_transition?</span>&#x000A;18:         <span class="ruby-identifier">symbol</span> <span class="ruby-operator">==</span> <span class="ruby-constant">EpsilonTransition</span>&#x000A;19:       <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>

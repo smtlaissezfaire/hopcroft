@@ -46,69 +46,55 @@
             <h2>Methods</h2>
             <h3>public class</h3>
             <ol>
-              <li><a href="#M000026">new</a></li>
+              <li><a href="#M000055">new</a></li>
             </ol>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000027">matches?</a></li>
-              <li><a href="#M000028">to_machine</a></li>
-              <li><a href="#M000029">to_regex_s</a></li>
+              <li><a href="#M000056">build_machine</a></li>
+              <li><a href="#M000057">to_regex_s</a></li>
             </ol>
           </div>
           <div id='section'>
             <div id='methods'>
               <h2>Public class methods</h2>
-              <div class='public-class method' id='method-M000026'>
-                <a name='M000026'>      </a>
+              <div class='public-class method' id='method-M000055'>
+                <a name='M000055'>      </a>
                 <div class='synopsis'>
                   <span class='name'>new</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000026-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000055-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000026-source'>   <span class="ruby-comment cmt"># File lib/hopcroft/regex/dot.rb, line 4</span>&#x000A;4:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>; <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000055-source'>   <span class="ruby-comment cmt"># File lib/hopcroft/regex/dot.rb, line 4</span>&#x000A;4:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>; <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <h2>Public instance methods</h2>
-              <div class='public-instance method' id='method-M000027'>
-                <a name='M000027'>      </a>
+              <div class='public-instance method' id='method-M000056'>
+                <a name='M000056'>      </a>
                 <div class='synopsis'>
-                  <span class='name'>matches?</span>
-                  <span class='arguments'>(str)</span>
+                  <span class='name'>build_machine</span>
+                  <span class='arguments'>(start)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000027-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000056-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000027-source'>   <span class="ruby-comment cmt"># File lib/hopcroft/regex/dot.rb, line 6</span>&#x000A;6:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">matches?</span>(<span class="ruby-identifier">str</span>)&#x000A;7:         <span class="ruby-identifier">to_machine</span>.<span class="ruby-identifier">matches?</span>(<span class="ruby-identifier">str</span>)&#x000A;8:       <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000056-source'>   <span class="ruby-comment cmt"># File lib/hopcroft/regex/dot.rb, line 6</span>&#x000A;6:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">build_machine</span>(<span class="ruby-identifier">start</span>)&#x000A;7:         <span class="ruby-identifier">start</span>.<span class="ruby-identifier">add_transition</span> <span class="ruby-identifier">:any</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>, <span class="ruby-identifier">:final</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>&#x000A;8:       <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='public-instance method' id='method-M000028'>
-                <a name='M000028'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>to_machine</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000028-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000028-source'>    <span class="ruby-comment cmt"># File lib/hopcroft/regex/dot.rb, line 10</span>&#x000A;10:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_machine</span>&#x000A;11:         <span class="ruby-identifier">new_machine</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">machine</span><span class="ruby-operator">|</span>&#x000A;12:           <span class="ruby-identifier">machine</span>.<span class="ruby-identifier">use_start_state</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">start</span><span class="ruby-operator">|</span>&#x000A;13:             <span class="ruby-identifier">start</span>.<span class="ruby-identifier">add_transition</span> <span class="ruby-identifier">:any</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>, <span class="ruby-identifier">:final</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>&#x000A;14:           <span class="ruby-keyword kw">end</span>&#x000A;15:         <span class="ruby-keyword kw">end</span>&#x000A;16:       <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000029'>
-                <a name='M000029'>      </a>
+              <div class='public-instance method' id='method-M000057'>
+                <a name='M000057'>      </a>
                 <div class='synopsis'>
                   <span class='name'>to_regex_s</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000029-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000057-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000029-source'>    <span class="ruby-comment cmt"># File lib/hopcroft/regex/dot.rb, line 18</span>&#x000A;18:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_regex_s</span>&#x000A;19:         <span class="ruby-constant">DOT</span>&#x000A;20:       <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000057-source'>    <span class="ruby-comment cmt"># File lib/hopcroft/regex/dot.rb, line 10</span>&#x000A;10:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_regex_s</span>&#x000A;11:         <span class="ruby-constant">DOT</span>&#x000A;12:       <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>
