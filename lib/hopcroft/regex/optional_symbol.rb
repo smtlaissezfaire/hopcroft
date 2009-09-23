@@ -2,20 +2,14 @@ module Hopcroft
   module Regex
     class OptionalSymbol < Base
       def to_regex_s
-        "#{expression}#{QUESTION}"
+        "#{expression.to_regex_s}#{QUESTION}"
       end
 
-      def matches?(str)
-        to_machine.matches?(str)
-      end
-
-      def to_machine
-        new_machine do |machine|
-          machine.use_start_state do |start|
-            start.final_state = true
-            start.add_transition :symbol => :a, :final => true
-          end
-        end
+      def build_machine(start)
+        start.final_state = true
+        
+        machine = @expression.to_machine
+        start.add_transition :machine => machine
       end
     end
   end

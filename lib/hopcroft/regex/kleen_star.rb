@@ -1,25 +1,19 @@
 module Hopcroft
   module Regex
     class KleenStar < Base
-      def matches?(str)
-        to_machine.matches?(str)
-      end
-   
-      def to_machine
-        returning new_machine do |machine|
-          machine.use_start_state do |start|
-            start.final_state = true
+      def build_machine(start)
+        other_machine = @expression.to_machine
 
-            start.add_transition :symbol => @expression, :final => true do |final_state|
-              final_state.add_transition :symbol => @expression, :state => final_state
-              start.add_transition :epsilon => true, :state => final_state
-            end
-          end
+        start.final_state = true
+        start.add_transition :machine => other_machine
+
+        other_machine.final_states.each do |state|
+          state.add_transition :state => start, :epsilon => true
         end
       end
 
       def to_regex_s
-        "#{expression}#{STAR}"
+        "#{expression.to_regex_s}#{STAR}"
       end
     end
   end

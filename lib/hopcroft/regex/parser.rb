@@ -1,103 +1,38 @@
+require "treetop"
+Treetop.load File.dirname(__FILE__) + "/regex_parser"
+
 module Hopcroft
   module Regex
     class Parser
-      def self.parse(str)
+      class ParseError < StandardError; end
+
+      def self.parse(str, debugging = false)
         obj = new
-        obj.parse(str)
-        obj.parse_results
+        obj.debug = debugging
+        obj.parse_and_eval(str)
       end
 
       def initialize
-        @parse_results = []
-        @escaped = false
-        @character_class = false
-        @buffer = ""
+        @parser = Regex::TreetopRegexParser.new
       end
-
-      attr_reader :parse_results
-
-      attr_reader :char
 
       def parse(str)
-        @chars = str.split("")
-
-        @chars.each_with_index do |char, index|
-          @char  = char
-          @index = index
-
-          if char == ESCAPE_CHAR
-            @escaped = true
-          elsif escaped?
-            add_char_result(char)
-          else
-            non_escaped_char
-          end
-        end
+        @parser.parse(str)
       end
-
-      def non_escaped_char
-        if char    == OPEN_BRACKET
-          @character_class = true
-        elsif char == CLOSE_BRACKET && in_char_class?
-          add_result CharacterClass.new(@buffer)
-          reset_buffer
-          @character_class = false
-        elsif in_char_class?
-          buffer char
-          
-        elsif char      == STAR
-        elsif next_char == STAR
-          add_result KleenStar.new(char)
-
-        elsif char      == DOT
-          add_result Dot.new
-
-        elsif char      == QUESTION
-        elsif next_char == QUESTION
-          add_result OptionalSymbol.new(char)
-
-        elsif char      == PLUS
-        elsif next_char == PLUS
-          add_result Plus.new(char)
-
+      
+      def debugging?
+        @debug ? true : false
+      end
+      
+      attr_writer :debug
+      
+      def parse_and_eval(str)
+        if parse = parse(str)
+          parse.eval
         else
-          add_char_result(char)
+          puts @parser.inspect if debugging?
+          raise ParseError, "could not parse the regex '#{str}'"
         end
-      end
-
-    private
-
-      def reset_buffer
-        @buffer = ""
-      end
-
-      def add_char_result(char)
-        add_result Char.new(char)
-        @escaped = false
-      end
-
-      def in_char_class?
-        @character_class
-      end
-
-      def buffer(char)
-        @buffer << char
-      end
-
-      def escaped?
-        @escaped ? true : false
-      end
-
-      def add_result(result)
-        @parse_results << result
-      end
-
-      def next_char
-        @chars[@index + 1]
-      end
-
-      def peek(chars, index)
-        chars[index + 1]
       end
     end
   end

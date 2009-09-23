@@ -1,0 +1,168 @@
+#
+# This grammar is taken from GNU's grep grammar, with slight modifications.  It doesn't
+# support backreferencing, metachars, negated character classes, repetion
+# with {n,m}, etc. - although there is no reason that it couldn't.
+# 
+# In addition, GNU's grep grammar is modified for an LL parser.  LL parsers can't
+# process left recursion without under going left factorization:
+# 
+# See:
+#   http://treetop.rubyforge.org/pitfalls_and_advanced_techniques.html
+#   http://en.wikipedia.org/wiki/Left_recursion#Removing_immediate_left_recursion
+# 
+# 
+# From GNU grep:
+#   The grammar understood by the parser is as follows.
+# 
+#   regexp:
+#     regexp OR branch
+#     branch
+# 
+#   branch:
+#     branch closure
+#     closure
+# 
+#   closure:
+#     closure QMARK
+#     closure STAR
+#     closure PLUS
+#     closure REPMN
+#     atom
+# 
+#   atom:
+#     <normal character>
+#     <multibyte character>
+#     ANYCHAR
+#     MBCSET
+#     CSET
+#     BACKREF
+#     BEGLINE
+#     ENDLINE
+#     BEGWORD
+#     ENDWORD
+#     LIMWORD
+#     NOTLIMWORD
+#     CRANGE
+#     LPAREN regexp RPAREN
+#     <empty>
+# 
+#   The parser builds a parse tree in postfix form in an array of tokens.
+
+module Hopcroft
+  module Regex
+    grammar TreetopRegex
+      rule regex
+        branch regex_prime <SyntaxNodes::Regex>
+      end
+      
+      rule regex_prime
+        OR branch subexpression:regex_prime <SyntaxNodes::Alternation> /
+        epsilon
+      end
+      
+      rule branch
+        closure branch_prime <SyntaxNodes::Branch>
+      end
+
+      rule branch_prime
+        closure branch_prime <SyntaxNodes::Concatenation> /
+        epsilon
+      end
+      
+      rule epsilon
+        "" <SyntaxNodes::Epsilon>
+      end
+      
+      rule closure
+        atom closure_prime <SyntaxNodes::Closure>
+      end
+      
+      rule closure_prime
+        kleen_star       /
+        one_or_more_expr /
+        optional_expr    /
+        epsilon
+      end
+      
+      rule kleen_star
+        "*" <SyntaxNodes::KleenStar>
+      end
+      
+      rule one_or_more_expr
+        "+" <SyntaxNodes::OneOrMoreExpression>
+      end
+      
+      rule optional_expr
+        "?" <SyntaxNodes::OptionalExpression>
+      end
+      
+      rule atom
+        parenthesized_expression             /
+        dot                                  /
+        character_class                      /
+        single_char
+      end
+      
+      rule dot
+        "." <SyntaxNodes::Dot>
+      end
+      
+      rule parenthesized_expression
+        LEFT_PARENS regex RIGHT_PARENS <SyntaxNodes::ParenthesizedExpression>
+      end
+
+      rule character_class
+        LEFT_BRACKET inner_char_class RIGHT_BRACKET <SyntaxNodes::CharacterClass>
+      end
+      
+      rule inner_char_class
+        inner_char_class_expr+ <SyntaxNodes::MultipleInnerCharClass>
+      end
+      
+      rule inner_char_class_expr
+        one:single_char "-" two:single_char <SyntaxNodes::TwoCharClass> /
+        single_char                         <SyntaxNodes::OneCharClass>
+      end
+      
+      rule single_char
+        non_special_char / escaped_char
+      end
+      
+      rule non_special_char
+        !("(" / ")" / "[" / "+" / "?" / "+" / "]" / "|" / "*" / "\\") any_char:ANY_CHAR <SyntaxNodes::Char>
+      end
+      
+      rule escaped_char
+        ESCAPE any_char:ANY_CHAR <SyntaxNodes::Char>
+      end
+      
+      rule OR
+        "|"
+      end
+      
+      rule ANY_CHAR
+        .
+      end
+      
+      rule LEFT_BRACKET
+        "["
+      end
+      
+      rule RIGHT_BRACKET
+        "]"
+      end
+      
+      rule ESCAPE
+        "\\"
+      end
+      
+      rule LEFT_PARENS
+        "("
+      end
+      
+      rule RIGHT_PARENS
+        ")"
+      end
+    end
+  end
+end

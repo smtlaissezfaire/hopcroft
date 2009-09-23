@@ -1,39 +1,18 @@
 module Hopcroft
   module Machine
     class StateMachine
-      def self.new_with_start_state
-        returning new do |obj|
-          obj.build_start_state
-        end
+      def initialize(start_state = State.new)
+        @start_state = start_state
       end
 
-      def initialize
-        @start_states = []
-      end
-
-      attr_reader :start_states
-
-      def start_state
-        start_states.first
-      end
-      
-      def use_start_state
-        if start_state
-          yield start_state
-        end
-      end
+      attr_accessor :start_state
 
       def states
-        if start_states.any?
-          [start_states, start_states.map { |state| state.substates }].flatten
-        else
-          []
-        end
+        [start_state, start_state.substates].flatten
       end
 
-      def build_start_state(state = State.new)
-        self.start_states << state
-        state
+      def final_states
+        states.select { |s| s.final? }
       end
 
       def matches_string?(str)
@@ -46,12 +25,27 @@ module Hopcroft
         state_table.matches?(array)
       end
 
-      def state_table
-        returning TransitionTable.new do |table|
-          start_states.each do |state|
-            state.add_transitions_to_table(table)
-          end
+      def nfa_state_table
+        returning NfaTransitionTable.new do |table|
+          table.start_state = start_state
+          start_state.add_transitions_to_table(table)
         end
+      end
+
+      alias_method :state_table, :nfa_state_table
+
+      def deep_clone
+        returning clone do |c|
+          c.start_state = c.start_state.deep_clone
+        end
+      end
+      
+      def symbols
+        state_table.symbols
+      end
+      
+      def to_dfa
+        Converters::NfaToDfaConverter.new(self).convert
       end
     end
   end

@@ -1,3 +1,5 @@
+require "treetop"
+
 module Hopcroft
   module Regex
     SPECIAL_CHARS = [
@@ -7,11 +9,11 @@ module Hopcroft
       STAR          = "*",
       OPEN_BRACKET  = "[",
       CLOSE_BRACKET = "]",
-      ESCAPE_CHAR   = "\\"
+      ESCAPE_CHAR   = "\\",
+      ALTERNATION   = "|"
     ]
 
     extend Using
-
 
     using :Base
     using :Char
@@ -20,7 +22,13 @@ module Hopcroft
     using :Dot
     using :CharacterClass
     using :OptionalSymbol
-
+    using :Concatenation
+    using :Alternation
+    using :SyntaxNodes
     using :Parser
+    
+    def self.parse(from_string)
+      Parser.parse(from_string)
+    end
   end
 end
