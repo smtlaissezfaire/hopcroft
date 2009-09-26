@@ -58,10 +58,10 @@ module Hopcroft
       def find_targets_matching(state, transition_sym, &recursion_block)
         returning Array.new do |a|
           direct_targets = find_targets_for(state, transition_sym)
-          append a, direct_targets
+          a.concat(direct_targets)
         
           direct_targets.each do |target|
-            append a, recursion_block.call(target)
+            a.concat(recursion_block.call(target))
           end
         end
       end
@@ -70,18 +70,14 @@ module Hopcroft
         returning Array.new do |a|
           if state = self[state]
             if state[transition_sym]
-              append a, state[transition_sym]
+              a.concat(state[transition_sym])
             end
 
             if state[AnyCharTransition] && transition_sym != EpsilonTransition
-              append a, state[AnyCharTransition]
+              a.concat(state[AnyCharTransition])
             end
           end
         end
-      end
-      
-      def append(array1, array2)
-        array1.push *array2
       end
     end
   end

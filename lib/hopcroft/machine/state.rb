@@ -95,7 +95,7 @@ module Hopcroft
               excluded_states << state
               
               list.push state
-              list.push *state.substates(excluded_states)
+              list.concat(state.substates(excluded_states))
             end
           end
         end
