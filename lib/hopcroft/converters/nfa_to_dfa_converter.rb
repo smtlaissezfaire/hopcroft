@@ -12,7 +12,7 @@ module Hopcroft
       attr_reader :nfa
       
       def convert
-        start_state = [@nfa.start_state]
+        start_state = epsilon_closure(@nfa.start_state)
         @nfa_states = { start_state => false }
         
         returning new_machine do |dfa|
