@@ -66,6 +66,12 @@ module Hopcroft
             conversion = @converter.convert
             conversion.start_state.transitions.first.state.should be_final
           end
+          
+          it "should not have the final state as a start state" do
+            @nfa.start_state.add_transition :symbol => :foo, :final => true
+            conversion = @converter.convert
+            conversion.start_state.transitions.first.state.should_not be_a_start_state
+          end
         end
         
         describe "a dfa with state1 -> state2 -> state3" do

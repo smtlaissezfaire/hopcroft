@@ -89,8 +89,13 @@ module Hopcroft
       def new_dfa_state(nfa_states)
         returning Machine::State.new do |state|
           @nfa_to_dfa_states[nfa_states] = state
+          state.start_state = any_start_states?(nfa_states)
           state.final_state = true if any_final?(nfa_states)
         end
+      end
+      
+      def any_start_states?(nfa_states)
+        nfa_states.any? { |s| s.start_state? }
       end
       
       def ordered_nfa_states(nfa_states)
