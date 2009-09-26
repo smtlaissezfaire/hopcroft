@@ -6,7 +6,6 @@ module Hopcroft
       def initialize(nfa)
         @nfa = nfa
         @nfa_states = {}
-        @nfa_to_dfa_states = {}
       end
       
       attr_reader :nfa
@@ -15,8 +14,8 @@ module Hopcroft
         start_state = [@nfa.start_state]
         @nfa_states = { start_state => false }
         
-        returning new_machine do |dfa|
-          dfa.start_state = find_or_create_state(start_state)
+        returning Machine::StateMachine.new do |dfa|
+          dfa.start_state = dfa_state_for(start_state)
           
           while nfa_state = unmarked_states.first
             mark_state(nfa_state)
@@ -27,8 +26,8 @@ module Hopcroft
               if target_nfa_states.any?
                 add_nfa_state(target_nfa_states)
                 
-                source = find_or_create_state(nfa_state)
-                target = find_or_create_state(target_nfa_states)
+                source = dfa_state_for(nfa_state)
+                target = dfa_state_for(target_nfa_states)
                 source.add_transition :symbol => sym, :state => target
               end
             end
@@ -63,47 +62,19 @@ module Hopcroft
       end
     
       def move(nfa_states, symbol)
-        target_transitions = []
-        
-        nfa_states.each do |state|
-          additional_transitions = state.transitions.select { |t| t.symbol == symbol }
-          target_transitions.concat(additional_transitions)
-        end
-        
-        target_transitions.map { |t| t.state }
+        to_collection(nfa_states).target_states(symbol)
       end
       
-      def find_or_create_state(nfa_states)
-        nfa_states = ordered_nfa_states(nfa_states)
-        find_dfa_corresponding_to_nfa_state(nfa_states) || new_dfa_state(nfa_states)
-      end
-      
-      def any_final?(states)
-        states.any? { |s| s.final_state? }
-      end
-      
-      def find_dfa_corresponding_to_nfa_state(nfa_states)
-        @nfa_to_dfa_states[nfa_states]
-      end
-      
-      def new_dfa_state(nfa_states)
-        returning Machine::State.new do |state|
-          @nfa_to_dfa_states[nfa_states] = state
-          state.start_state = any_start_states?(nfa_states)
-          state.final_state = true if any_final?(nfa_states)
+      def to_collection(nfa_states)
+        if nfa_states.respond_to? :target_states
+          nfa_states
+        else
+          NfaStateCollection.new(nfa_states)
         end
       end
       
-      def any_start_states?(nfa_states)
-        nfa_states.any? { |s| s.start_state? }
-      end
-      
-      def ordered_nfa_states(nfa_states)
-        nfa_states.sort_by { |state| state.id }
-      end
-    
-      def new_machine
-        Machine::StateMachine.new
+      def dfa_state_for(nfa_states)
+        to_collection(nfa_states).dfa_state
       end
     end
   end
