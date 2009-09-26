@@ -26,7 +26,7 @@ module Hopcroft
               
               if target_nfa_states.any?
                 add_nfa_state(target_nfa_states)
-                find_or_create_state(nfa_state).add_transition :symbol => sym, :state => find_or_create_state(target_nfa_states)
+                find_or_create_state(nfa_state).add_transition :symbol => sym, :state => find_or_create_target_state(target_nfa_states)
               end
             end
           end
@@ -73,6 +73,16 @@ module Hopcroft
       def find_or_create_state(nfa_states)
         nfa_states = ordered_nfa_states(nfa_states)
         find_dfa_corresponding_to_nfa_state(nfa_states) || new_dfa_state(nfa_states)
+      end
+      
+      def find_or_create_target_state(nfa_states)
+        returning find_or_create_state(nfa_states) do |state|
+          state.final_state = true if any_final?(nfa_states)
+        end
+      end
+      
+      def any_final?(states)
+        states.any? { |s| s.final_state? }
       end
       
       def find_dfa_corresponding_to_nfa_state(nfa_states)
