@@ -58,7 +58,7 @@ module Hopcroft
       end
       
       def symbols
-        @nfa.symbols
+        @symbols ||= @nfa.symbols
       end
     
       def move(nfa_states, symbol)
