@@ -38,7 +38,11 @@ module Hopcroft
         end
       end
       
-      alias_method :to_machine, :to_nfa
+      def to_dfa
+        to_nfa.to_dfa
+      end
+      
+      alias_method :to_machine, :to_dfa
 
     private
 
