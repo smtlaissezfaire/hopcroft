@@ -43,6 +43,10 @@ module Hopcroft
       end
       
       alias_method :to_machine, :to_dfa
+      
+      def compile
+        @dfa ||= to_dfa
+      end
 
     private
 
