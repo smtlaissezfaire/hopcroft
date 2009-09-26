@@ -4,7 +4,7 @@ module Hopcroft
   describe "Integration tests" do
     describe "the regex /a/" do
       before do
-        @regex = Regex.parse("a")
+        @regex = Regex.compile("a")
       end
       
       it "should match 'a'" do
@@ -22,7 +22,7 @@ module Hopcroft
     
     describe "the regex /ab/" do
       before do
-        @regex = Regex.parse("ab")
+        @regex = Regex.compile("ab")
       end
       
       it "should match 'ab'" do
@@ -40,7 +40,7 @@ module Hopcroft
     
     describe "the regex /a*/" do
       before do
-        @regex = Regex.parse("a*")
+        @regex = Regex.compile("a*")
       end
       
       it "should be matched by 'a'" do
@@ -66,7 +66,7 @@ module Hopcroft
     
     describe "the regex /a+/" do
       before do
-        @regex = Regex.parse("a+")
+        @regex = Regex.compile("a+")
       end
       
       it "should be matched by 'a'" do
@@ -93,7 +93,7 @@ module Hopcroft
     
     describe "the regex /a|b/" do
       before do
-        @regex = Regex.parse("a|b")
+        @regex = Regex.compile("a|b")
       end
       
       it "should be matched by an 'a'" do
@@ -116,7 +116,7 @@ module Hopcroft
     
     describe "the regex /(a|b)+/" do
       before do
-        @regex = Regex.parse("(a|b)+")
+        @regex = Regex.compile("(a|b)+")
       end
       
       it "should not match the empty string" do
@@ -150,7 +150,7 @@ module Hopcroft
     
     describe "the regex (a|b)+x" do
       before do
-        @regex = Regex.parse("(a|b)+x")
+        @regex = Regex.compile("(a|b)+x")
       end
       
       it "should match 'ax'" do
