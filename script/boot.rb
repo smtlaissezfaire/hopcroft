@@ -1,6 +1,5 @@
 
 def load_hopcroft!
-  require "rubygems"
   reload!
   include Hopcroft
 end
