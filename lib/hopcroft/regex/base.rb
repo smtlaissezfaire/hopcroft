@@ -42,7 +42,9 @@ module Hopcroft
         to_nfa.to_dfa
       end
       
-      alias_method :to_machine, :to_dfa
+      def to_machine
+        to_nfa
+      end
       
       def compile
         @dfa ||= to_dfa

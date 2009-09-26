@@ -15,7 +15,7 @@ module Hopcroft
         @array
       end
 
-      def to_machine
+      def to_nfa
         machines = components.dup
 
         machines.each_cons(2) do |first, second|
