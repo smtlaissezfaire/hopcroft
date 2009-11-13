@@ -7,7 +7,7 @@ module Hopcroft
         it "should be a|b" do
           one = Char.new("a")
           two = Char.new("b")
-          
+
           alternation = Alternation.new(one, two)
           alternation.to_regex_s.should == "a|b"
         end
@@ -15,7 +15,7 @@ module Hopcroft
         it "should use the correct subexpressions" do
           one = Char.new("x")
           two = Char.new("y")
-          
+
           alternation = Alternation.new(one, two)
           alternation.to_regex_s.should == "x|y"
         end
@@ -66,7 +66,7 @@ module Hopcroft
         it "should keep the same number of states after being called several times" do
           alternation = Alternation.new(Char.new("a"), Char.new("b"))
           table = alternation.to_machine.state_table
-          
+
           lambda {
             3.times do
               table.initial_states

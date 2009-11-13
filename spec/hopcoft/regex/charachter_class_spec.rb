@@ -9,7 +9,7 @@ module Hopcroft
             CharacterClass.new("e-a")
           }.should raise_error(CharacterClass::InvalidCharacterClass)
         end
-        
+
         it "should return a Char if one char long" do
           char = CharacterClass.new("a")
           char.should be_a_kind_of(Regex::Char)
@@ -21,18 +21,18 @@ module Hopcroft
           char = CharacterClass.new("\\a")
           char.should be_a_kind_of(Regex::Char)
         end
-   
+
         it "should be valid with a-e" do
           klass = CharacterClass.new("a-e")
           klass.to_regex_s.should == "[a-e]"
         end
-   
+
         it "should be invalid if the second char comes before the first in the alphabet" do
           lambda {
             CharacterClass.new("b-a")
           }.should raise_error
         end
-   
+
         it "should allow multiple sets of ranges" do
           lambda {
             CharacterClass.new("a-zA-Z")
@@ -42,11 +42,11 @@ module Hopcroft
         it "should have the regex string" do
           CharacterClass.new("a-c").to_regex_s.should == "[a-c]"
         end
-        
+
         it "should be valid with multiple ranges" do
           CharacterClass.new("a-c", "e-f").to_regex_s.should == "[a-ce-f]"
         end
-        
+
         it "should allow a range and a single char" do
           CharacterClass.new("a-c", "d").to_regex_s.should == "[a-cd]"
         end
@@ -90,7 +90,7 @@ module Hopcroft
           klass.should_not be_matched_by("f")
           klass.should_not be_matched_by("X")
         end
-        
+
         it "should match when given a range and a single char" do
           klass = CharacterClass.new("0-9", "a")
           klass.should be_matched_by("0")

@@ -64,24 +64,24 @@ module Hopcroft
           c.method(:to_regex).should == c.method(:to_regexp)
         end
       end
-      
+
       describe "compile" do
         before do
           @regex = Char.new("a")
         end
-        
+
         it "should return the state machine" do
           @regex.compile.should be_a_kind_of(Machine::StateMachine)
         end
-        
+
         it "should call to_dfa" do
           @regex.should_receive(:to_dfa)
           @regex.compile
         end
-        
+
         it "should cache the dfa" do
           @regex.should_receive(:to_dfa).once.and_return(mock('state machine'))
-          
+
           @regex.compile
           @regex.compile
         end

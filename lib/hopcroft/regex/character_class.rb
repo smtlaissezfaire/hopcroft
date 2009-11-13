@@ -43,7 +43,7 @@ module Hopcroft
       end
 
     private
-    
+
       def symbols_for_expr(expr)
         if expr.include?("-")
           Range.new(*expr.split("-")).to_a.map { |e| e.to_s }
@@ -51,7 +51,7 @@ module Hopcroft
           expr
         end
       end
-    
+
       def expression_regex
         @expressions.join("")
       end

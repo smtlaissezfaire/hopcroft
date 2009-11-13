@@ -27,7 +27,7 @@ module Hopcroft
         it "should join multiple states with a comma (for an nfa)" do
           state1 = State.new(:name => "State 1", :start_state => false)
           state2 = State.new(:name => "State 2", :start_state => false)
-          
+
           @hash[state1] = { :transition => [state1, state2] }
 
           @displayer.body.should == [["State 1", "State 1, State 2"]]
@@ -36,7 +36,7 @@ module Hopcroft
         it "should display an empty string as an empty string (when there is no state transition" do
           state = State.new(:name => "State 1", :start_state => false)
           @hash[state] = { :transition => [] }
-          
+
           @displayer.body.should == [["State 1", ""]]
         end
 
@@ -81,7 +81,7 @@ HERE
 
         it "should display a * next to a final state in the first row" do
           state = State.new(:name => "A", :final => true, :start_state => false)
-          
+
           @hash[state] = { :transition => [state] }
 
           @displayer.to_a.should == [["", "transition"], [["* A", "* A"]]]
@@ -89,7 +89,7 @@ HERE
 
         it "should use the correct state name with the star" do
           state = State.new(:name => "B", :final => true, :start_state => false)
-          
+
           @hash[state] = { :transition => [state] }
 
           @displayer.to_a.should == [["", "transition"], [["* B", "* B"]]]
@@ -97,7 +97,7 @@ HERE
 
         it "should display a * -> <state-name> if the state is both final and a start state" do
           state = State.new(:name => "A", :final => true, :start_state => true)
-          
+
           @hash[state] = { :transition => [state] }
 
           @displayer.to_a.should == [["", "transition"], [["* -> A", "* A"]]]

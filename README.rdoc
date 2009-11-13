@@ -7,16 +7,16 @@ A library for dealing with regular languages: Regexes and State Machines.
 If you can understand the following, welcome to the club!
 
   ruby-1.8.6-p383 > Hopcroft::Regex.parse("a|b")
-   => #<Hopcroft::Regex::Alternation:0x122698c @expressions=[#<Hopcroft::Regex::Char:0x12240ec @expression="a">, #<Hopcroft::Regex::Char:0x1224a4c @expression="b">]> 
+   => #<Hopcroft::Regex::Alternation:0x122698c @expressions=[#<Hopcroft::Regex::Char:0x12240ec @expression="a">, #<Hopcroft::Regex::Char:0x1224a4c @expression="b">]>
   ruby-1.8.6-p383 > Hopcroft::Regex.parse("a|b").to_machine
-   => #<Hopcroft::Machine::StateMachine:0x121f074 @start_state=State 1 {start: true, final: false, transitions: 2}> 
+   => #<Hopcroft::Machine::StateMachine:0x121f074 @start_state=State 1 {start: true, final: false, transitions: 2}>
   ruby-1.8.6-p383 > Hopcroft::Regex.parse("a|b").to_machine.to_dfa
-   => #<Hopcroft::Machine::StateMachine:0x120d630 @start_state=State 12 {start: true, final: false, transitions: 2}> 
- 
+   => #<Hopcroft::Machine::StateMachine:0x120d630 @start_state=State 12 {start: true, final: false, transitions: 2}>
+
   ruby-1.8.6-p383 > Hopcroft::Regex.parse("a|b").to_machine
-   => #<Hopcroft::Machine::StateMachine:0x5f1b1c @start_state=State 24 {start: true, final: false, transitions: 2}> 
+   => #<Hopcroft::Machine::StateMachine:0x5f1b1c @start_state=State 24 {start: true, final: false, transitions: 2}>
   ruby-1.8.6-p383 > Hopcroft::Regex.parse("a|b").to_machine.state_table
-   => 
+   =>
   +-------------+------------+------------+--------------------------------------+
   |             | b          | a          | Hopcroft::Machine::EpsilonTransition |
   +-------------+------------+------------+--------------------------------------+
@@ -26,10 +26,10 @@ If you can understand the following, welcome to the club!
   +-------------+------------+------------+--------------------------------------+
 
   ruby-1.8.6-p383 > Hopcroft::Regex.parse("a|b").to_machine.to_dfa.state_table
-   => 
+   =>
   +-------------+----------+----------+
   |             | a        | b        |
   +-------------+----------+----------+
   | -> State 21 | State 22 | State 23 |
   +-------------+----------+----------+
- 
+

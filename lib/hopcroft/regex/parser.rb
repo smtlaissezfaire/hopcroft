@@ -19,13 +19,13 @@ module Hopcroft
       def parse(str)
         @parser.parse(str)
       end
-      
+
       def debugging?
         @debug ? true : false
       end
-      
+
       attr_writer :debug
-      
+
       def parse_and_eval(str)
         if parse = parse(str)
           parse.eval

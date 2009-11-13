@@ -4,7 +4,7 @@ module Hopcroft
       def initialize(expr)
         @expression = expr
       end
-   
+
       attr_reader :expression
 
       def ==(other)
@@ -15,7 +15,7 @@ module Hopcroft
       def matches?(str)
         to_machine.matches? str
       end
-      
+
       alias_method :matched_by?, :matches?
 
       def +(other)
@@ -37,15 +37,15 @@ module Hopcroft
           build_machine(start_state)
         end
       end
-      
+
       def to_dfa
         to_nfa.to_dfa
       end
-      
+
       def to_machine
         to_nfa
       end
-      
+
       def compile
         @dfa ||= to_dfa
       end

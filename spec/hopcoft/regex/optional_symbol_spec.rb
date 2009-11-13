@@ -6,7 +6,7 @@ module Hopcroft
       def new_optional_symbol(str)
         OptionalSymbol.new(Char.new(str))
       end
-      
+
       it "should have the expression" do
         optional = new_optional_symbol("a")
         optional.expression.should == Char.new("a")
@@ -41,7 +41,7 @@ module Hopcroft
         optional = new_optional_symbol("a")
         optional.matches?("ab").should be_false
       end
-      
+
       it "should match the correct char" do
         optional = new_optional_symbol("b")
         optional.matches?("b").should be_true

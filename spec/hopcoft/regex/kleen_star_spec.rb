@@ -22,17 +22,17 @@ module Hopcroft
           s = new_kleen_star_with_string("a")
           s.matches?("a").should be_true
         end
-     
+
         it "should NOT match a different char" do
           s = new_kleen_star_with_string("a")
           s.matches?("b").should be_false
         end
-   
+
         it "should match many of the same chars" do
           s = new_kleen_star_with_string("a")
           s.matches?("aa").should be_true
         end
-        
+
         it "should match 10 chars" do
           s = new_kleen_star_with_string("a")
           s.matches?("aaaaaaaaaa").should be_true
@@ -52,14 +52,14 @@ module Hopcroft
           s.matches?("bbbb").should be_true
         end
       end
-   
+
       it "should have the regex string" do
         KleenStar.new(Char.new("a")).to_regex_s.should == "a*"
       end
 
       it "should be able to output the state table" do
         star = KleenStar.new(Char.new("a"))
-        
+
         lambda {
           star.to_machine.state_table.inspect
         }.should_not raise_error

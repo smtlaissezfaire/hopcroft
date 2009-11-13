@@ -5,10 +5,10 @@ module Hopcroft
 
       def initialize(options={})
         track_id
-        
+
         @start_state = options[:start_state] if options.has_key?(:start_state)
         @final_state = options[:final]       if options.has_key?(:final)
-        
+
         assign_name(options)
       end
 
@@ -24,11 +24,11 @@ module Hopcroft
       end
 
       attr_writer :transitions
-      
+
       def epsilon_transitions
         transitions.select { |t| t.epsilon_transition? }
       end
-      
+
       def number_of_transitions
         transitions.size
       end
@@ -56,7 +56,7 @@ module Hopcroft
         else
           args[:state] ||= State.new(args)
         end
-        
+
         returning args[:state] do |state|
           transitions << transition_for(args, state)
           yield(state) if block_given?
@@ -77,9 +77,9 @@ module Hopcroft
       def start_state?
         @start_state.equal?(false) ? false : true
       end
-      
+
       attr_writer :start_state
-      
+
       def final_state?
         @final_state ? true : false
       end
@@ -87,20 +87,20 @@ module Hopcroft
       alias_method :final?, :final_state?
 
       attr_writer :final_state
-      
+
       def substates(excluded_states = [])
         returning [] do |list|
           follow_states.each do |state|
             unless excluded_states.include?(state)
               excluded_states << state
-              
+
               list.push state
               list.concat(state.substates(excluded_states))
             end
           end
         end
       end
-      
+
       def follow_states(excluded_states = [])
         transitions.map { |t| t.state }.reject { |s| excluded_states.include?(s) }
       end

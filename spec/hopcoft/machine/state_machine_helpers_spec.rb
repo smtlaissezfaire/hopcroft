@@ -22,9 +22,9 @@ module Hopcroft
         it "should return an epsilon closure target" do
           state1 = State.new
           state2 = State.new
-          
+
           state1.add_transition :state => state2, :epsilon => true
-          
+
           @obj.epsilon_closure([state1]).should include(state2)
         end
 
@@ -41,11 +41,11 @@ module Hopcroft
           state1 = State.new
           state2 = State.new
           state1.add_transition :state => state2, :epsilon => true
-  
+
           state3 = State.new
           state4 = State.new
           state3.add_transition :state => state4, :epsilon => true
-  
+
           @obj.epsilon_closure([state1, state3]).should include(state2)
           @obj.epsilon_closure([state1, state3]).should include(state4)
         end
@@ -54,27 +54,27 @@ module Hopcroft
           state1 = State.new
           state2 = State.new
           state3 = State.new
-          
+
           state1.add_transition :state => state2, :epsilon => true
           state2.add_transition :state => state3, :epsilon => true
 
           @obj.epsilon_closure([state1]).should include(state2)
           @obj.epsilon_closure([state1]).should include(state3)
         end
-        
+
         it "should not recur infinitely" do
           state = State.new
-          
+
           state.add_transition :state => state, :epsilon => true
-          
+
           @obj.epsilon_closure([state]).should include(state)
         end
-        
+
         it "should not include the same state twice" do
           state = State.new
-          
+
           state.add_transition :state => state, :epsilon => true
-          
+
           @obj.epsilon_closure([state]).should == [state]
         end
       end

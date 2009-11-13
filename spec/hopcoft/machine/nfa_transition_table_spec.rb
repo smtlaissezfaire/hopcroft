@@ -13,7 +13,7 @@ module Hopcroft
           to   = mock(State, :start_state? => false)
 
           @table.add_state_change(from, to, :a)
-          
+
           @table.targets_for(from, :a).should == [to]
         end
 
@@ -23,7 +23,7 @@ module Hopcroft
 
           @table.add_state_change(from, to, :a)
           @table.start_state = from
-          
+
           @table.matches?("a").should be_true
         end
 
@@ -35,7 +35,7 @@ module Hopcroft
           @table.start_state = from
           @table.add_state_change(from, first_result,  :a)
           @table.add_state_change(from, second_result, :b)
-          
+
           @table.targets_for(from, :a).should == [first_result]
           @table.targets_for(from, :b).should == [second_result]
         end
@@ -47,7 +47,7 @@ module Hopcroft
 
           @table.add_state_change(from, first_result,  :a)
           @table.add_state_change(from, second_result, :a)
-          
+
           @table.targets_for(from, :a).should == [first_result, second_result]
         end
 
@@ -99,7 +99,7 @@ module Hopcroft
         it "should not match when it cannot index the transition" do
           start_state = mock(State, :final? => false, :start_state? => true)
           final_state = mock(State, :final? => true,  :start_state? => false)
-          
+
           @table.start_state = start_state
           @table.add_state_change(start_state, final_state, :foo)
 
@@ -109,7 +109,7 @@ module Hopcroft
         it "should not match if the last state in the input is not a final state" do
           start_state = mock(State, :final? => false, :start_state? => true)
           final_state = mock(State, :final? => false,  :start_state? => false)
-          
+
           @table.start_state = start_state
           @table.add_state_change(start_state, final_state, :foo)
 
@@ -190,7 +190,7 @@ module Hopcroft
         it "should output a state table" do
           TableDisplayer.should_receive(:new).with(@table).and_return @displayer
           @displayer.should_receive(:to_s)
-          
+
           @table.inspect
         end
 
@@ -211,7 +211,7 @@ module Hopcroft
           NfaTransitionTable.new.to_hash.class.should == Hash
         end
       end
-      
+
       describe "initial states" do
         describe "for a start_state to an epsilon transition" do
           # +--------------+--------------------------------------+-------------+
@@ -224,73 +224,73 @@ module Hopcroft
             @state1 = State.new :start_state => true,  :name => "State 1"
             @state2 = State.new :start_state => false, :name => "State 2"
             @state3 = State.new :start_state => false, :name => "State 3", :final_state => true
-            
+
             @table = NfaTransitionTable.new
             @table.add_state_change @state1, @state2, EpsilonTransition
             @table.add_state_change @state2, @state3, :a
             @table.start_state = @state1
           end
-          
+
           it "should have state 1 as an initial state (it is a start state)" do
             @table.initial_states.should include(@state1)
           end
-          
+
           it "should have state 2 as an initial state (it has an epsilon transition from the start state)" do
             @table.initial_states.should include(@state2)
           end
-          
+
           it "should not have state 3 as an initial state" do
             @table.initial_states.should_not include(@state3)
           end
         end
       end
-      
+
       describe "symbols" do
         before do
           @table = NfaTransitionTable.new
-          
+
           @state1 = State.new :start_state => true,  :name => "State 1"
           @state2 = State.new :start_state => false, :name => "State 2"
           @state3 = State.new :start_state => false, :name => "State 3", :final_state => true
         end
-        
+
         it "should have no symbols with no transitions" do
           @table.symbols.should == []
         end
-        
+
         it "should have no symbols with a start state, but no transitions" do
           @table.start_state = @state1
           @table.symbols.should == []
         end
-        
+
         it "should report a regular symbol" do
           @table.start_state = @state1
           @table.add_state_change @state1, @state2, :foo
-          
+
           @table.symbols.should == [:foo]
         end
-        
+
         it "should report several regular symbols" do
           @table.start_state = @state1
           @table.add_state_change @state1, @state2, :foo
           @table.add_state_change @state2, @state3, :bar
-          
+
           @table.symbols.should include(:foo)
           @table.symbols.should include(:bar)
         end
-        
+
         it "should report a symbol only once" do
           @table.start_state = @state1
           @table.add_state_change @state1, @state2, :foo
           @table.add_state_change @state2, @state3, :foo
-          
+
           @table.symbols.should == [:foo]
         end
-        
+
         it "should not report epsilon symbols" do
           @table.start_state = @state1
           @table.add_state_change @state1, @state2, EpsilonTransition
-          
+
           @table.symbols.should == []
         end
       end

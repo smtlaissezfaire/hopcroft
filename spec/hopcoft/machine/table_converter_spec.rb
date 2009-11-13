@@ -15,7 +15,7 @@ module Hopcroft
 
         it "should have the symbols" do
           @hash[:state1] = { :transition2 => [:state2] }
-          
+
           @converter.transition_symbols.should == [:transition2]
         end
 

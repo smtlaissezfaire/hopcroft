@@ -35,9 +35,9 @@ module Hopcroft
         it "should match a regex of the two regexs put together" do
           one = Char.new("a")
           two = Char.new("b")
-          
+
           concat = Concatenation.new(one, two)
-          
+
           concat.matches?("ab").should be_true
         end
       end

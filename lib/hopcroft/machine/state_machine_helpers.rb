@@ -10,7 +10,7 @@ module Hopcroft
       end
 
     private
-    
+
       def epsilon_closure_for_state_list(state_list)
         returning [] do |return_list|
           state_list.each do |state|

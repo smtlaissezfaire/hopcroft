@@ -18,9 +18,9 @@ module Hopcroft
       def matches_string?(str)
         matches_array? str.split("")
       end
-      
+
       alias_method :matches?, :matches_string?
-      
+
       def matches_array?(array)
         state_table.matches?(array)
       end
@@ -39,11 +39,11 @@ module Hopcroft
           c.start_state = c.start_state.deep_clone
         end
       end
-      
+
       def symbols
         state_table.symbols
       end
-      
+
       def to_dfa
         Converters::NfaToDfaConverter.new(self).convert
       end

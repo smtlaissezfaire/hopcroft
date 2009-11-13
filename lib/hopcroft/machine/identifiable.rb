@@ -8,10 +8,10 @@ module Hopcroft
             include InstanceMethods
           end
         end
-        
+
         alias_method :included, :extended
       end
-      
+
       module ClassMethods
         def reset_counter!
           @counter = 1
@@ -27,12 +27,12 @@ module Hopcroft
           @counter ||= 1
         end
       end
-      
+
       module InstanceMethods
         def track_id
           @id = self.class.next_counter
         end
-        
+
         attr_reader :id
       end
     end

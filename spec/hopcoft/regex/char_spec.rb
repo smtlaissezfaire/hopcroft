@@ -24,7 +24,7 @@ module Hopcroft
       end
 
       it "should raise an error if constructed with the empty string" do
-        lambda { 
+        lambda {
           Char.new("")
         }.should raise_error
       end

@@ -12,7 +12,7 @@ module Hopcroft
         s = State.new
         s.transitions.should == []
       end
-   
+
       it "should be able to add transitions" do
         s = State.new
         s.add_transition :symbol => :foo
@@ -96,32 +96,32 @@ module Hopcroft
 
           s1.add_transitions_to_table(table)
         end
-        
+
         describe "passed :machine => m" do
           before do
             @state   = State.new
             @machine = StateMachine.new
           end
-          
+
           it "should add a transition to another state machines first state" do
             other_machine_start_state = @machine.start_state
-            
+
             @state.add_transition :machine => @machine
 
             @state.transitions.first.state.should == other_machine_start_state
           end
-          
+
           it "should add the transition as an epsilon transition" do
             @state.add_transition :machine => @machine
-            
+
             @state.transitions.first.should be_a_kind_of(EpsilonTransition)
           end
-          
+
           it "should no longer have the other machines start state as a start state in this machine" do
             other_machine_start_state = @machine.start_state
-            
+
             @state.add_transition :machine => @machine
-            
+
             @state.transitions.first.state.should_not be_a_start_state
           end
         end
@@ -248,20 +248,20 @@ module Hopcroft
         before do
           @state = State.new
         end
-        
+
         it "should have none with no transitions" do
           @state.substates.should == []
         end
-        
+
         it "should have a state which is linked to by a transition" do
           new_state = @state.add_transition :symbol => :foo
           @state.substates.should == [new_state]
         end
-        
+
         it "should have multiple states" do
           one = @state.add_transition :symbol => :foo
           two = @state.add_transition :symbol => :foo
-          
+
           @state.substates.should == [one, two]
         end
 
@@ -271,45 +271,45 @@ module Hopcroft
 
           @state.substates.should == [substate, sub_substate]
         end
-        
+
         it "should work with recursive transitions" do
           @state.add_transition :state => @state
-          
+
           @state.substates.should == [@state]
         end
-        
+
         it "should not find duplicate states" do
           state2 = @state.add_transition
           state3 = state2.add_transition
           state4 = state3.add_transition
-          
+
           state5 = state2.add_transition
                    state4.add_transition :state => state5
-          
+
           @state.substates.should == [state2, state3, state4, state5]
         end
-        
+
         it "should deal with infinite recursion on more than one level" do
           state2 = @state.add_transition
           state3 = state2.add_transition
           state3.add_transition :state => @state
-          
+
           @state.substates.should == [state2, state3, @state]
         end
       end
-      
+
       describe "id" do
         it "should have an id as an integer" do
           State.new.id.should be_a_kind_of(Fixnum)
         end
-        
+
         it "should be auto-incrementing" do
           s1 = State.new
           s2 = State.new
-          
+
           s2.id.should equal(s1.id + 1)
         end
-        
+
         it "should be 1 after reset_counter! is called" do
           State.reset_counter!
           s1 = State.new

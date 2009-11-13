@@ -1,5 +1,5 @@
 # Build the TAGS file for Emacs
-# Taken with slight modifications from 
+# Taken with slight modifications from
 # http://blog.lathi.net/articles/2007/11/07/navigating-your-projects-in-emacs
 #
 # Thanks Jim Weirich
