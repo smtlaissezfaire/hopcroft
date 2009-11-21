@@ -3,7 +3,7 @@
 # support backreferencing, metachars, negated character classes, repetion
 # with {n,m}, etc. - although there is no reason that it couldn't.
 #
-# In addition, GNU's grep grammar is modified for an LL parser.  LL parsers can't
+# In addition, the GNU grep grammar is modified for an LL parser.  LL parsers can't
 # process left recursion without under going left factorization:
 #
 # See:
